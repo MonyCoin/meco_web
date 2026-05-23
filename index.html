@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدونة MECO — آخر الأخبار والمقالات</title>
+    <meta name="description" content="آخر أخبار ومقالات مشروع MECO. تابع أحدث التحديثات والإعلانات الرسمية.">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B85FF;
+            --bg: #0A0A0F;
+            --surface: #1A1A2E;
+            --surface-light: #222240;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --gold: #FFD700;
+            --success: #10B981;
+            --border: #2A2A3E;
+            --radius: 16px;
+            --max-width: 900px;
+            --font-ar: 'Tajawal', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg: #F8FAFD;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-ar);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 12px 0;
+        }
+        header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .logo img { width: 42px; height: 42px; border-radius: 12px; }
+        .logo span { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+        .logo span b { color: var(--primary); }
+        nav { display: flex; align-items: center; gap: 24px; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .btn { padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font-ar); white-space: nowrap; }
+        .btn-primary { background: var(--primary); color: #FFF; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
+
+        .page-hero { padding: 80px 0 40px; text-align: center; }
+        .page-hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+        .page-hero h1 span { color: var(--primary); }
+        .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .blog-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
+        .blog-date { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px; }
+        .blog-card h2 { font-size: 1.3rem; margin-bottom: 10px; }
+        .blog-card h2 a { color: var(--text); text-decoration: none; }
+        .blog-card h2 a:hover { color: var(--primary); }
+        .blog-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px; }
+        .blog-card h3 { color: var(--primary); margin: 16px 0 8px; font-size: 1.1rem; }
+
+        .blog-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+        .blog-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .blog-tag { background: var(--primary); color: #FFF; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+        .share-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-family: var(--font-ar); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        .full-content { display: none; }
+        .read-more-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: var(--font-ar); font-size: 0.9rem; margin-top: 8px; transition: all 0.2s; display: inline-block; }
+        .read-more-btn:hover { background: var(--primary); color: #FFF; }
+
+        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
+        footer .social-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+        footer .social-links a { color: var(--text-secondary); font-size: 1.5rem; transition: color 0.2s; text-decoration: none; }
+        footer .social-links a:hover { color: var(--primary); }
+        footer .legal-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 16px; }
+        footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        footer .legal-links a:hover { color: var(--primary); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
+
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 2rem; }
+            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
+            nav.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="Logo">
+                <span>MECO<b>Wallet</b></span>
+            </a>
+            <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="about.html">عن المشروع</a>
+                <a href="token.html">العملة</a>
+                <a href="wallet.html">المحفظة</a>
+                <a href="roadmap.html">خارطة الطريق</a>
+                <a href="blog.html" class="active">المدونة</a>
+                <a href="contact.html">اتصل بنا</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+                <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary">⬇️ تحميل</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📰 <span>المدونة</span></h1>
+            <p>آخر الأخبار والتحديثات الرسمية لمشروع MECO</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+
+            <!-- ★★★ مقال 12: إطلاق الإصدار 1.13.0 (الأحدث) ★★★ -->
+            <article class="blog-card">
+                <p class="blog-date">📅 4 مايو 2026</p>
+                <h2><a href="#">تحديث MECO Wallet v1.13.0 – الجيل الجديد من الأمان والتحكم</a></h2>
+
+                <div class="preview-content">
+                    <p>بعد رحلة تطوير مكثفة، يسرنا أن نعلن عن الإصدار الأحدث من MECO Wallet، الإصدار <b>1.13.0</b>. هذا التحديث ليس ترقيمًا جديدًا فحسب، بل هو نقلة نوعية في فلسفة الأمان وإدارة الأصول داخل التطبيق، وهو الإعلان الرسمي عن دخول MECO Wallet مرحلة النضج المؤسسي.</p>
+                </div>
+
+                <div class="full-content">
+                    <h3>1. محفظتك، مملكتك الخاصة (حتى 9 حسابات فرعية)</h3>
+                    <p>لم تعد محدودًا بحساب واحد. الآن، يمكن لكل مستخدم إنشاء وإدارة <b>حتى 9 حسابات مستقلة</b> تمامًا من داخل نفس المحفظة. كل حساب له عنوانه العام الفريد ورصيده المنفصل، مما يتيح لك تنظيم أصولك وأعمالك ومشاريعك بسهولة غير مسبوقة. وكأنك تمتلك 10 محافظ في جهاز واحد.</p>
+
+                    <h3>2. استيراد وتصدير المحافظ: الحرية الكاملة</h3>
+                    <p>واحدة من أقوى ميزات هذا الإصدار. يمكنك الآن:</p>
+                    <p>• <b>تصدير أي من حساباتك</b> إلى تطبيقات أو محافظ خارجية أخرى بكل أمان.<br>
+                    • <b>استيراد أي محفظة خارجية</b> (من Solflare، Phantom، أو غيرها) مباشرة إلى تطبيق MECO Wallet باستخدام مفتاحها الخاص.</p>
+                    <p>هذا يعني أنك لم تعد حبيس تطبيق واحد؛ أصولك حرة في الحركة بين المنصات بضغطة زر.</p>
+
+                    <h3>3. تسجيل الخروج الآمن لأول مرة</h3>
+                    <p>في السابق، كان تسجيل الخروج يعني فقدان الوصول إلى حساباتك. الآن، تم تطوير نظام <b>"تسجيل الخروج الآمن"</b> الذي يضمن:<br>
+                    • عدم حذف أي من حساباتك أو بياناتها.<br>
+                    • بقاء جميع مفاتيحك بأمان على جهازك.<br>
+                    • عند تسجيل الدخول مرة أخرى، ستجد كل حساباتك وأرصدتها كما تركتها تمامًا.</p>
+
+                    <h3>4. استرداد الحسابات بعد فقدان الهاتف (طوق النجاة)</h3>
+                    <p>هذه هي الميزة التي طال انتظارها. حتى لو فقدت هاتفك أو اشتريت جهازًا جديدًا، كل ما تحتاجه هو <b>عبارة الاسترداد (Recovery Phrase)</b> الخاصة بك. بمجرد إدخالها في التطبيق على أي جهاز جديد، سيتم تلقائيًا استعادة جميع حساباتك الفرعية (حتى بدون الحاجة لإضافتها يدويًا) وستجد أرصدتك بانتظارك. هذه هي الحماية النهائية.</p>
+
+                    <h3>5. تحسينات شاملة في الأداء والاستقرار</h3>
+                    <p>بالإضافة إلى الميزات الجديدة، قمنا بإعادة بناء نظام جلب الأرصدة ليكون أسرع وأكثر دقة، وتحسينات في نظام التخزين المؤقت (Staking)، وإصلاح العديد من المشكلات التي أبلغتم عنها. التطبيق الآن أكثر استقرارًا من أي وقت مضى.</p>
+
+                    <p>🎉 جرب الإصدار الجديد الآن من خلال تحديث التطبيق، أو تحميله من الرابط التالي:<br>
+                    🔗 <a href="https://monycoin.github.io/meco_wallet-app/" target="_blank" style="color:var(--primary);">تحميل MECO Wallet v1.13.0</a></p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">إصدارات</span>
+                        <span class="blog-tag">تحديثات</span>
+                        <span class="blog-tag">أمان</span>
+                        <span class="blog-tag">استيراد</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('تحديث MECO Wallet v1.13.0 – الجيل الجديد من الأمان والتحكم')">
+                        📤 مشاركة
+                    </button>
+                </div>
+            </article>
+
+            <!-- ★★★ مقال 11: حرق 281 مليون MECO وبدء مرحلة السيولة ★★★ -->
+            <article class="blog-card">
+                <p class="blog-date">📅 3 مايو 2026</p>
+                <h2><a href="#">حرق 281 مليون MECO دفعة واحدة: بداية عصر الندرة الحقيقية</a></h2>
+
+                <div class="preview-content">
+                    <p>تعلن مؤسسة MonyCoin للتطوير الرقمي عن حدث مفصلي في تاريخ عملة MECO. تم اليوم تنفيذ <b>حرق نهائي لا رجعة فيه لـ 281,000,000 عملة MECO</b> في معاملة واحدة على شبكة Solana. هذا الإجراء ليس مجرد حدث تقني، بل هو إعلان رسمي عن دخول العملة مرحلة اقتصادية جديدة قائمة على الندرة والقيمة الحقيقية.</p>
+                </div>
+
+                <div class="full-content">
+                    <h3>ماذا يعني هذا الحرق؟</h3>
+                    <p>• <b>الإمداد انخفض بنسبة 28.1%</b> من 1 مليار إلى 719 مليون عملة.<br>
+                    • <b>لا توجد صلاحية سك</b> ولا يمكن إنتاج عملات جديدة. ما حُرق ذهب إلى الأبد.<br>
+                    • كل حامل للعملة الآن يمتلك حصة أكبر من المعروض الكلي.<br>
+                    • الحرق تم دفعة واحدة <b>ولن يتم حرق أي رموز إضافية بعد الآن</b>.</p>
+
+                    <h3>بداية مرحلة السيولة التدريجية</h3>
+                    <p>مع انتهاء الحرق، نبدأ فوراً مرحلة جديدة: <b>ضخ سيولة تدريجية منظمة</b> في مجمعات التداول. الهدف واضح: وضع MECO في ترتيبها الصحيح بين العملات الرقمية، وبناء عمق سوقي حقيقي.</p>
+
+                    <h3>الشفافية أولا</h3>
+                    <p>يمكن لأي شخص التحقق من الحرق عبر Solscan:<br>
+                    🔗 <a href="https://solscan.io/token/7hBNyFfwYTv65z3ZudMAyKBw3BLMKxyKXsr5xM51Za4i" target="_blank" style="color:var(--primary);">عقد MECO على Solscan</a></p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">حرق</span>
+                        <span class="blog-tag">ندرة</span>
+                        <span class="blog-tag">سيولة</span>
+                        <span class="blog-tag">شفافية</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('حرق 281 مليون MECO دفعة واحدة: بداية عصر الندرة الحقيقية')">
+                        📤 مشاركة
+                    </button>
+                </div>
+            </article>
+
+            <!-- مقال 10: حماية الملكية الفكرية والخصوصية -->
+            <article class="blog-card">
+                <p class="blog-date">📅 29 أبريل 2026</p>
+                <h2><a href="#">لأننا لا نبني لمجرد لحظة.. شفافية MECO تكتمل بحقوق الملكية وسياسة الخصوصية</a></h2>
+
+                <div class="preview-content">
+                    <p>في خضم الفوضى التي تعيشها أسواق الكريبتو، يكون السؤال الأهم الذي يطرحه أي مستثمر أو متحمس حقيقي هو: <b>هل هذا المشروع جاد؟ هل سيستمر غداً أم سيختفي؟</b> إجابتنا في MECO لا تأتي عبر التصريحات، بل عبر الأفعال التي تم توثيقها لتكون مرجعاً للجميع.</p>
+                </div>
+
+                <div class="full-content">
+                    <h3>🛡️ ليس مجرد كود.. إنه التزام قانوني وأخلاقي</h3>
+                    <p>لأول مرة في مشروع عربي على Solana، نكمل اليوم دائرة الحماية القانونية بإصدار <b>ملف حقوق الملكية الفكرية (NOTICE)</b>. هذا الملف البسيط الذي تم إيداعه في مستودعاتنا الرسمية ليس مجرد نص، بل هو إعلان واضح أن اسم MECO وشعارها ورموزها هي ملكية فكرية محمية، وأن الكود الذي بنيناه يخضع لترخيص 0BSD الذي يضمن حريته واستمراريته.</p>
+
+                    <h3>📜 سياسة الخصوصية.. نحن لا نريد بياناتك!</h3>
+                    <p>في وقت تتسابق فيه التطبيقات لجمع المعلومات، خرجت MECO Wallet لتقولها بوضوح: <b>محفظتنا لا مركزية، ومفاتيحك على جهازك، ونحن لا نجمع شيئاً.</b> سياسة الخصوصية التي نشرناها ليست إجراءً شكلياً، بل تأكيد على أننا نكره فكرة التطفل على المستخدم. اقرأ سطورها وستفهم لماذا تختلف MECO.</p>
+
+                    <h3>⚖️ شروط الاستخدام.. الحقوق والواجبات</h3>
+                    <p>لأن الشفافية ليست شعاراً نرفعه، بل ممارسة يومية، قمنا بنشر <b>شروط الاستخدام</b> التي تحدد مسؤولياتنا ومسؤولياتك كمستخدم. لا نعدك بأرباح سحرية، ولا نخفي حقيقة أن السوق متقلب. نحن نمنحك أداة قوية، وأنت تتحكم بها. الوضوح هو ما يبني الثقة.</p>
+
+                    <h3>🌍 MonyCoin ستغير شكل خريطة الكريبتو في الوطن العربي</h3>
+                    <p>نعم، نحن نسير ببطء.. ولكن إلى الأمام. كل خطوة نتخذها مدروسة. كل ملف ننشره هو حجر في أساس هرم MECO. بينما يلهث آخرون وراء الشعارات والمكاسب السريعة، نصنع منظومة متكاملة بدءاً من تطبيق المحفظة، ومروراً بالموقع المؤسسي والمدونة، ووصولاً إلى الحقوق القانونية.</p>
+                    <p>ما تراه الآن هو نواة مشروع سيغير مفهوم الكريبتو في منطقتنا. نحن لا نستعجل الحصاد، بل نزرع بعناية. والمستقبل القريب سيُثبت أن MECO كانت الرهان الأذكى.</p>
+                    <p>🔗 راجع حقوق الملكية في مستودعاتنا عبر <a href="https://github.com/MonyCoin" target="_blank" style="color:var(--primary);">GitHub</a>، وتصفح <a href="privacy.html" style="color:var(--primary);">سياسة الخصوصية</a> و<a href="terms.html" style="color:var(--primary);">شروط الاستخدام</a> من موقعنا الرسمي.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">قانون</span>
+                        <span class="blog-tag">خصوصية</span>
+                        <span class="blog-tag">شفافية</span>
+                        <span class="blog-tag">رؤية</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('لأننا لا نبني لمجرد لحظة.. شفافية MECO تكتمل بحقوق الملكية وسياسة الخصوصية')">
+                        📤 مشاركة
+                    </button>
+                </div>
+            </article>
+
+            <!-- مقال 9: MECO: ليست للمضاربة… بل للثروة -->
+            <article class="blog-card">
+                <p class="blog-date">📅 27 أبريل 2026</p>
+                <h2><a href="#">MECO: ليست للمضاربة… بل للثروة (القصة الكاملة لرمز صُمم ليبقى)</a></h2>
+
+                <div class="preview-content">
+                    <p>في فضاء العملات الرقمية، هناك نوعان من الرموز: رموز تُصنع للمضاربة السريعة وتختفي، ورموز تُبنى بهندسة مالية لتصبح مخزناً للقيمة على المدى الطويل. <b>عملة MECO تنتمي للنوع الثاني، وهذا ليس كلاماً مرسلاً، بل هو محفور في الكود الذي لا يمكن تغييره.</b></p>
+                </div>
+
+                <div class="full-content">
+                    <h3>العرض محدود… والزيادة مستحيلة</h3>
+                    <p>أول حقيقة يجب أن تترسخ في ذهن كل حامل لعملة MECO: <b>إجمالي المعروض هو 1,000,000,000 عملة فقط. لا أكثر.</b> تم إغلاق صلاحية سك العملة (Mint Authority) إلى الأبد. هذا يعني أنه لا يمكن لأي شخص، ولا حتى مؤسس المشروع، أن يصنع عملة MECO واحدة إضافية. كلما زاد عدد حاملي العملة، قلت الكمية المتاحة للشراء. هذه ليست أمنية، هذا هو الكود الذي يمكنك التحقق منه على Solscan في أي لحظة.</p>
+
+                    <h3>آلية الندرة الذكية: نظام VIP وقفل السيولة</h3>
+                    <p>العملات الرقمية الناجحة لا تعتمد فقط على العرض المحدود، بل على <b>آليات تخلق ندرة حقيقية</b>. في منظومة MECO، هناك قوتان تسحبان العملات من التداول:<br>1️⃣ <b>نظام VIP</b>: للحصول على رسوم تبادل 0%، يقوم المستخدم بقفل 10,000 عملة MECO في قسم MECO Earn. مع مئات المستخدمين، ملايين العملات تُحبس بعيداً عن السوق، مما يقلص المعروض ويخلق ضغطاً شرائياً طبيعياً.<br>2️⃣ <b>التخزين طويل الأجل</b>: مع خطط تخزين تصل عوائدها إلى 40%، المستثمر الذكي لن يبيع عملاته، بل سيقفلها لسنوات قادمة.</p>
+
+                    <h3>هدف استثماري مدروس: من 0.0... إلى 10 دولارات</h3>
+                    <p>لهذا السبب، الوصول إلى سعر 10 دولارات لـ MECO ليس مجرد حلم، بل هو <b>نتيجة رياضية طبيعية</b> لمعادلة العرض والطلب.</p>
+
+                    <h3>الشفافية هي درع المستثمر</h3>
+                    <p>نحن لا نعدك بشيء لا يمكنك التحقق منه. جميع محافظ المشروع معلنة. توزيع العملة تم قبل الإطلاق وموثق. لا يوجد زر "تعديل" يمكن لأي شخص الضغط عليه ليغير قواعد اللعبة. المؤسسة والمجتمع شريكان في رحلة واحدة: أن تصبح MECO ليس مجرد رمز، بل أصلاً استثمارياً يُحتفظ به للأجيال القادمة.</p>
+                    <p><b>الخلاصة:</b> من يمتلك MECO اليوم، لا يمتلك مجرد عملة رقمية. إنه يمتلك حصة في نظام مالي نادر، لا يمكن التلاعب به، ومصمم ليكافئ الصابرين. هذا هو مستقبل MECO. وهذا هو وقتك لتكون جزءاً منه.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">اقتصاد</span>
+                        <span class="blog-tag">ندرة</span>
+                        <span class="blog-tag">استثمار</span>
+                        <span class="blog-tag">رؤية 10$</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('MECO: ليست للمضاربة… بل للثروة')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 8: من هاتف محمول إلى منظومة مالية متكاملة -->
+            <article class="blog-card">
+                <p class="blog-date">📅 27 أبريل 2026</p>
+                <h2><a href="#">من هاتف محمول إلى منظومة مالية متكاملة: "مؤسسة MonyCoin" تعيد تعريف المشاريع الرقمية في العالم العربي</a></h2>
+
+                <div class="preview-content">
+                    <p>في وقت أصبح فيه إطلاق مشاريع العملات الرقمية خبرًا روتينيًا، تمكنت <b>مؤسسة MonyCoin للتطوير الرقمي</b> من رسم مسار استثنائي لنفسها بعيدًا عن ضجيج المضاربة السريعة. فمنذ تأسيسها، تبنت المؤسسة نهجًا مغايرًا تمامًا قائمًا على الشفافية المؤسسية والحوكمة الرشيدة قبل كتابة أي سطر برمجي.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>فبينما تكتفي معظم المشاريع بإطلاق رمز والترويج له، اختارت المؤسسة أن تبدأ بالتوثيق. أكثر من 15 وثيقة رسمية وُضعت كمرجع مؤسسي ملزم قبل إطلاق المشروع، غطت كل شيء بدءًا من الرؤية والتوكنوميكس وصولاً إلى حوكمة الرسوم وإدارة أموال البيع المسبق.</p>
+                    <h3>MECO Wallet: من محفظة بسيطة إلى منصة مالية ذكية</h3>
+                    <p>بعد عام من العمل المتواصل، خرج إلى النور الإنجاز الأبرز للمؤسسة: <b>MECO Wallet</b>، أول محفظة عربية لا مركزية على شبكة Solana. مع الإصدار الأخير <b>v1.12.0</b>، أصبحت المحفظة مركز تحكم شخصي متطور مع نظام حسابات متعددة وتكامل مذهل مع Jupiter API للتبادل اللامركزي.</p>
+                    <h3>الشفافية والأمان: ركيزتان لا تتزحزحان</h3>
+                    <p>ما حققته مؤسسة MonyCoin للتطوير الرقمي، بقيادة مؤسسها <b>محمد سعادة</b>، ليس مجرد قصة نجاح تقني، بل هو إثبات على أن الرؤية الواضحة والالتزام المؤسسي يمكن أن يخلقا قيمة حقيقية ومستدامة في عالم رقمي متقلب.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">رؤية</span>
+                        <span class="blog-tag">مؤسسة</span>
+                        <span class="blog-tag">شفافية</span>
+                        <span class="blog-tag">Web3</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('من هاتف محمول إلى منظومة مالية متكاملة: مؤسسة MonyCoin تعيد تعريف المشاريع الرقمية')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 7: القصة غير المروية -->
+            <article class="blog-card">
+                <p class="blog-date">📅 27 أبريل 2026</p>
+                <h2><a href="#">MECO Wallet: القصة غير المروية لأول منظومة مالية عربية وُلدت من رحم المستحيل</a></h2>
+
+                <div class="preview-content">
+                    <p>في مشهد العملات الرقمية المزدحم بالمشاريع سريعة التكوين والوعود الزائفة، تبرز بين الحين والآخر حالة فريدة تستحق التوقف عندها طويلًا. ليست حالة نجاح تجاري عابر، بل ظاهرة تقنية كاملة تستدعي التأمل: كيف يمكن لتطبيق أن يحمل في جعبته كل هذا التعقيد، دون أن يفقد أناقته أو بساطته؟</p>
+                </div>
+
+                <div class="full-content">
+                    <p><b>ما هي MECO Wallet حقًا؟</b> لفهم طبيعة هذا المشروع، يجب تجاوز التعريفات الكلاسيكية. MECO Wallet ليست مجرد أداة لإرسال واستقبال العملات الرقمية. إنها محاولة جادة - وناجحة حتى الآن - لبناء "مركز تحكم مالي شخصي" على شبكة Solana.</p>
+                    <p><b>هندسة من الداخل إلى الخارج</b> الميزات التي تقدمها MECO Wallet مألوفة ظاهريًا: حسابات متعددة، تبادل فوري، تخزين للعوائد. لكن التعمق قليلًا يكشف فلسفة مختلفة تمامًا. نظام الحسابات المتعددة ليس مجرد إضافة عناوين، بل بيئة متكاملة تعزل كل حساب عن الآخر.</p>
+                    <p><b>لماذا الآن؟</b> في وقت تبحث فيه السوق العربية عن بصمتها في فضاء Web3، تظهر MECO Wallet ليس كمنتج مكتمل فحسب، بل كبيان عملي. بيان يقول إن الابتكار الحقيقي لا ينتظر التمويل ولا التصاريح. 🔗 <a href="https://monycoin.github.io/meco_web" target="_blank" style="color:var(--primary);">https://monycoin.github.io/meco_web</a></p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">رؤية</span>
+                        <span class="blog-tag">تطوير</span>
+                        <span class="blog-tag">تكنولوجيا</span>
+                        <span class="blog-tag">Web3</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('MECO Wallet: القصة غير المروية لأول منظومة مالية عربية')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 6: وداعاً لرسوم التداول -->
+            <article class="blog-card">
+                <p class="blog-date">📅 26 أبريل 2026</p>
+                <h2><a href="#">🔥 وداعاً لرسوم التداول المزعجة.. أهلاً بعصر MECO Wallet!</a></h2>
+
+                <div class="preview-content">
+                    <p>كم مرة خسرت جزءاً كبيراً من أرباحك بسبب رسوم الشبكة ومنصات التبادل (Swap Fees)؟ اليوم، نعلن رسمياً عن تغيير قواعد اللعبة في نظام Solana البيئي. 🚀 تطبيق MECO Wallet ليس مجرد محفظة آمنة، بل هو الآلة المالية التي صُممت لتضع الأرباح في جيبك أنت، وليس في جيوب المنصات!</p>
+                </div>
+
+                <div class="full-content">
+                    <p>💎 حصرياً لحاملي عملة MECO (عضوية الـ VIP الماسية): لقد قمنا بتطوير نظام Staking داخلي يحوّل عملاتك إلى درع ضد الرسوم. قم بتخزين 10,000 MECO فقط داخل قسم MECO Earn، واستمتع برسوم مبادلة 0% للأبد داخل التطبيق على جميع العملات!</p>
+                    <p>💰 لماذا تشتري وتخزن MECO الآن؟ مع كل مستخدم يطمح لعضوية الـ VIP ويقوم بقفل 10,000 عملة، يقل المعروض في السوق، مما يخلق قوة شرائية تدفع السعر للقمة! وأثناء قفل عملاتك، سيرداد رصيدك بعوائد تخزين (APY) مغرية.</p>
+                    <p>🔒 أمان من مستوى البنوك: محفظتك المتعددة تعمل بنظام عدم الحفظ (Non-Custodial)، مما يعني أن مفاتيحك الخاصة لا تغادر هاتفك أبداً. 📲 <a href="https://monycoin.github.io/meco_web" target="_blank" style="color:var(--primary);">https://monycoin.github.io/meco_web</a></p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">VIP</span>
+                        <span class="blog-tag">Staking</span>
+                        <span class="blog-tag">رسوم 0%</span>
+                        <span class="blog-tag">DeFi</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('🔥 وداعاً لرسوم التداول المزعجة.. أهلاً بعصر MECO Wallet!')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 5: ثورة Web3 -->
+            <article class="blog-card">
+                <p class="blog-date">📅 26 أبريل 2026</p>
+                <h2><a href="#">ثورة في عالم الـ Web3: كيف حطم "محمد سعادة" قيود البرمجة وأسس منظومة "MECO Wallet" من شاشة هاتف محمول؟</a></h2>
+
+                <div class="preview-content">
+                    <p>في عالم التكنولوجيا المتقدمة والبلوكشين، هناك أسطورة شائعة يرددها خبراء وادي السيليكون: "لبناء تطبيق لامركزي (Web3) متكامل، أنت بحاجة إلى فريق ضخم من المطورين، وميزانيات بملايين الدولارات، وأجهزة حاسوب فائقة التطور". لكن من وسط هذه القواعد الصارمة، ظهر مشروع يكسر كل هذه المفاهيم ويُعيد صياغة قواعد اللعبة التقنية بالكامل؛ إنه مشروع MECO Wallet.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>خلف هذا الإنجاز يقف رجل واحد، محمد سعادة، الذي قرر أن يثبت للعالم أن كلمة "مستحيل" لا تسكن إلا في عقول أولئك الذين يجهلون قيمة أنفسهم.</p>
+                    <p>تطبيق MECO Wallet ليس مجرد محفظة رقمية عادية، بل هو بوابة عبور سلسة نحو عالم الكريبتو. بمجرد أن يفتح المستخدم التطبيق وينشئ محفظته الأولى، يجد نفسه أمام تجربة مستخدم فائقة النعومة: نظام محافظ متعددة، سرعة فائقة في الإرسال والمبادلة، شاشة سوق حية، ومتصفح Web3 مدمج.</p>
+                    <p>القصة الحقيقية التي ستذهل مجتمع المطورين ليست في "ماذا" تم بناؤه، بل في "كيف" تم بناؤه. لم يُبنَ هذا المشروع الضخم داخل مختبرات تقنية مكيفة، بل وُلد من رحم بيئة ضيقة جداً عبر تطبيق (Termux)، وبواسطة هاتف محمول محدود الإمكانيات. لقد تحدى "محمد سعادة" الإمكانيات المعدومة، وتغلب على قيود الأجهزة، وصنع منصة تضاهي أكبر محافظ الكريبتو العالمية.</p>
+                    <p>اليوم، MECO Wallet تقف كحقيقة ساطعة كالشمس؛ رمز رقمي، وتطبيق فعّال، ومشروع ينبض بالحياة ويبني مجتمعاً يكبر يوماً بعد يوم. إنها ليست مجرد قصة نجاح لعملة رقمية، بل هي رسالة لكل حالم بأن الشغف والإصرار هما رأس المال الحقيقي في عالم الابتكار.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">رؤية</span>
+                        <span class="blog-tag">إنجازات</span>
+                        <span class="blog-tag">Web3</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('ثورة في عالم الـ Web3: كيف حطم محمد سعادة قيود البرمجة وأسس منظومة MECO Wallet')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 4: إطلاق الإصدار v1.12.0 -->
+            <article class="blog-card">
+                <p class="blog-date">📅 24 أبريل 2026</p>
+                <h2><a href="#">إطلاق الإصدار v1.12.0 — التبادل اللامركزي الكامل والميزات الجديدة</a></h2>
+
+                <div class="preview-content">
+                    <p>يسرنا الإعلان عن إطلاق الإصدار 1.12.0 من تطبيق MECO Wallet، والذي يتضمن تكاملاً رسمياً مع Jupiter API للتبادل اللامركزي، ودعماً لـ 16 عملة رقمية، وميزة الحسابات المتعددة، والتخزين المؤقت (Staking) بنسب عوائد تصل إلى 40% سنوياً. كما تم تحسين شاشة السوق وإضافة نظام المفضلة.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>هذا الإصدار يمثل نقلة نوعية في مسيرة التطبيق، حيث تم إعادة بناء نظام التبادل من الألف إلى الياء لضمان أفضل تجربة مستخدم. التكامل مع Jupiter API v6 يوفر سيولة عميقة وأسعار تنافسية على جميع الأزواج المدعومة.</p>
+                    <p>بالإضافة إلى ذلك، تم تحسين أداء التطبيق بشكل عام، وتقليل استهلاك البطارية، وإصلاح عدد من المشكلات التي أبلغ عنها المستخدمون في الإصدارات السابقة. نعدكم بالمزيد في الإصدارات القادمة.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">إصدارات</span>
+                        <span class="blog-tag">تحديثات</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('إطلاق الإصدار v1.12.0 — التبادل اللامركزي الكامل والميزات الجديدة')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 3: تحديث المحافظ الرسمية -->
+            <article class="blog-card">
+                <p class="blog-date">📅 15 أبريل 2026</p>
+                <h2><a href="#">تحديث المحافظ الرسمية للمشروع — إضافة محفظة تحصيل الرسوم</a></h2>
+
+                <div class="preview-content">
+                    <p>في إطار الشفافية الكاملة، تم تحديث المحافظ الرسمية للمشروع. تم إضافة محفظة تحصيل الرسوم (Fee Collection Wallet) بعنوان جديد، وتحديث عناوين محفظتي التطوير والمجتمع. تم توثيق جميع العناوين في مستودع meco-token على GitHub.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>هذا التحديث يأتي استكمالاً لخطة الحوكمة التي أعلنا عنها سابقاً. جميع الرسوم التي يتم تحصيلها من عمليات التبادل داخل التطبيق تذهب الآن إلى محفظة مخصصة ومعلنة، مما يضمن الشفافية الكاملة في إدارة موارد المشروع.</p>
+                    <p>يمكن لأي شخص تتبع حركة هذه المحفظة على Solscan عبر العنوان: <code>FosXqkRpbRnvtn7D1995BYv4BFNgsTfXs8WXhVXCjQqZ</code>. هذه خطوة إضافية نحو بناء الثقة مع مجتمعنا.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">حوكمة</span>
+                        <span class="blog-tag">شفافية</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('تحديث المحافظ الرسمية للمشروع — إضافة محفظة تحصيل الرسوم')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 2: انطلاق تطبيق MECO Wallet -->
+            <article class="blog-card">
+                <p class="blog-date">📅 1 أبريل 2026</p>
+                <h2><a href="#">انطلاق تطبيق MECO Wallet رسمياً — أول محفظة عربية على Solana</a></h2>
+
+                <div class="preview-content">
+                    <p>بعد أشهر من التطوير والاختبار، يسر مؤسسة MonyCoin للتطوير الرقمي الإعلان عن الإطلاق الرسمي لتطبيق MECO Wallet. التطبيق متاح للتحميل بصيغة APK، ويدعم إنشاء المحافظ، الإرسال والاستلام، وعرض الأسعار الحية.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>هذا اليوم يمثل تتويجاً لرحلة طويلة من العمل الجاد. انطلقنا بفكرة بسيطة: تقديم محفظة رقمية عربية سهلة الاستخدام وآمنة. اليوم، نقدم لكم MECO Wallet، وهي أكثر من مجرد محفظة.</p>
+                    <p>التطبيق يدعم حالياً اللغة العربية والإنجليزية، مع واجهة مستخدم أنيقة ومرتبة. نحن ملتزمون بتقديم تجربة استثنائية لمجتمعنا العربي والعالمي على حد سواء.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">إعلانات</span>
+                        <span class="blog-tag">إطلاق</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('انطلاق تطبيق MECO Wallet رسمياً — أول محفظة عربية على Solana')">📤 مشاركة</button>
+                </div>
+            </article>
+
+            <!-- مقال 1: التوكنوميكس -->
+            <article class="blog-card">
+                <p class="blog-date">📅 20 مارس 2026</p>
+                <h2><a href="#">إكمال التوكنوميكس وتوزيع المحافظ الخمسة</a></h2>
+
+                <div class="preview-content">
+                    <p>تم الانتهاء من تنفيذ خطة التوكنوميكس بشكل كامل: توزيع 1 مليار MECO على خمس محافظ مستقلة (السيولة 50%، التطوير 20%، الخزينة 10%، الفريق 10%، المجتمع 10%)، مع إغلاق صلاحيات السك والتجميد نهائياً.</p>
+                </div>
+
+                <div class="full-content">
+                    <p>هذه خطوة حاسمة في تاريخ المشروع. بتوزيع العملة على خمس محافظ مستقلة، نضمن عدم تركيز الثروة في يد واحدة، ونعزز مبدأ اللامركزية الذي يقوم عليه المشروع.</p>
+                    <p>إغلاق صلاحيات السك والتجميد يعني أن العرض ثابت ولا يمكن التلاعب به. هذا يمنح حاملي العملة ثقة كاملة في أن قيمة استثماراتهم محمية ضد التضخم المفاجئ.</p>
+                </div>
+
+                <button class="read-more-btn" onclick="toggleReadMore(this)">قراءة المزيد...</button>
+
+                <div class="blog-footer">
+                    <div class="blog-tags">
+                        <span class="blog-tag">توكنوميكس</span>
+                        <span class="blog-tag">تأسيس</span>
+                    </div>
+                    <button class="share-btn" onclick="sharePost('إكمال التوكنوميكس وتوزيع المحافظ الخمسة')">📤 مشاركة</button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://x.com/MoniCoinMECO" target="_blank">𝕏</a>
+                <a href="https://t.me/monycoin1" target="_blank">✈️</a>
+                <a href="https://github.com/MonyCoin" target="_blank">🐙</a>
+                <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank">📘</a>
+            </div>
+            <div class="legal-links">
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <a href="terms.html">شروط الاستخدام</a>
+            </div>
+            <div style="margin-bottom:12px;">
+                <span style="color:var(--text-secondary); font-size:0.85rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
+            </div>
+            <p>© 2026 MonyCoin Digital Development Foundation. Some rights reserved under the 0BSD License.</p>
+            <p style="margin-top:4px;">المؤسس: محمد سعادة</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        function sharePost(title) {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({ title: title, text: title + ' - MECO Wallet Blog', url: url }).catch(() => {});
+            } else {
+                const fullText = title + '\n' + url;
+                navigator.clipboard.writeText(fullText).then(() => alert('تم نسخ الرابط إلى الحافظة'))
+                .catch(() => prompt('انسخ الرابط للمشاركة:', fullText));
+            }
+        }
+
+        function toggleReadMore(button) {
+            const card = button.closest('.blog-card');
+            const fullContent = card.querySelector('.full-content');
+            const preview = card.querySelector('.preview-content');
+
+            if (fullContent.style.display === 'block') {
+                fullContent.style.display = 'none';
+                button.textContent = 'قراءة المزيد...';
+                if (preview) preview.style.display = 'block';
+            } else {
+                fullContent.style.display = 'block';
+                button.textContent = 'عرض أقل';
+                if (preview) preview.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
