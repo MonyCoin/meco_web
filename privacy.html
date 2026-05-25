@@ -1,38 +1,215 @@
-<h1>🔒 سياسة الخصوصية</h1>
-<h4 style="text-align: right;"><span style="font-size: medium;">آخر تحديث: 27 أبريل 2026</span></h4>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سياسة الخصوصية — MECO Wallet</title>
+    <meta name="description" content="سياسة الخصوصية لتطبيق MECO Wallet. كيف نجمع بياناتك ونحميها.">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B85FF;
+            --bg: #0A0A0F;
+            --surface: #1A1A2E;
+            --surface-light: #222240;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --gold: #FFD700;
+            --success: #10B981;
+            --border: #2A2A3E;
+            --radius: 16px;
+            --max-width: 900px;
+            --font-ar: 'Tajawal', sans-serif;
+        }
 
-<h2>مقدمة</h2>
-<p style="text-align: right;"><span style="font-size: large;">تلتزم مؤسسة MonyCoin للتطوير الرقمي ("المؤسسة"، "نحن") بحماية خصوصية مستخدمي تطبيق MECO Wallet ("التطبيق") وزوار موقعنا الإلكتروني ("الموقع"). توضح سياسة الخصوصية هذه كيفية جمع معلوماتك واستخدامها ومشاركتها عند استخدامك للتطبيق أو الموقع.</span></p>
+        [data-theme="light"] {
+            --bg: #F8FAFD;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+        }
 
-<h2>المعلومات التي لا نجمعها</h2>
-<p><span style="font-size: large;">تطبيق MECO Wallet مصمم ليكون <b>لا مركزياً بالكامل (Non-Custodial)</b>. هذا يعني:</span></p>
-<ul>
-    <li><span style="font-size: large;"><b>لا نجمع مفاتيحك الخاصة أبداً.</b> جميع المفاتيح الخاصة يتم إنشاؤها وتخزينها محلياً على جهازك فقط باستخدام التخزين الآمن (SecureStore).</span></li>
-    <li><span style="font-size: large;"><b>لا نجمع عبارات الاسترداد.</b> عبارات الاسترداد (Recovery Phrases) تبقى على جهازك ولا يتم إرسالها إلينا.</span></li>
-    <li><span style="font-size: large;"><b>لا نجمع كلمات المرور.</b> التطبيق لا يتطلب إنشاء حساب أو كلمة مرور.</span></li>
-    <li><span style="font-size: large;"><b>لا نراقب معاملاتك.</b> جميع المعاملات تتم مباشرة على شبكة Solana دون مرورها عبر خوادمنا.</span></li>
-    <li><span style="font-size: large;"><b>لا نبيع بياناتك.</b> لا نقوم ببيع أو تأجير بيانات المستخدمين لأي طرف ثالث.</span></li>
-</ul>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-ar);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-<h2>المعلومات التي قد نجمعها تلقائياً</h2>
-<p style="text-align: right;"><span style="font-size: large;">أثناء استخدامك للتطبيق أو الموقع، قد نقوم بجمع بعض المعلومات تلقائياً لأغراض تشغيلية وتحسين الخدمة:</span></p>
-<p style="text-align: right;"></p><p></p><p></p><ul><li><span style="font-size: large;"><b>بيانات التحليلات الأساسية (Analytics):</b> مثل عدد مرات فتح التطبيق، ومدة الجلسات (إن تم تفعيلها)، ولا تتضمن معلومات شخصية.</span></li></ul><ul><li><span style="font-size: large;"><b>بيانات الأعطال (Crash Reports):</b> معلومات تقنية عن الأعطال لمساعدتنا في تحسين استقرار التطبيق.</span></li></ul><ul><li><span style="font-size: large;"><b>بيانات الجهاز:</b> نوع نظام التشغيل وإصداره لأغراض التوافق.</span></li></ul><p></p><p></p><p></p>
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
 
-<h2>اتصالات الطرف الثالث</h2>
-<p><span style="font-size: large;">التطبيق يتصل مباشرة بشبكة Solana عبر نقاط اتصال RPC (مثل Helius و Ankr) لجلب أرصدة المستخدمين وأسعار السوق وتنفيذ المعاملات. لا نقوم بتسجيل هذه الاتصالات أو تخزينها. عند استخدام ميزات مثل التبادل (Swap)، قد يتم توجيه طلبات الأسعار إلى Jupiter API.</span></p>
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 12px 0;
+        }
+        header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .logo img { width: 42px; height: 42px; border-radius: 12px; }
+        .logo span { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+        .logo span b { color: var(--primary); }
+        nav { display: flex; align-items: center; gap: 24px; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .btn { padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font-ar); white-space: nowrap; }
+        .btn-primary { background: var(--primary); color: #FFF; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
 
-<h2>ملفات تعريف الارتباط (Cookies)</h2>
-<p><span style="font-size: large;">موقعنا الإلكترونى&nbsp; (`https://monycoin73.blogspot.com/`) لا يستخدم ملفات تعريف ارتباط (Cookies) للتتبع. قد تستخدم أدوات التحليلات الأساسية (إن وجدت) ملفات تعريف ارتباط مجهولة المصدر لقياس عدد الزوار.</span></p>
+        .page-hero { padding: 80px 0 40px; text-align: center; }
+        .page-hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+        .page-hero h1 span { color: var(--primary); }
+        .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
 
-<h2>أمان البيانات</h2>
-<p><span style="font-size: large;">نظراً لأن التطبيق لا مركزي ولا يتم تخزين أي بيانات شخصية على خوادمنا، فإن مخاطر اختراق البيانات تكاد تكون معدومة. أمان أصولك يعتمد بالكامل على حفاظك على سرية مفاتيحك الخاصة وعبارة الاسترداد.</span></p>
+        .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
+        .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
+        .content-card p, .content-card li { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 12px; }
+        .content-card ul { padding-right: 20px; }
+        .content-card ul li { margin-bottom: 8px; }
 
-<h2>تحديثات السياسة</h2>
-<p><span style="font-size: large;">قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة مع تاريخ "آخر تحديث" جديد. ننصح بمراجعة هذه الصفحة بشكل دوري.</span></p>
+        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
+        footer .social-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+        footer .social-links a { color: var(--text-secondary); font-size: 1.5rem; transition: color 0.2s; text-decoration: none; }
+        footer .social-links a:hover { color: var(--primary); }
+        footer .legal-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+        footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        footer .legal-links a:hover { color: var(--primary); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
 
-<h2>اتصل بنا</h2>
-<p style="text-align: right;"><span style="font-size: large;">إذا كانت لديك أي أسئلة حول سياسة الخصوصية هذه، يمكنك التواصل معنا عبر:</span></p>
-<ul>
-    <li>📧 البريد الإلكتروني (راجع صفحة <a href="/p/contact.html">اتصل بنا</a>)</li>
-    <li>✈️ تيليجرام: <a href="https://t.me/monycoin1" target="_blank">@monycoin1</a></li>
-</ul>
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
+
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 2rem; }
+            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
+            nav.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO Logo">
+                <span>MECO<b>Wallet</b></span>
+            </a>
+            <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="about.html">عن المشروع</a>
+                <a href="token.html">العملة</a>
+                <a href="wallet.html">المحفظة</a>
+                <a href="roadmap.html">خارطة الطريق</a>
+                <a href="blog.html">المدونة</a>
+                <a href="contact.html">اتصل بنا</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+                <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary">⬇️ تحميل</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>🔒 <span>سياسة الخصوصية</span></h1>
+            <p>آخر تحديث: 27 أبريل 2026</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="content-card">
+                <h2>مقدمة</h2>
+                <p>تلتزم مؤسسة MonyCoin للتطوير الرقمي ("المؤسسة"، "نحن") بحماية خصوصية مستخدمي تطبيق MECO Wallet ("التطبيق") وزوار موقعنا الإلكتروني ("الموقع"). توضح سياسة الخصوصية هذه كيفية جمع معلوماتك واستخدامها ومشاركتها عند استخدامك للتطبيق أو الموقع.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>المعلومات التي لا نجمعها</h2>
+                <p>تطبيق MECO Wallet مصمم ليكون <b>لا مركزياً بالكامل (Non-Custodial)</b>. هذا يعني:</p>
+                <ul>
+                    <li><b>لا نجمع مفاتيحك الخاصة أبداً.</b> جميع المفاتيح الخاصة يتم إنشاؤها وتخزينها محلياً على جهازك فقط باستخدام التخزين الآمن (SecureStore).</li>
+                    <li><b>لا نجمع عبارات الاسترداد.</b> عبارات الاسترداد (Recovery Phrases) تبقى على جهازك ولا يتم إرسالها إلينا.</li>
+                    <li><b>لا نجمع كلمات المرور.</b> التطبيق لا يتطلب إنشاء حساب أو كلمة مرور.</li>
+                    <li><b>لا نراقب معاملاتك.</b> جميع المعاملات تتم مباشرة على شبكة Solana دون مرورها عبر خوادمنا.</li>
+                    <li><b>لا نبيع بياناتك.</b> لا نقوم ببيع أو تأجير بيانات المستخدمين لأي طرف ثالث.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h2>المعلومات التي قد نجمعها تلقائياً</h2>
+                <p>أثناء استخدامك للتطبيق أو الموقع، قد نقوم بجمع بعض المعلومات تلقائياً لأغراض تشغيلية وتحسين الخدمة:</p>
+                <ul>
+                    <li><b>بيانات التحليلات الأساسية (Analytics):</b> مثل عدد مرات فتح التطبيق، ومدة الجلسات (إن تم تفعيلها)، ولا تتضمن معلومات شخصية.</li>
+                    <li><b>بيانات الأعطال (Crash Reports):</b> معلومات تقنية عن الأعطال لمساعدتنا في تحسين استقرار التطبيق.</li>
+                    <li><b>بيانات الجهاز:</b> نوع نظام التشغيل وإصداره لأغراض التوافق.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h2>اتصالات الطرف الثالث</h2>
+                <p>التطبيق يتصل مباشرة بشبكة Solana عبر نقاط اتصال RPC (مثل Helius و Ankr) لجلب أرصدة المستخدمين وأسعار السوق وتنفيذ المعاملات. لا نقوم بتسجيل هذه الاتصالات أو تخزينها. عند استخدام ميزات مثل التبادل (Swap)، قد يتم توجيه طلبات الأسعار إلى Jupiter API.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>ملفات تعريف الارتباط (Cookies)</h2>
+                <p>موقعنا الإلكتروني (`monycoin73.blogspot.com`) لا يستخدم ملفات تعريف ارتباط (Cookies) للتتبع. قد تستخدم أدوات التحليلات الأساسية (إن وجدت) ملفات تعريف ارتباط مجهولة المصدر لقياس عدد الزوار.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>أمان البيانات</h2>
+                <p>نظراً لأن التطبيق لا مركزي ولا يتم تخزين أي بيانات شخصية على خوادمنا، فإن مخاطر اختراق البيانات تكاد تكون معدومة. أمان أصولك يعتمد بالكامل على حفاظك على سرية مفاتيحك الخاصة وعبارة الاسترداد.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>تحديثات السياسة</h2>
+                <p>قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة مع تاريخ "آخر تحديث" جديد. ننصح بمراجعة هذه الصفحة بشكل دوري.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>اتصل بنا</h2>
+                <p>إذا كانت لديك أي أسئلة حول سياسة الخصوصية هذه، يمكنك التواصل معنا عبر:</p>
+                <ul>
+                    <li>📧 البريد الإلكتروني (راجع صفحة <a href="contact.html" style="color:var(--primary)">اتصل بنا</a>)</li>
+                    <li>✈️ تيليجرام: <a href="https://t.me/monycoin1" target="_blank" style="color:var(--primary)">@monycoin1</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://x.com/MoniCoinMECO" target="_blank">𝕏</a>
+                <a href="https://t.me/monycoin1" target="_blank">✈️</a>
+                <a href="https://github.com/MonyCoin" target="_blank">🐙</a>
+                <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank">📘</a>
+            </div>
+            <div class="legal-links">
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <a href="terms.html">شروط الاستخدام</a>
+                <a href="notice.html">حقوق الملكية الفكرية</a>
+            </div>
+            <div style="margin-bottom:12px;">
+                <span style="color:var(--text-secondary); font-size:0.85rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
+            </div>
+            <p>© 2026 MonyCoin Digital Development Foundation. Some rights reserved under the 0BSD License.</p>
+            <p style="margin-top:4px;">المؤسس: محمد سعادة</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+    </script>
+</body>
+</html>
