@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شروط الاستخدام — MECO Wallet</title>
+    <meta name="description" content="شروط استخدام تطبيق MECO Wallet وموقع MECO الإلكتروني.">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B85FF;
+            --bg: #0A0A0F;
+            --surface: #1A1A2E;
+            --surface-light: #222240;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --gold: #FFD700;
+            --success: #10B981;
+            --border: #2A2A3E;
+            --radius: 16px;
+            --max-width: 900px;
+            --font-ar: 'Tajawal', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg: #F8FAFD;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-ar);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 12px 0;
+        }
+        header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+        .logo img { width: 42px; height: 42px; border-radius: 12px; }
+        .logo span { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+        .logo span b { color: var(--primary); }
+        nav { display: flex; align-items: center; gap: 24px; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
+        nav a:hover, nav a.active { color: var(--primary); }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .btn { padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font-ar); white-space: nowrap; }
+        .btn-primary { background: var(--primary); color: #FFF; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
+
+        .page-hero { padding: 80px 0 40px; text-align: center; }
+        .page-hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+        .page-hero h1 span { color: var(--primary); }
+        .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
+        .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
+        .content-card p, .content-card li { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 12px; }
+        .content-card ul { padding-right: 20px; }
+        .content-card ul li { margin-bottom: 8px; }
+
+        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
+        footer .social-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+        footer .social-links a { color: var(--text-secondary); font-size: 1.5rem; transition: color 0.2s; text-decoration: none; }
+        footer .social-links a:hover { color: var(--primary); }
+        footer .legal-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+        footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        footer .legal-links a:hover { color: var(--primary); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
+
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 2rem; }
+            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
+            nav.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO Logo">
+                <span>MECO<b>Wallet</b></span>
+            </a>
+            <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="about.html">عن المشروع</a>
+                <a href="token.html">العملة</a>
+                <a href="wallet.html">المحفظة</a>
+                <a href="roadmap.html">خارطة الطريق</a>
+                <a href="blog.html">المدونة</a>
+                <a href="contact.html">اتصل بنا</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+                <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary">⬇️ تحميل</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📜 <span>شروط الاستخدام</span></h1>
+            <p>آخر تحديث: 27 أبريل 2026</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="content-card">
+                <h2>قبول الشروط</h2>
+                <p>باستخدامك لتطبيق MECO Wallet ("التطبيق") أو زيارة موقعنا الإلكتروني ("الموقع")، فإنك توافق على الالتزام بشروط الاستخدام هذه. إذا كنت لا توافق على أي جزء من هذه الشروط، يُرجى عدم استخدام التطبيق أو الموقع.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>وصف الخدمة</h2>
+                <p>تطبيق MECO Wallet هو محفظة رقمية لا مركزية (Non-Custodial) تتيح للمستخدمين:</p>
+                <ul>
+                    <li>إنشاء وإدارة محافظ رقمية على شبكة Solana.</li>
+                    <li>إرسال واستقبال العملات الرقمية ورموز SPL.</li>
+                    <li>تبادل العملات عبر مزودي السيولة اللامركزية (DEX Aggregators).</li>
+                    <li>تخزين العملات (Staking) لكسب العوائد.</li>
+                    <li>عرض أسعار السوق والرسوم البيانية.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h2>مسؤولية المستخدم</h2>
+                <p>أنت وحدك المسؤول عن:</p>
+                <ul>
+                    <li><b>الحفاظ على سرية مفاتيحك الخاصة وعبارة الاسترداد.</b> لا يمكننا استعادتها إذا فقدتها.</li>
+                    <li><b>جميع المعاملات التي تتم من محفظتك.</b> التطبيق لا يمكنه عكس أو إلغاء المعاملات على شبكة Solana.</li>
+                    <li><b>الامتثال للقوانين واللوائح المحلية</b> المتعلقة باستخدام العملات الرقمية في بلدك.</li>
+                    <li><b>استخدام التطبيق على مسؤوليتك الخاصة.</b> قيمة العملات الرقمية متقلبة وقد تخسر أموالك.</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h2>اللامركزية والشفافية</h2>
+                <p>تطبيق MECO Wallet هو برنامج مفتوح المصدر (Open Source). يمكنك مراجعة الكود المصدري على <a href="https://github.com/MonyCoin/meco_wallet" target="_blank" style="color:var(--primary)">GitHub</a>. التطبيق لا يخزن أياً من أصولك الرقمية، ولا يمكننا تجميد أو مصادرة أي أصول.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>إخلاء المسؤولية</h2>
+                <p>يتم توفير التطبيق والموقع "كما هو" ("AS IS") دون أي ضمانات صريحة أو ضمنية. لا نضمن أن الخدمة ستكون متواصلة أو خالية من الأخطاء. لن تكون مؤسسة MonyCoin للتطوير الرقمي مسؤولة عن أي أضرار مباشرة أو غير مباشرة ناتجة عن استخدامك للتطبيق.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>روابط الطرف الثالث</h2>
+                <p>قد يحتوي التطبيق أو الموقع على روابط لمواقع أو تطبيقات طرف ثالث (مثل Jupiter، Orca، Raydium، Marinade). نحن لا نتحكم في محتوى أو ممارسات هذه المواقع، واستخدامك لها يخضع لشروطها الخاصة.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>تعديل الشروط</h2>
+                <p>نحتفظ بالحق في تعديل أو تحديث شروط الاستخدام هذه في أي وقت. سيتم نشر أي تغييرات على هذه الصفحة. استمرارك في استخدام التطبيق بعد التعديلات يعتبر موافقة منك على الشروط المحدثة.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>اتصل بنا</h2>
+                <p>إذا كانت لديك أي أسئلة حول شروط الاستخدام هذه، يمكنك التواصل معنا عبر:</p>
+                <ul>
+                    <li>📧 البريد الإلكتروني (راجع صفحة <a href="contact.html" style="color:var(--primary)">اتصل بنا</a>)</li>
+                    <li>✈️ تيليجرام: <a href="https://t.me/monycoin1" target="_blank" style="color:var(--primary)">@monycoin1</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://x.com/MoniCoinMECO" target="_blank">𝕏</a>
+                <a href="https://t.me/monycoin1" target="_blank">✈️</a>
+                <a href="https://github.com/MonyCoin" target="_blank">🐙</a>
+                <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank">📘</a>
+            </div>
+            <div class="legal-links">
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <a href="terms.html">شروط الاستخدام</a>
+                <a href="notice.html">حقوق الملكية الفكرية</a>
+            </div>
+            <div style="margin-bottom:12px;">
+                <span style="color:var(--text-secondary); font-size:0.85rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
+            </div>
+            <p>© 2026 MonyCoin Digital Development Foundation. Some rights reserved under the 0BSD License.</p>
+            <p style="margin-top:4px;">المؤسس: محمد سعادة</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+    </script>
+</body>
+</html>
