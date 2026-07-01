@@ -108,62 +108,16 @@
         .hero p { color: var(--text-secondary); font-size: 1.15rem; max-width: 600px; margin: 0 auto 36px; }
         .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-        /* ========== SECTIONS ========== */
-        .section { padding: 80px 0; }
-        .section-title { font-size: 2rem; font-weight: 900; text-align: center; margin-bottom: 16px; }
-        .section-subtitle { color: var(--text-secondary); text-align: center; font-size: 1.05rem; margin-bottom: 56px; }
-
-        /* Cards */
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 36px 28px; text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .card:hover { transform: translateY(-6px); border-color: var(--primary); }
-        .card .icon { font-size: 3rem; margin-bottom: 18px; }
-        .card h3 { font-size: 1.3rem; margin-bottom: 10px; }
-        .card p { color: var(--text-secondary); font-size: 0.95rem; }
-
-        /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .stat-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 28px; text-align: center;
-        }
-        .stat-card .stat-number { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin-bottom: 6px; }
-        .stat-card .stat-label { color: var(--text-secondary); font-size: 0.9rem; }
-
-        /* Feature grid */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-        .feature-item {
-            background: var(--surface-light); border: 1px solid var(--border);
-            border-radius: 14px; padding: 22px 16px; text-align: center;
-        }
-        .feature-item .ficon { font-size: 2rem; margin-bottom: 10px; }
-        .feature-item h4 { font-size: 0.95rem; font-weight: 700; }
-
-        /* CTA */
+        /* ========== CTA ========== */
         .cta {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-radius: 24px; padding: 60px 40px; text-align: center;
-            margin: 0 24px;
+            margin: 80px 24px 40px;
         }
         .cta h2 { font-size: 2rem; font-weight: 900; color: #FFF; margin-bottom: 14px; }
         .cta p { color: rgba(255,255,255,0.85); font-size: 1.05rem; margin-bottom: 28px; }
         .btn-white { background: #FFF; color: var(--primary); padding: 14px 36px; border-radius: 30px; font-weight: 700; font-size: 1rem; text-decoration: none; display: inline-block; transition: all 0.2s; }
         .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-
-        /* Community */
-        .social-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .social-link {
-            display: flex; align-items: center; gap: 10px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 30px; padding: 14px 28px; text-decoration: none;
-            color: var(--text); font-weight: 600; transition: all 0.2s;
-        }
-        .social-link:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-3px); }
-        .social-link .sicon { font-size: 1.3rem; }
 
         /* ========== FOOTER ========== */
         footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
@@ -179,7 +133,7 @@
             nav.open { display: flex; }
             .mobile-menu-btn { display: block; }
             .hero-buttons { flex-direction: column; align-items: center; }
-            .cta { margin: 0 16px; padding: 40px 24px; }
+            .cta { margin: 80px 16px 40px; padding: 40px 24px; }
         }
     </style>
 </head>
@@ -194,16 +148,12 @@
             </a>
             <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
             <nav>
-                <a href="#features">المميزات</a>
-                <a href="#stats">الأرقام</a>
-                <a href="#build">ابنِ مشروعك</a>
-                <a href="#community">المجتمع</a>
                 <a href="about.html">عن المشروع</a>
                 <a href="token.html">العملة</a>
                 <a href="wallet.html">المحفظة</a>
                 <a href="roadmap.html">خارطة الطريق</a>
-                <a href="contact.html">اتصل بنا</a>
                 <a href="blog.html">المدونة</a>
+                <a href="contact.html">اتصل بنا</a>
             </nav>
             <div class="header-actions">
                 <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
@@ -220,99 +170,13 @@
             <p>أول محفظة عربية لا مركزية على Solana. تداول، خزّن، وابنِ مشاريعك الرقمية بكل أمان وشفافية.</p>
             <div class="hero-buttons">
                 <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary" style="font-size:1.05rem; padding:16px 36px;">⬇️ تحميل التطبيق</a>
-                <a href="#stats" class="btn btn-outline" style="font-size:1.05rem; padding:16px 36px;">استكشف الرمز</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== WHY MECO ========== -->
-    <section class="section" id="features">
-        <div class="container">
-            <h2 class="section-title">لماذا <span style="color:var(--primary)">MECO</span>؟</h2>
-            <p class="section-subtitle">ثلاث ركائز أساسية نبني عليها مستقبل التمويل الرقمي العربي</p>
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="icon">🪙</div>
-                    <h3>رمز حقيقي</h3>
-                    <p>عرض ثابت (1 مليار)، صلاحيات السك والتجميد ملغاة للأبد. سيولة مقفلة على منصة Orca لضمان ثقة المستثمرين.</p>
-                </div>
-                <div class="card">
-                    <div class="icon">📱</div>
-                    <h3>تطبيق ذكي</h3>
-                    <p>محفظة لا مركزية تدعم حتى 10 حسابات، مبادلة فورية، تخزين (Staking)، ومتصفح Web3 مدمج.</p>
-                </div>
-                <div class="card">
-                    <div class="icon">🤝</div>
-                    <h3>مجتمع واعٍ</h3>
-                    <p>نحن نؤمن بالشراكة المستدامة بين المؤسسة والمستخدمين. معًا نبني اقتصادًا رقميًا يليق بالعالم العربي.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MECO IN NUMBERS ========== -->
-    <section class="section" id="stats" style="background: var(--surface-light);">
-        <div class="container">
-            <h2 class="section-title">MECO <span style="color:var(--primary)">بالأرقام</span></h2>
-            <p class="section-subtitle">شفافية كاملة — يمكنك التحقق من كل رقم على السلسلة</p>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">1,000,000,000</div>
-                    <div class="stat-label">إجمالي المعروض</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">10</div>
-                    <div class="stat-label">حسابات مدعومة في المحفظة</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">0%</div>
-                    <div class="stat-label">صلاحيات سك أو تجميد</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" style="font-size:1rem; word-break:break-all;">A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W</div>
-                    <div class="stat-label">عنوان العقد على Solscan ↗</div>
-                </div>
-            </div>
-            <div style="text-align:center; margin-top:36px;">
-                <a href="https://solscan.io/token/A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W" target="_blank" class="btn btn-outline">عرض العقد على Solscan ↗</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== BUILD WITH MECO ========== -->
-    <section class="section" id="build">
-        <div class="container">
-            <h2 class="section-title">ابنِ <span style="color:var(--primary)">مشروعك</span> مع MECO</h2>
-            <p class="section-subtitle">تطبيق MECO Wallet يمنحك الأدوات لبناء وإدارة مشاريع رقمية متعددة</p>
-            <div class="features-grid">
-                <div class="feature-item"><div class="ficon">💸</div><h4>إرسال واستقبال</h4></div>
-                <div class="feature-item"><div class="ficon">🔄</div><h4>تبادل (Swap)</h4></div>
-                <div class="feature-item"><div class="ficon">🏦</div><h4>تخزين (Staking)</h4></div>
-                <div class="feature-item"><div class="ficon">🌐</div><h4>متصفح Web3</h4></div>
-                <div class="feature-item"><div class="ficon">🔗</div><h4>WalletConnect</h4></div>
-                <div class="feature-item"><div class="ficon">📊</div><h4>شاشة سوق متقدمة</h4></div>
-                <div class="feature-item"><div class="ficon">🔒</div><h4>أمان بالبصمة</h4></div>
-                <div class="feature-item"><div class="ficon">👥</div><h4>10 حسابات</h4></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== COMMUNITY ========== -->
-    <section class="section" id="community" style="background: var(--surface-light);">
-        <div class="container">
-            <h2 class="section-title">انضم إلى <span style="color:var(--primary)">الحركة</span></h2>
-            <p class="section-subtitle">كن جزءًا من أول منظومة مالية عربية على Solana</p>
-            <div class="social-links">
-                <a href="https://t.me/monycoin1" target="_blank" class="social-link"><span class="sicon">✈️</span> تيليجرام</a>
-                <a href="https://x.com/MoniCoinMECO" target="_blank" class="social-link"><span class="sicon">𝕏</span> تويتر</a>
-                <a href="https://github.com/MonyCoin" target="_blank" class="social-link"><span class="sicon">🐙</span> GitHub</a>
-                <a href="blog.html" class="social-link"><span class="sicon">📰</span> المدونة</a>
+                <a href="about.html" class="btn btn-outline" style="font-size:1.05rem; padding:16px 36px;">تعرف على المشروع</a>
             </div>
         </div>
     </section>
 
     <!-- ========== CTA ========== -->
-    <div class="container" style="margin-top:60px;">
+    <div class="container">
         <div class="cta">
             <h2>🚀 جاهز لبناء مستقبلك الرقمي؟</h2>
             <p>حمّل تطبيق MECO Wallet الآن، وابدأ رحلتك في عالم Web3 بكل أمان وسهولة.</p>
@@ -342,24 +206,6 @@
             const current = html.getAttribute('data-theme');
             html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
         }
-        // Highlight active nav link on scroll
-        const sections = document.querySelectorAll('section[id]');
-        window.addEventListener('scroll', () => {
-            let scrollY = window.pageYOffset;
-            sections.forEach(section => {
-                const sectionHeight = section.offsetHeight;
-                const sectionTop = section.offsetTop - 100;
-                const sectionId = section.getAttribute('id');
-                const link = document.querySelector(`nav a[href="#${sectionId}"]`);
-                if (link) {
-                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                        link.style.color = '#E74C3C';
-                    } else {
-                        link.style.color = '';
-                    }
-                }
-            });
-        });
     </script>
 </body>
 </html>
