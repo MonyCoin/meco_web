@@ -6,16 +6,17 @@
     <title>المحفظة — MECO Wallet</title>
     <meta name="description" content="تعرف على ميزات تطبيق MECO Wallet: إرسال، استقبال، تبادل، تخزين، وأمان لا مركزي كامل على شبكة Solana.">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+
     <style>
         :root {
-            --primary: #6C63FF;
-            --primary-light: #8B85FF;
+            --primary: #E74C3C;
+            --primary-dark: #C0392B;
+            --primary-light: rgba(231, 76, 60, 0.15);
             --bg: #0A0A0F;
             --surface: #1A1A2E;
             --surface-light: #222240;
             --text: #FFFFFF;
             --text-secondary: #A0A0B0;
-            --gold: #FFD700;
             --success: #10B981;
             --border: #2A2A3E;
             --radius: 16px;
@@ -26,9 +27,11 @@
         [data-theme="light"] {
             --bg: #F8FAFD;
             --surface: #FFFFFF;
+            --surface-light: #F0F2F5;
             --text: #1A1A2E;
             --text-secondary: #6B7280;
             --border: #E5E7EB;
+            --primary-light: rgba(231, 76, 60, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,6 +50,7 @@
             background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); padding: 12px 0;
         }
+        [data-theme="light"] header { background: rgba(255, 255, 255, 0.9); }
         header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
         .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
         .logo img { width: 42px; height: 42px; border-radius: 12px; }
@@ -58,7 +62,7 @@
         .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .btn { padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font-ar); white-space: nowrap; }
         .btn-primary { background: var(--primary); color: #FFF; }
-        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3); }
         .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
 
         .page-hero { padding: 80px 0 40px; text-align: center; }
@@ -185,7 +189,7 @@
                 <h2>تحميل التطبيق</h2>
                 <p>تطبيق MECO Wallet متاح للتحميل على أجهزة Android بصيغة APK مباشرة من موقعنا الرسمي. حمّله الآن وانضم إلى آلاف المستخدمين الذين يثقون بنا لإدارة أصولهم الرقمية.</p>
                 <p style="text-align:center; margin-top:20px;">
-                    <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary" style="font-size:1.1rem; padding:16px 32px; background:var(--success); border-radius:30px; text-decoration:none; color:#FFF;">⬇️ تحميل التطبيق الآن</a>
+                    <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary" style="font-size:1.1rem; padding:16px 32px; text-decoration:none; color:#FFF;">⬇️ تحميل التطبيق الآن</a>
                 </p>
             </div>
         </div>
