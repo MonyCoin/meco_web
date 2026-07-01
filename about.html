@@ -6,59 +6,66 @@
     <title>عن المشروع — MECO Wallet</title>
     <meta name="description" content="قصة مشروع MECO: الرؤية، المؤسسة، والتطبيق. أول محفظة عربية لا مركزية على Solana.">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6C63FF;
-            --primary-light: #8B85FF;
+            --primary: #E74C3C;
+            --primary-dark: #C0392B;
+            --primary-light: rgba(231, 76, 60, 0.12);
             --bg: #0A0A0F;
             --surface: #1A1A2E;
-            --surface-light: #222240;
+            --surface-light: #252540;
             --text: #FFFFFF;
             --text-secondary: #A0A0B0;
-            --gold: #FFD700;
-            --success: #10B981;
             --border: #2A2A3E;
             --radius: 16px;
             --max-width: 900px;
-            --font-ar: 'Tajawal', sans-serif;
+            --font: 'Tajawal', sans-serif;
         }
 
         [data-theme="light"] {
             --bg: #F8FAFD;
             --surface: #FFFFFF;
+            --surface-light: #F0F2F5;
             --text: #1A1A2E;
             --text-secondary: #6B7280;
             --border: #E5E7EB;
+            --primary-light: rgba(231, 76, 60, 0.06);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: var(--font-ar);
+            font-family: var(--font);
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.8;
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
 
         header {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 12px 0;
+            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 14px 0;
         }
+        [data-theme="light"] header { background: rgba(255, 255, 255, 0.9); }
         header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
         .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
-        .logo img { width: 42px; height: 42px; border-radius: 12px; }
-        .logo span { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+        .logo img { width: 44px; height: 44px; border-radius: 14px; }
+        .logo span { font-size: 1.4rem; font-weight: 900; color: var(--text); }
         .logo span b { color: var(--primary); }
-        nav { display: flex; align-items: center; gap: 24px; }
-        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
+
+        nav { display: flex; align-items: center; gap: 28px; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
         nav a:hover, nav a.active { color: var(--primary); }
+
         .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .btn { padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font-ar); white-space: nowrap; }
+        .btn { padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font); }
         .btn-primary { background: var(--primary); color: #FFF; }
-        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25); }
         .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
 
         .page-hero { padding: 80px 0 40px; text-align: center; }
@@ -67,17 +74,15 @@
         .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
 
         .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
-        .content-card h2 { font-size: 1.5rem; color: var(--primary); margin-bottom: 16px; }
+        .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
         .content-card p, .content-card ul { color: var(--text-secondary); font-size: 1rem; margin-bottom: 12px; }
+        .content-card ul { padding-right: 20px; }
 
         footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
-        footer .social-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
-        footer .social-links a { color: var(--text-secondary); font-size: 1.5rem; transition: color 0.2s; text-decoration: none; }
-        footer .social-links a:hover { color: var(--primary); }
-        footer .legal-links { display: flex; gap: 16px; justify-content: center; margin-bottom: 16px; }
+        footer .legal-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
         footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
         footer .legal-links a:hover { color: var(--primary); }
-        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+        footer p { color: var(--text-secondary); font-size: 0.85rem; }
 
         .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
 
@@ -125,12 +130,12 @@
         <div class="container">
             <div class="content-card">
                 <h2>من نحن</h2>
-                <p>مؤسسة <b>MonyCoin للتطوير الرقمي</b> هي كيان مستقل تأسس لبناء وإدارة منظومة MECO. نحن فريق من المطورين والمختصين في تقنية البلوكشين، مهمتنا تقديم حلول مالية رقمية آمنة وشفافة للمستخدم العربي. انطلقنا من شاشة هاتف محمول، ونمضي نحو بناء مؤسسة رقمية رائدة على شبكة Solana.</p>
+                <p>مؤسسة <b>MonyCoin للتطوير التقني</b> هي كيان مستقل تأسس لبناء وإدارة منظومة MECO. نحن فريق من المطورين والمختصين في تقنية البلوكشين، مهمتنا تقديم حلول مالية رقمية آمنة وشفافة للمستخدم العربي. انطلقنا من شاشة هاتف محمول، ونمضي نحو بناء مؤسسة رقمية رائدة على شبكة Solana.</p>
             </div>
 
             <div class="content-card">
                 <h2>قصة المشروع</h2>
-                <p>وُلدت فكرة MECO من سؤال بسيط: <b>لماذا لا توجد محفظة عربية حقيقية على Solana؟</b> من هذا السؤال، بدأ المؤسس "محمد سعادة" رحلة تطوير استمرت لأكثر من عام كامل، تم فيها بناء تطبيق MECO Wallet من الصفر على هاتف محمول عبر تطبيق Termux. لم يكن الهدف مجرد محفظة، بل منظومة متكاملة تقدم تجربة مالية كاملة: إرسال، استقبال، تبادل، تخزين، ومتابعة السوق، كل ذلك بواجهة عربية أنيقة.</p>
+                <p>وُلدت فكرة MECO من سؤال بسيط: <b>لماذا لا توجد محفظة عربية حقيقية على Solana؟</b> من هذا السؤال، بدأ المؤسس "محمد سعادة" رحلة تطوير استمرت لأكثر من عام كامل، تم فيها بناء تطبيق MECO Wallet من الصفر على هاتف محمول. لم يكن الهدف مجرد محفظة، بل منظومة متكاملة تقدم تجربة مالية كاملة: إرسال، استقبال، تبادل، تخزين، ومتابعة السوق، كل ذلك بواجهة عربية أنيقة.</p>
             </div>
 
             <div class="content-card">
@@ -142,7 +147,7 @@
                 <h2>MECO Wallet</h2>
                 <p>تطبيق MECO Wallet هو الإنجاز التقني الأبرز للمؤسسة. إنه محفظة لا مركزية (Non-Custodial) تدعم:</p>
                 <ul>
-                    <li>إنشاء وإدارة حتى 9 حسابات فرعية</li>
+                    <li>إنشاء وإدارة حتى 10 حسابات فرعية</li>
                     <li>إرسال واستقبال SOL وجميع رموز SPL</li>
                     <li>تبادل فوري عبر Jupiter API</li>
                     <li>تخزين العملات (Staking) بعوائد مغرية</li>
@@ -161,18 +166,13 @@
 
     <footer>
         <div class="container">
-            <div class="social-links">
-                <a href="https://x.com/MoniCoinMECO" target="_blank">𝕏</a>
-                <a href="https://t.me/monycoin1" target="_blank">✈️</a>
-                <a href="https://github.com/MonyCoin" target="_blank">🐙</a>
-                <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank">📘</a>
-            </div>
             <div class="legal-links">
                 <a href="privacy.html">سياسة الخصوصية</a>
                 <a href="terms.html">شروط الاستخدام</a>
+                <a href="notice.html">حقوق الملكية الفكرية</a>
             </div>
             <div style="margin-bottom:12px;">
-                <span style="color:var(--text-secondary); font-size:0.85rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
+                <span style="color:var(--text-secondary); font-size:0.8rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
             </div>
             <p>© 2026 MonyCoin Digital Development Foundation. Some rights reserved under the 0BSD License.</p>
             <p style="margin-top:4px;">المؤسس: محمد سعادة</p>
