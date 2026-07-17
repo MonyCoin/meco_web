@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECO — العرض التعريفي</title>
+    <meta name="description" content="تعرف على منظومة MECO المالية — أول محفظة عربية لا مركزية على Solana">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E74C3C;
+            --primary-dark: #C0392B;
+            --bg: #0A0A0F;
+            --surface: #1A1A2E;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0B0;
+            --font: 'Tajawal', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* ── شريط التقدم العلوي ── */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary);
+            z-index: 1000;
+            transition: width 0.5s ease;
+        }
+
+        /* ── حاوية الشرائح ── */
+        .slides-container {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            height: 100vh;
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ── خلفيات متدرجة لكل شريحة ── */
+        .slide:nth-child(1) { background: radial-gradient(ellipse at center, rgba(231,76,60,0.15) 0%, var(--bg) 70%); }
+        .slide:nth-child(2) { background: radial-gradient(ellipse at top left, rgba(231,76,60,0.12) 0%, var(--bg) 70%); }
+        .slide:nth-child(3) { background: radial-gradient(ellipse at bottom right, rgba(231,76,60,0.12) 0%, var(--bg) 70%); }
+        .slide:nth-child(4) { background: radial-gradient(ellipse at center, rgba(231,76,60,0.10) 0%, var(--bg) 70%); }
+        .slide:nth-child(5) { background: radial-gradient(ellipse at top right, rgba(231,76,60,0.12) 0%, var(--bg) 70%); }
+        .slide:nth-child(6) { background: radial-gradient(ellipse at center, rgba(231,76,60,0.15) 0%, var(--bg) 70%); }
+        .slide:nth-child(7) { background: linear-gradient(135deg, rgba(231,76,60,0.2) 0%, var(--bg) 60%); }
+
+        .slide-content {
+            max-width: 700px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* ── شريحة 1: العنوان ── */
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            margin: 0 auto 32px;
+            box-shadow: 0 20px 50px rgba(231, 76, 60, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .hero-title span { color: var(--primary); }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        /* ── أيقونات الشرائح ── */
+        .slide-icon {
+            font-size: 4rem;
+            margin-bottom: 24px;
+            display: block;
+            animation: popIn 0.6s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .slide-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .slide-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-bottom: 16px;
+        }
+
+        .slide-text b { color: var(--text); }
+
+        /* ── قوائم ── */
+        .feature-list {
+            list-style: none;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .feature-list li {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-list li .check {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ── بطاقات الإحصائيات ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(231,76,60,0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ── زر التحميل ── */
+        .cta-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #FFF;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            margin-top: 32px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(231,76,60,0.4);
+        }
+
+        .cta-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(231,76,60,0.5);
+        }
+
+        /* ── أزرار التنقل ── */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #FFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 28px;
+            border-radius: 12px;
+        }
+
+        /* ── زر تخطي/إنهاء ── */
+        .skip-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 100;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .skip-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #FFF;
+        }
+
+        /* ── تجاوب ── */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .slide-title { font-size: 1.6rem; }
+            .slide-text { font-size: 0.95rem; }
+            .slide { padding: 40px 24px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stat-num { font-size: 1.5rem; }
+            .hero-logo { width: 90px; height: 90px; }
+            .feature-list li { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التقدم -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- زر العودة للرئيسية -->
+    <a href="about.html" class="skip-btn" id="skipBtn">⟵ تخطي العرض</a>
+
+    <!-- الشرائح -->
+    <div class="slides-container" id="slidesContainer">
+
+        <!-- شريحة 1: العنوان -->
+        <div class="slide">
+            <div class="slide-content">
+                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="hero-logo">
+                <h1 class="hero-title">منظومة <span>MECO</span> المالية</h1>
+                <p class="hero-subtitle">أول محفظة عربية لا مركزية على شبكة Solana</p>
+                <p class="hero-subtitle" style="font-size:0.9rem; margin-top:8px;">رمز رقمي + محفظة ذكية = تجربة مالية متكاملة</p>
+            </div>
+        </div>
+
+        <!-- شريحة 2: من نحن -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">🏛️</div>
+                <h2 class="slide-title">من نحن</h2>
+                <p class="slide-text">
+                    <b>مؤسسة MonyCoin للتطوير الرقمي</b> هي مؤسسة تقنية رائدة متخصصة في تخطيط وتنفيذ المشروعات الرقمية الحديثة المعتمدة على تقنيات البلوكتشين.
+                </p>
+                <p class="slide-text">
+                    نعمل وفق رؤية واضحة ومنهجية مؤسسية لبناء <b>حلول رقمية حقيقية ومستدامة</b> تخدم المستخدمين والمجتمع الرقمي.
+                </p>
+            </div>
+        </div>
+
+        <!-- شريحة 3: منظومة MECO -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">💡</div>
+                <h2 class="slide-title">منظومة MECO المالية</h2>
+                <p class="slide-text">تتكون المنظومة من <b>جزأين رئيسيين مترابطين</b>:</p>
+                <ul class="feature-list">
+                    <li><span class="check">🪙</span> <b>رمز MECO</b> — عرض ثابت 1 مليار، عقد متنازل عنه، 0% ضرائب</li>
+                    <li><span class="check">📱</span> <b>محفظة MECO Wallet</b> — تطبيق لامركزي متكامل للإرسال والتبادل والتخزين</li>
+                </ul>
+                <p class="slide-text" style="margin-top:16px;">
+                    🎯 <b>الهدف:</b> مفهوم جديد للرموز الرقمية قائم على القيمة الحقيقية والاستخدام الفعلي
+                </p>
+            </div>
+        </div>
+
+        <!-- شريحة 4: المميزات -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">🔐</div>
+                <h2 class="slide-title">مميزات MECO Wallet</h2>
+                <ul class="feature-list">
+                    <li><span class="check">✔️</span> أمان كامل — أنت المالك الوحيد لمحفظتك (12 كلمة سرية)</li>
+                    <li><span class="check">✔️</span> حتى 10 حسابات منفصلة لإدارة مشاريعك الرقمية</li>
+                    <li><span class="check">✔️</span> مبادلة فورية عبر Jupiter API بأفضل الأسعار</li>
+                    <li><span class="check">✔️</span> نظام Staking بعوائد تصل إلى 40% سنوياً</li>
+                    <li><span class="check">✔️</span> متصفح Web3 مدمج وربط عبر WalletConnect</li>
+                    <li><span class="check">✔️</span> رسوم شبكة منخفضة (~0.04$)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- شريحة 5: الأرقام -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">📊</div>
+                <h2 class="slide-title">منظومة MECO بالأرقام</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-num">1,000,000,000</div>
+                        <div class="stat-lbl">إجمالي المعروض (ثابت)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">0%</div>
+                        <div class="stat-lbl">ضرائب على المعاملات</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">10</div>
+                        <div class="stat-lbl">حسابات فرعية داخل المحفظة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">40%</div>
+                        <div class="stat-lbl">أعلى عائد سنوي للتخزين</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريحة 6: النموذج الاقتصادي -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">🔄</div>
+                <h2 class="slide-title">منظومة ذاتية النمو</h2>
+                <p class="slide-text">
+                    تعتمد MECO على <b>نموذج اقتصادي ذكي ومستدام</b>:
+                </p>
+                <ul class="feature-list">
+                    <li><span class="check">💰</span> جميع رسوم الاستخدام تُجمع في <b>محفظة رسوم معلنة</b></li>
+                    <li><span class="check">🔁</span> تُوجَّه تلقائياً إلى <b>مجمع سيولة MECO</b> على منصة Orca</li>
+                </ul>
+                <p class="slide-text" style="margin-top:16px;">
+                    النتيجة: <b>دعم مستمر للسيولة</b> + نمو تدريجي للقيمة + استدامة بدون مضاربات
+                </p>
+            </div>
+        </div>
+
+        <!-- شريحة 7: دعوة للتحميل -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="slide-icon">🚀</div>
+                <h2 class="slide-title">ابدأ رحلتك الآن</h2>
+                <p class="slide-text">
+                    منظومة مالية متكاملة تنتظرك. <b>حَمِّل التطبيق</b> وانضم إلى مستقبل التمويل الرقمي العربي.
+                </p>
+                <a href="https://monycoin.github.io/meco_wallet-app/" class="cta-btn">
+                    ⬇️ تحميل MECO Wallet
+                </a>
+                <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:20px;">
+                    🌐 <a href="https://monycoin.github.io/meco-token/" style="color:var(--primary);">الموقع الرسمي</a>
+                    &nbsp;|&nbsp;
+                    🐙 <a href="https://github.com/MonyCoin" style="color:var(--primary);">GitHub</a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- أزرار التنقل السفلية -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" title="السابق">‹</button>
+        <div class="dots" id="dotsContainer"></div>
+        <button class="nav-btn" id="nextBtn" title="التالي">›</button>
+    </div>
+
+    <script>
+        const slidesContainer = document.getElementById('slidesContainer');
+        const progressBar = document.getElementById('progressBar');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const skipBtn = document.getElementById('skipBtn');
+
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let autoPlayInterval;
+        const AUTO_PLAY_DELAY = 5000; // 5 ثواني لكل شريحة
+
+        // إنشاء النقاط
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateUI() {
+            // تحريك الشرائح
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+
+            // تحديث شريط التقدم
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+
+            // تحديث النقاط
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            // تحديث زر التخطي في الشريحة الأخيرة
+            if (currentSlide === totalSlides - 1) {
+                skipBtn.textContent = '⟵ إنهاء العرض';
+                skipBtn.href = 'about.html';
+            } else {
+                skipBtn.textContent = '⟵ تخطي العرض';
+                skipBtn.href = 'about.html';
+            }
+
+            // إعادة تشغيل الأنيميشن للأيقونات
+            const currentSlideEl = slides[currentSlide];
+            const icon = currentSlideEl.querySelector('.slide-icon');
+            if (icon) {
+                icon.style.animation = 'none';
+                icon.offsetHeight; // trigger reflow
+                icon.style.animation = 'popIn 0.6s ease-out';
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateUI();
+            resetAutoPlay();
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateUI();
+            resetAutoPlay();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateUI();
+            resetAutoPlay();
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(nextSlide, AUTO_PLAY_DELAY);
+        }
+
+        // أحداث الأزرار
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // التنقل بلوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // دعم اللمس (سحب)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slidesContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slidesContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide(); // سحب لليسار = التالي
+                } else {
+                    prevSlide(); // سحب لليمين = السابق
+                }
+            }
+        });
+
+        // بدء التشغيل التلقائي
+        updateUI();
+        autoPlayInterval = setInterval(nextSlide, AUTO_PLAY_DELAY);
+    </script>
+</body>
+</html>
