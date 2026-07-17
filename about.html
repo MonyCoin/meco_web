@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عن المشروع — MECO Wallet</title>
-    <meta name="description" content="قصة مشروع MECO: الرؤية، المؤسسة، والتطبيق. أول محفظة عربية لا مركزية على Solana.">
+    <meta name="description" content="مؤسسة MonyCoin للتطوير الرقمي ومنظومة MECO المالية: أول محفظة عربية لا مركزية على Solana.">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,6 +77,13 @@
         .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
         .content-card p, .content-card ul { color: var(--text-secondary); font-size: 1rem; margin-bottom: 12px; }
         .content-card ul { padding-right: 20px; }
+        .content-card ul li { margin-bottom: 8px; }
+
+        /* بطاقات الإحصائيات */
+        .stats-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 16px; }
+        .stat-mini { background: var(--surface-light); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border); }
+        .stat-mini .num { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+        .stat-mini .lbl { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
 
         footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
         footer .legal-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
@@ -122,45 +129,100 @@
     <section class="page-hero">
         <div class="container">
             <h1>🏛️ <span>عن المشروع</span></h1>
-            <p>تعرف على قصة MECO، المؤسسة، والرؤية وراء أول محفظة عربية لا مركزية على Solana</p>
+            <p>تعرف على مؤسسة MonyCoin للتطوير الرقمي ومنظومة MECO المالية المتكاملة</p>
         </div>
     </section>
 
     <section>
         <div class="container">
+
+            <!-- من نحن -->
             <div class="content-card">
                 <h2>من نحن</h2>
-                <p>مؤسسة <b>MonyCoin للتطوير التقني</b> هي كيان مستقل تأسس لبناء وإدارة منظومة MECO. نحن فريق من المطورين والمختصين في تقنية البلوكشين، مهمتنا تقديم حلول مالية رقمية آمنة وشفافة للمستخدم العربي. انطلقنا من شاشة هاتف محمول، ونمضي نحو بناء مؤسسة رقمية رائدة على شبكة Solana.</p>
+                <p><b>مؤسسة MonyCoin للتطوير الرقمي</b> هي مؤسسة تقنية رائدة متخصصة في تخطيط وتنفيذ المشروعات الرقمية الحديثة المعتمدة على تقنيات البلوكتشين. نعمل وفق رؤية واضحة ومنهجية مؤسسية لبناء حلول رقمية حقيقية ومستدامة تخدم المستخدمين والمجتمع الرقمي، بعيداً عن العشوائية والمشاريع المؤقتة.</p>
+                <p>من أبرز إنجازات المؤسسة وأحد أهم مشاريعها التي دخلت حيز التنفيذ الفعلي: <b>منظومة MECO المالية</b> — أول منظومة مالية عربية لا مركزية على شبكة Solana، والتي صُممت لتكون نواة مستقبلية قوية للتوسع في عالم Web3.</p>
             </div>
 
+            <!-- منظومة MECO المالية -->
             <div class="content-card">
-                <h2>قصة المشروع</h2>
-                <p>وُلدت فكرة MECO من سؤال بسيط: <b>لماذا لا توجد محفظة عربية حقيقية على Solana؟</b> من هذا السؤال، بدأ المؤسس "محمد سعادة" رحلة تطوير استمرت لأكثر من عام كامل، تم فيها بناء تطبيق MECO Wallet من الصفر على هاتف محمول. لم يكن الهدف مجرد محفظة، بل منظومة متكاملة تقدم تجربة مالية كاملة: إرسال، استقبال، تبادل، تخزين، ومتابعة السوق، كل ذلك بواجهة عربية أنيقة.</p>
-            </div>
+                <h2>💡 منظومة MECO المالية</h2>
+                <p>منظومة MECO تتكون من جزأين رئيسيين مترابطين، صُمما معاً لتقديم تجربة مالية متكاملة:</p>
 
-            <div class="content-card">
-                <h2>رؤيتنا</h2>
-                <p>نطمح إلى بناء <b>أول منظومة مالية رقمية عربية متكاملة</b> على شبكة Solana، تقدم للمستخدم العربي تجربة سلسة وآمنة وشفافة في عالم Web3. نؤمن بأن الشفافية هي أساس الثقة، لذلك جميع محافظنا وعقودنا وسياساتنا منشورة للعموم.</p>
-            </div>
-
-            <div class="content-card">
-                <h2>MECO Wallet</h2>
-                <p>تطبيق MECO Wallet هو الإنجاز التقني الأبرز للمؤسسة. إنه محفظة لا مركزية (Non-Custodial) تدعم:</p>
+                <h3 style="color:var(--primary); margin-top:20px;">1️⃣ رمز MECO (MECO Token)</h3>
+                <p>رمز رقمي مبني على شبكة Solana بمعيار SPL Token، يتميز بالندرة والشفافية:</p>
                 <ul>
-                    <li>إنشاء وإدارة حتى 10 حسابات فرعية</li>
-                    <li>إرسال واستقبال SOL وجميع رموز SPL</li>
-                    <li>تبادل فوري عبر Jupiter API</li>
-                    <li>تخزين العملات (Staking) بعوائد مغرية</li>
-                    <li>شاشة سوق حية ومتصفح Web3 مدمج</li>
-                    <li>دعم كامل للغة العربية والإنجليزية</li>
+                    <li><b>إجمالي المعروض:</b> 1,000,000,000 MECO (ثابت لا يتغير)</li>
+                    <li><b>الضرائب:</b> 0%</li>
+                    <li><b>العقد:</b> تم التنازل عنه بالكامل (غير قابل للتعديل)</li>
+                    <li><b>الشفافية:</b> مشروع موثق ومعلن رسمياً على GitHub</li>
                 </ul>
-                <p>التطبيق متاح للتحميل من <a href="https://monycoin.github.io/meco_wallet-app/" style="color:var(--primary)">الرابط الرسمي</a>.</p>
+                <p>🎯 <b>الهدف:</b> تقديم مفهوم جديد للرموز الرقمية قائم على القيمة الحقيقية والاستخدام الفعلي، وليس على المضاربة.</p>
+
+                <h3 style="color:var(--primary); margin-top:20px;">2️⃣ محفظة MECO Wallet — العمود الفقري</h3>
+                <p>أول محفظة رقمية عربية لا مركزية على شبكة Solana، تقدم تجربة متكاملة وآمنة للمستخدم عبر مجموعة واسعة من الميزات المتقدمة.</p>
             </div>
 
+            <!-- مميزات التطبيق -->
+            <div class="content-card">
+                <h2>🔐 مميزات MECO Wallet</h2>
+                <ul>
+                    <li><b>✔️ أمان كامل —</b> أنت المالك الوحيد لمحفظتك. لا يمكن لأي جهة الوصول إلى أموالك طالما تحافظ على العبارة السرية (12 كلمة).</li>
+                    <li><b>✔️ إنشاء مشاريع رقمية —</b> إمكانية إنشاء حتى 10 حسابات منفصلة لإدارة مشاريع متعددة أو إطلاق رموز رقمية خاصة بك.</li>
+                    <li><b>✔️ استثمار حقيقي —</b> إنشاء مجمعات سيولة على منصات Orca وRaydium، والتداول والاستثمار في عملات مثل SOL وORCA وJUP وMECO، مع أرباح مستدامة من السيولة.</li>
+                    <li><b>✔️ خدمات أساسية متكاملة —</b> إرسال واستقبال، مبادلة فورية بأفضل الأسعار عبر Jupiter API، ورسوم شبكة منخفضة جداً.</li>
+                    <li><b>✔️ نظام Staking متقدم —</b> خطط مرنة و30 و60 يوم، بعوائد تصل إلى 15% – 25% – 40%، مما يساهم في تقليل المعروض وزيادة قيمة الرمز.</li>
+                    <li><b>✔️ متصفح Web3 مدمج —</b> استكشف التطبيقات اللامركزية واربط محفظتك عبر WalletConnect بمسح QR مباشر.</li>
+                </ul>
+            </div>
+
+            <!-- إحصائيات سريعة -->
+            <div class="content-card">
+                <h2>📊 منظومة MECO بالأرقام</h2>
+                <div class="stats-mini">
+                    <div class="stat-mini">
+                        <div class="num">1B</div>
+                        <div class="lbl">إجمالي المعروض</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="num">0%</div>
+                        <div class="lbl">ضرائب</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="num">10</div>
+                        <div class="lbl">حسابات فرعية</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="num">40%</div>
+                        <div class="lbl">أعلى عائد Staking</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- رؤيتنا -->
+            <div class="content-card">
+                <h2>🌍 رؤيتنا</h2>
+                <p>نحن لا نقدم مجرد رمز رقمي أو تطبيق، بل نبني <b>منظومة مالية متكاملة</b> قادرة على النمو الذاتي، ودعم المجتمع، وتحقيق قيمة حقيقية طويلة المدى.</p>
+                <p>نطمح لأن تكون MECO هي <b>البوابة الرقمية الأولى</b> لكل مستخدم عربي يدخل عالم Web3. نؤمن بأن الشفافية المؤسسية الكاملة هي الطريق الوحيد لبناء ثقة دائمة مع مجتمعنا، ولذلك جميع محافظنا وعقودنا وسياساتنا منشورة للعموم على GitHub.</p>
+            </div>
+
+            <!-- المؤسس -->
             <div class="content-card">
                 <h2>المؤسس</h2>
-                <p>قاد عملية التطوير <b>محمد سعادة</b>، مؤسس المشروع، الذي عمل بشكل منفرد على برمجة وتصميم وإطلاق التطبيق بالكامل من هاتف محمول، متحديًا كل الصعاب التقنية ومثبتًا أن الإرادة تصنع المستحيل.</p>
+                <p>قاد عملية تطوير منظومة MECO بالكامل <b>محمد سعادة</b>، مؤسس المشروع والمهندس الرئيسي وراء بناء التطبيق من الألف إلى الياء. بخبرة تقنية عميقة في مجال البلوكتشين وتطوير التطبيقات اللامركزية، استطاع تحويل فكرة طموحة إلى منتج حقيقي يعمل على شبكة Solana الرئيسية، ليكون أول مشروع عربي متكامل في هذا المجال.</p>
+                <p>تحت قيادته، تواصل المؤسسة تطوير المنظومة وتوسيع نطاق خدماتها، مع الالتزام الدائم بالشفافية والجودة والابتكار.</p>
             </div>
+
+            <!-- نموذج اقتصادي -->
+            <div class="content-card">
+                <h2>🔄 منظومة ذاتية النمو</h2>
+                <p>تعتمد MECO على نموذج اقتصادي ذكي ومستدام:</p>
+                <ul>
+                    <li>جميع رسوم الاستخدام داخل التطبيق تُجمع في <b>محفظة رسوم معلنة</b> للعموم</li>
+                    <li>يتم توجيه الرسوم تلقائياً إلى <b>مجمع سيولة MECO</b> على منصة Orca</li>
+                </ul>
+                <p>ينتج عن هذه الآلية: دعم مستمر للسيولة، نمو تدريجي لقيمة الرمز، واستدامة حقيقية للمشروع بدون الاعتماد على المضاربات.</p>
+            </div>
+
         </div>
     </section>
 
