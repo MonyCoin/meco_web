@@ -33,7 +33,6 @@
             overflow: hidden;
             height: 100vh;
             width: 100vw;
-            cursor: default;
         }
 
         /* ══════════════ شاشه التحميل السينمائية ══════════════ */
@@ -46,7 +45,12 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            animation: introFade 1s ease 4s forwards;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .intro-logo {
@@ -54,7 +58,7 @@
             height: 140px;
             border-radius: 30px;
             box-shadow: 0 0 80px var(--primary-glow);
-            animation: introPulse 1.5s ease-in-out infinite, introZoom 4s ease forwards;
+            animation: introPulse 1.5s ease-in-out infinite;
         }
 
         .intro-text {
@@ -86,18 +90,12 @@
             height: 100%;
             width: 0;
             background: linear-gradient(90deg, var(--primary), var(--gold));
-            animation: loadBar 3.5s ease forwards;
+            animation: loadBar 2.5s ease forwards;
         }
 
         @keyframes introPulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 60px var(--primary-glow); }
             50% { transform: scale(1.08); box-shadow: 0 0 100px var(--primary); }
-        }
-        @keyframes introZoom {
-            to { transform: scale(2.5); opacity: 0; }
-        }
-        @keyframes introFade {
-            to { opacity: 0; visibility: hidden; }
         }
         @keyframes shimmer {
             to { background-position: -200% 0; }
@@ -146,14 +144,13 @@
             width: 100vw; height: 100vh;
             overflow: hidden;
             z-index: 1;
-            perspective: 1500px;
         }
 
         .slides-container {
             display: flex;
             transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1);
             height: 100%;
-            transform-style: preserve-3d;
+            width: 100%;
         }
 
         .slide {
@@ -173,10 +170,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%),
-                rgba(231, 76, 60, 0.15) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 50% 50%, rgba(231, 76, 60, 0.12) 0%, transparent 60%);
             z-index: 0;
-            transition: background 0.3s;
         }
 
         .slide-content {
@@ -184,14 +179,10 @@
             text-align: center;
             z-index: 2;
             position: relative;
+            width: 100%;
         }
 
         /* ══════════════ الهيرو السينمائي ══════════════ */
-        .hero-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
         .hero-logo {
             width: 140px;
             height: 140px;
@@ -203,24 +194,9 @@
             animation: heroFloat 4s ease-in-out infinite;
         }
 
-        .hero-logo::before, .hero-logo::after {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            border-radius: 40px;
-            border: 2px solid var(--primary);
-            opacity: 0;
-            animation: ringPulse 3s ease-out infinite;
-        }
-        .hero-logo::after { animation-delay: 1.5s; }
-
         @keyframes heroFloat {
             0%, 100% { transform: translateY(0) rotate(0); }
             50% { transform: translateY(-20px) rotate(2deg); }
-        }
-        @keyframes ringPulse {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
         }
 
         .hero-title {
@@ -230,10 +206,10 @@
             margin-bottom: 20px;
             line-height: 1.2;
             background: linear-gradient(135deg, #FFF 0%, var(--primary) 50%, var(--gold) 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
             animation: gradientShift 5s ease infinite;
         }
 
@@ -246,8 +222,7 @@
             font-size: 1.3rem;
             color: var(--text-secondary);
             margin-bottom: 10px;
-            opacity: 0;
-            animation: fadeUp 1s ease 0.5s forwards;
+            animation: fadeUp 1s ease 0.5s both;
         }
 
         .hero-tagline {
@@ -259,9 +234,8 @@
             color: var(--primary);
             font-weight: 700;
             font-size: 0.9rem;
-            opacity: 0;
-            animation: fadeUp 1s ease 1s forwards;
             background: rgba(231, 76, 60, 0.05);
+            animation: fadeUp 1s ease 1s both;
         }
 
         @keyframes fadeUp {
@@ -387,18 +361,6 @@
             transform: scale(1);
         }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .stat-card:hover::before { opacity: 0.3; }
-
         .stat-card:hover {
             transform: translateY(-8px) scale(1.03);
             border-color: var(--primary);
@@ -435,7 +397,7 @@
         .screenshot-track {
             display: flex;
             gap: 16px;
-            animation: scrollGallery 30s linear infinite;
+            animation: scrollGallery 25s linear infinite;
         }
 
         @keyframes scrollGallery {
@@ -466,14 +428,6 @@
         .screenshot-frame img {
             width: 100%; height: 100%;
             object-fit: cover;
-        }
-
-        .screenshot-frame::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.8) 100%);
-            pointer-events: none;
         }
 
         /* ══════════════ المخطط البياني المتحرك ══════════════ */
@@ -585,6 +539,7 @@
             color: #FFF; font-size: 1.3rem; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s;
+            font-family: var(--font);
         }
 
         .nav-btn:hover {
@@ -667,25 +622,6 @@
             .screenshot-frame { width: 110px; }
             .feature-list li { font-size: 0.9rem; padding: 10px 14px; }
         }
-
-        /* ══════════════ مؤشر الفأرة ══════════════ */
-        .cursor-glow {
-            position: fixed;
-            width: 30px; height: 30px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-glow.hover {
-            width: 60px; height: 60px;
-            border-color: var(--gold);
-            background: rgba(231, 76, 60, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -697,16 +633,13 @@
         <div class="intro-bar"></div>
     </div>
 
-    <!-- ══════ مؤشر الفأرة المضيء ══════ -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-
     <!-- ══════ الخلفيات المتحركة ══════ -->
     <canvas id="matrixCanvas"></canvas>
     <canvas id="particlesCanvas"></canvas>
     <div class="grid-bg"></div>
 
     <!-- ══════ شريط التقدم ══════ -->
-    <div class="progress-bar" id="progressBar"></div>
+    <div class="progress-bar" id="progressBar" style="width: 11%;"></div>
 
     <!-- ══════ عداد الشرائح ══════ -->
     <div class="slide-counter">
@@ -723,9 +656,7 @@
             <!-- ════ شريحة 1: البطل ════ -->
             <div class="slide" data-slide="1">
                 <div class="slide-content">
-                    <div class="hero-wrapper">
-                        <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="hero-logo">
-                    </div>
+                    <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="hero-logo">
                     <h1 class="hero-title">منظومة MECO</h1>
                     <p class="hero-subtitle">أول محفظة عربية لا مركزية على شبكة Solana</p>
                     <p class="hero-subtitle" style="font-size:0.95rem;">رمز رقمي + محفظة ذكية = مستقبل التمويل الرقمي العربي</p>
@@ -859,362 +790,368 @@
     <!-- ══════ أزرار التنقل ══════ -->
     <div class="nav-controls">
         <button class="nav-btn" id="prevBtn" title="السابق">‹</button>
-        <button class="nav-btn play-btn" id="playBtn" title="تشغيل/إيقاف">▶</button>
+        <button class="nav-btn play-btn" id="playBtn" title="تشغيل/إيقاف">⏸</button>
         <div class="dots" id="dotsContainer"></div>
         <button class="nav-btn" id="nextBtn" title="التالي">›</button>
     </div>
 
     <script>
     /* ═══════════════════════════════════════════════════════════════
-       🎬 MECO CINEMATIC PRESENTATION - ENGINE
+       🎬 MECO CINEMATIC PRESENTATION - ENGINE v2.0
        ═══════════════════════════════════════════════════════════════ */
 
-    const CONFIG = {
-        autoPlayDelay: 6000,           // مدة كل شريحة
-        cursorGlowEnabled: true,       // مؤشر الفأرة المضيء
-        matrixRainEnabled: true,       // خلفية المطر الرقمي
-        particlesEnabled: true,        // الجزيئات
-        gallerySpeed: 25,              // سرعة معرض الصور (ثواني)
-    };
+    (function() {
+        'use strict';
 
-    /* ─── تحميل الصور ─── */
-    const BASE_URL = 'https://raw.githubusercontent.com/MonyCoin/meco_web/main';
-    const screenshots = [];
-    for (let i = 1; i <= 12; i++) {
-        screenshots.push(`${BASE_URL}/screen_${i}_home.png`);
-    }
+        const CONFIG = {
+            autoPlayDelay: 6000,
+            particlesEnabled: true,
+            matrixRainEnabled: true,
+        };
 
-    // ملء معرض الصور
-    const galleryTrack = document.getElementById('galleryTrack');
-    if (galleryTrack) {
-        const allScreens = [...screenshots, ...screenshots]; // تكرار للحركة المستمرة
-        allScreens.forEach(src => {
-            const frame = document.createElement('div');
-            frame.className = 'screenshot-frame';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = 'MECO Wallet';
-            img.loading = 'lazy';
-            frame.appendChild(img);
-            galleryTrack.appendChild(frame);
-        });
-    }
+        // ══════ إزالة شاشة التحميل بعد 3 ثوانٍ ══════
+        setTimeout(function() {
+            const intro = document.getElementById('introOverlay');
+            if (intro) intro.classList.add('hidden');
+        }, 3000);
 
-    /* ─── نظام الشرائح ─── */
-    const slidesContainer = document.getElementById('slidesContainer');
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-    const totalNumEl = document.getElementById('totalNum');
-    const currentNumEl = document.getElementById('currentNum');
-    const progressBar = document.getElementById('progressBar');
-    const dotsContainer = document.getElementById('dotsContainer');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const playBtn = document.getElementById('playBtn');
-
-    totalNumEl.textContent = String(totalSlides).padStart(2, '0');
-
-    // إنشاء النقاط
-    for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToSlide(i));
-        dotsContainer.appendChild(dot);
-    }
-    const dots = document.querySelectorAll('.dot');
-
-    let currentSlide = 0;
-    let autoPlayInterval = null;
-    let isPlaying = true;
-
-    function updateUI() {
-        slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
-        progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
-        currentNumEl.textContent = String(currentSlide + 1).padStart(2, '0');
-
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
-
-        // تشغيل أنيميشن الشريحة الحالية
-        animateCurrentSlide();
-    }
-
-    function goToSlide(index) {
-        currentSlide = index;
-        updateUI();
-        resetAutoPlay();
-    }
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateUI();
-    }
-
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateUI();
-    }
-
-    function resetAutoPlay() {
-        if (isPlaying) {
-            clearInterval(autoPlayInterval);
-            autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
-        }
-    }
-
-    function togglePlay() {
-        isPlaying = !isPlaying;
-        playBtn.innerHTML = isPlaying ? '⏸' : '▶';
-        if (isPlaying) {
-            autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
-        } else {
-            clearInterval(autoPlayInterval);
-        }
-    }
-
-    prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
-    nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
-    playBtn.addEventListener('click', togglePlay);
-
-    // الكيبورد
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') nextSlide();
-        else if (e.key === 'ArrowLeft') prevSlide();
-        else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
-    });
-
-    // اللمس
-    let touchStartX = 0;
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    });
-    document.addEventListener('touchend', (e) => {
-        const dx = touchStartX - e.changedTouches[0].screenX;
-        if (Math.abs(dx) > 50) dx > 0 ? nextSlide() : prevSlide();
-    });
-
-    // عجلة الفأرة
-    let wheelTimeout;
-    document.addEventListener('wheel', (e) => {
-        if (wheelTimeout) return;
-        e.preventDefault();
-        e.deltaY > 0 ? nextSlide() : prevSlide();
-        wheelTimeout = setTimeout(() => wheelTimeout = null, 1000);
-        resetAutoPlay();
-    }, { passive: false });
-
-    /* ─── تأثيرات الفأرة على الشرائح ─── */
-    slides.forEach(slide => {
-        slide.addEventListener('mousemove', (e) => {
-            const rect = slide.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            slide.style.setProperty('--mx', x + '%');
-            slide.style.setProperty('--my', y + '%');
-        });
-    });
-
-    /* ─── أنيميشن دخول عناصر الشريحة ─── */
-    function animateCurrentSlide() {
-        const slide = slides[currentSlide];
-        if (!slide) return;
-
-        // القوائم
-        const lists = slide.querySelectorAll('[data-anim="list"] li');
-        lists.forEach((li, i) => {
-            setTimeout(() => li.classList.add('visible'), i * 200);
-        });
-
-        // بطاقات الإحصائيات
-        const cards = slide.querySelectorAll('.stat-card');
-        cards.forEach((card, i) => {
-            setTimeout(() => {
-                card.classList.add('visible');
-                // عد الأرقام
-                const numEl = card.querySelector('.stat-num');
-                if (numEl && numEl.dataset.count) {
-                    animateNumber(numEl);
-                }
-            }, i * 200);
-        });
-
-        // عقد المخطط
-        const nodes = slide.querySelectorAll('[data-anim="node"]');
-        nodes.forEach((node, i) => {
-            setTimeout(() => node.classList.add('visible'), i * 300);
-        });
-    }
-
-    /* ─── عد الأرقام المتحرك ─── */
-    function animateNumber(el) {
-        const target = parseInt(el.dataset.count);
-        const suffix = el.dataset.suffix || '';
-        const duration = 2000;
-        const start = performance.now();
-
-        if (target === 0) {
-            el.textContent = '0' + suffix;
-            return;
+        // ══════ تحميل الصور وملء المعرض ══════
+        const BASE_URL = 'https://raw.githubusercontent.com/MonyCoin/meco_web/main';
+        const screenshots = [];
+        for (let i = 1; i <= 12; i++) {
+            screenshots.push(BASE_URL + '/screen_' + i + '_home.png');
         }
 
-        function update(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(target * easeOut);
+        const galleryTrack = document.getElementById('galleryTrack');
+        if (galleryTrack) {
+            const allScreens = screenshots.concat(screenshots);
+            allScreens.forEach(function(src) {
+                const frame = document.createElement('div');
+                frame.className = 'screenshot-frame';
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'MECO Wallet';
+                img.loading = 'lazy';
+                frame.appendChild(img);
+                galleryTrack.appendChild(frame);
+            });
+        }
 
-            if (target >= 1000000) {
-                el.textContent = current.toLocaleString('en-US') + suffix;
-            } else {
-                el.textContent = current + suffix;
+        // ══════ نظام الشرائح ══════
+        const slidesContainer = document.getElementById('slidesContainer');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const totalNumEl = document.getElementById('totalNum');
+        const currentNumEl = document.getElementById('currentNum');
+        const progressBar = document.getElementById('progressBar');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const playBtn = document.getElementById('playBtn');
+
+        if (totalNumEl) totalNumEl.textContent = String(totalSlides).padStart(2, '0');
+
+        // إنشاء النقاط
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            (function(index) {
+                dot.addEventListener('click', function() { goToSlide(index); });
+            })(i);
+            dotsContainer.appendChild(dot);
+        }
+        const dots = document.querySelectorAll('.dot');
+
+        let currentSlide = 0;
+        let autoPlayInterval = null;
+        let isPlaying = true;
+
+        function updateUI() {
+            if (slidesContainer) {
+                slidesContainer.style.transform = 'translateX(-' + (currentSlide * 100) + 'vw)';
+            }
+            if (progressBar) {
+                progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+            }
+            if (currentNumEl) {
+                currentNumEl.textContent = String(currentSlide + 1).padStart(2, '0');
             }
 
-            if (progress < 1) requestAnimationFrame(update);
-            else el.textContent = (target >= 1000000 ? target.toLocaleString('en-US') : target) + suffix;
+            dots.forEach(function(dot, i) {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            animateCurrentSlide();
         }
-        requestAnimationFrame(update);
-    }
 
-    /* ─── الجزيئات المتحركة ─── */
-    const particlesCanvas = document.getElementById('particlesCanvas');
-    const pCtx = particlesCanvas.getContext('2d');
-    let particles = [];
-
-    function resizeParticles() {
-        particlesCanvas.width = window.innerWidth;
-        particlesCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeParticles);
-    resizeParticles();
-
-    class Particle {
-        constructor() { this.reset(); }
-        reset() {
-            this.x = Math.random() * particlesCanvas.width;
-            this.y = Math.random() * particlesCanvas.height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 2 + 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
-            this.color = Math.random() > 0.5 ? '231,76,60' : '243,156,18';
+        function goToSlide(index) {
+            currentSlide = index;
+            updateUI();
+            resetAutoPlay();
         }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < 0 || this.x > particlesCanvas.width ||
-                this.y < 0 || this.y > particlesCanvas.height) {
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateUI();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateUI();
+        }
+
+        function resetAutoPlay() {
+            if (isPlaying) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
+            }
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (playBtn) playBtn.innerHTML = isPlaying ? '⏸' : '▶';
+            if (isPlaying) {
+                autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
+            } else {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); resetAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); resetAutoPlay(); });
+        if (playBtn) playBtn.addEventListener('click', togglePlay);
+
+        // الكيبورد
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); nextSlide(); }
+            else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+            else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+            else if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
+            else if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
+        });
+
+        // اللمس
+        let touchStartX = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        document.addEventListener('touchend', function(e) {
+            const dx = touchStartX - e.changedTouches[0].screenX;
+            if (Math.abs(dx) > 50) dx > 0 ? nextSlide() : prevSlide();
+        }, { passive: true });
+
+        // عجلة الفأرة
+        let wheelTimeout;
+        document.addEventListener('wheel', function(e) {
+            if (wheelTimeout) return;
+            e.preventDefault();
+            e.deltaY > 0 ? nextSlide() : prevSlide();
+            wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 1200);
+            resetAutoPlay();
+        }, { passive: false });
+
+        // ══════ أنيميشن عناصر الشريحة الحالية ══════
+        function animateCurrentSlide() {
+            const slide = slides[currentSlide];
+            if (!slide) return;
+
+            // إعادة تعيين العناصر
+            slide.querySelectorAll('.feature-list li').forEach(function(li) {
+                li.classList.remove('visible');
+            });
+            slide.querySelectorAll('.stat-card').forEach(function(card) {
+                card.classList.remove('visible');
+                const numEl = card.querySelector('.stat-num');
+                if (numEl) {
+                    const target = numEl.dataset.count;
+                    const suffix = numEl.dataset.suffix || '';
+                    if (target === '0') {
+                        numEl.textContent = '0' + suffix;
+                    } else {
+                        numEl.textContent = '0';
+                    }
+                }
+            });
+            slide.querySelectorAll('.flow-node').forEach(function(node) {
+                node.classList.remove('visible');
+            });
+
+            // تشغيل أنيميشن القوائم
+            const listItems = slide.querySelectorAll('[data-anim="list"] li');
+            listItems.forEach(function(li, i) {
+                setTimeout(function() { li.classList.add('visible'); }, 200 + (i * 200));
+            });
+
+            // تشغيل أنيميشن البطاقات
+            const cards = slide.querySelectorAll('.stat-card');
+            cards.forEach(function(card, i) {
+                setTimeout(function() {
+                    card.classList.add('visible');
+                    const numEl = card.querySelector('.stat-num');
+                    if (numEl && numEl.dataset.count) {
+                        animateNumber(numEl);
+                    }
+                }, 300 + (i * 250));
+            });
+
+            // تشغيل أنيميشن العقد
+            const nodes = slide.querySelectorAll('[data-anim="node"]');
+            nodes.forEach(function(node, i) {
+                setTimeout(function() { node.classList.add('visible'); }, 400 + (i * 300));
+            });
+        }
+
+        // ══════ عد الأرقام المتحرك ══════
+        function animateNumber(el) {
+            const target = parseInt(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            const duration = 2000;
+            const start = performance.now();
+
+            if (target === 0) {
+                el.textContent = '0' + suffix;
+                return;
+            }
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(target * easeOut);
+
+                if (target >= 1000000) {
+                    el.textContent = current.toLocaleString('en-US') + suffix;
+                } else {
+                    el.textContent = current + suffix;
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    el.textContent = (target >= 1000000 ? target.toLocaleString('en-US') : target) + suffix;
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // ══════ الجزيئات المتحركة ══════
+        const particlesCanvas = document.getElementById('particlesCanvas');
+        if (particlesCanvas) {
+            const pCtx = particlesCanvas.getContext('2d');
+            let particles = [];
+
+            function resizeParticles() {
+                particlesCanvas.width = window.innerWidth;
+                particlesCanvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeParticles);
+            resizeParticles();
+
+            function Particle() {
                 this.reset();
             }
+            Particle.prototype.reset = function() {
+                this.x = Math.random() * particlesCanvas.width;
+                this.y = Math.random() * particlesCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '231,76,60' : '243,156,18';
+            };
+            Particle.prototype.update = function() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > particlesCanvas.width ||
+                    this.y < 0 || this.y > particlesCanvas.height) {
+                    this.reset();
+                }
+            };
+            Particle.prototype.draw = function() {
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fillStyle = 'rgba(' + this.color + ',' + this.opacity + ')';
+                pCtx.fill();
+            };
+
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+            function animateParticles() {
+                pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+                particles.forEach(function(p) { p.update(); p.draw(); });
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 130) {
+                            pCtx.beginPath();
+                            pCtx.moveTo(particles[i].x, particles[i].y);
+                            pCtx.lineTo(particles[j].x, particles[j].y);
+                            pCtx.strokeStyle = 'rgba(231,76,60,' + (0.08 * (1 - dist/130)) + ')';
+                            pCtx.lineWidth = 0.6;
+                            pCtx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
         }
-        draw() {
-            pCtx.beginPath();
-            pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            pCtx.fillStyle = `rgba(${this.color},${this.opacity})`;
-            pCtx.fill();
-        }
-    }
 
-    for (let i = 0; i < 80; i++) particles.push(new Particle());
+        // ══════ خلفية المطر الرقمي (Matrix) ══════
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        if (matrixCanvas) {
+            const mCtx = matrixCanvas.getContext('2d');
+            const matrixChars = 'MECO01';
+            let matrixDrops = [];
 
-    function animateParticles() {
-        pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-
-        // خطوط الربط
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 130) {
-                    pCtx.beginPath();
-                    pCtx.moveTo(particles[i].x, particles[i].y);
-                    pCtx.lineTo(particles[j].x, particles[j].y);
-                    pCtx.strokeStyle = `rgba(231,76,60,${0.08 * (1 - dist/130)})`;
-                    pCtx.lineWidth = 0.6;
-                    pCtx.stroke();
+            function resizeMatrix() {
+                matrixCanvas.width = window.innerWidth;
+                matrixCanvas.height = window.innerHeight;
+                const fontSize = 14;
+                const columns = Math.floor(matrixCanvas.width / fontSize);
+                matrixDrops = [];
+                for (let i = 0; i < columns; i++) {
+                    matrixDrops.push(Math.random() * matrixCanvas.height);
                 }
             }
-        }
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
+            window.addEventListener('resize', resizeMatrix);
+            resizeMatrix();
 
-    /* ─── خلفية المطر الرقمي (Matrix) ─── */
-    const matrixCanvas = document.getElementById('matrixCanvas');
-    const mCtx = matrixCanvas.getContext('2d');
-    const matrixChars = 'MECO01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-    let matrixDrops = [];
+            function drawMatrix() {
+                mCtx.fillStyle = 'rgba(5, 5, 10, 0.05)';
+                mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                mCtx.fillStyle = '#E74C3C';
+                mCtx.font = '14px monospace';
 
-    function resizeMatrix() {
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-        const fontSize = 14;
-        const columns = Math.floor(matrixCanvas.width / fontSize);
-        matrixDrops = Array(columns).fill(0).map(() => Math.random() * matrixCanvas.height);
-    }
-    window.addEventListener('resize', resizeMatrix);
-    resizeMatrix();
-
-    function drawMatrix() {
-        mCtx.fillStyle = 'rgba(5, 5, 10, 0.05)';
-        mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-        mCtx.fillStyle = '#E74C3C';
-        mCtx.font = '14px monospace';
-
-        for (let i = 0; i < matrixDrops.length; i++) {
-            const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-            mCtx.fillText(text, i * 14, matrixDrops[i]);
-            if (matrixDrops[i] > matrixCanvas.height && Math.random() > 0.975) {
-                matrixDrops[i] = 0;
+                for (let i = 0; i < matrixDrops.length; i++) {
+                    const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                    mCtx.fillText(text, i * 14, matrixDrops[i]);
+                    if (matrixDrops[i] > matrixCanvas.height && Math.random() > 0.975) {
+                        matrixDrops[i] = 0;
+                    }
+                    matrixDrops[i] += 14;
+                }
+                requestAnimationFrame(drawMatrix);
             }
-            matrixDrops[i] += 14;
+            drawMatrix();
         }
-        requestAnimationFrame(drawMatrix);
-    }
-    drawMatrix();
 
-    /* ─── مؤشر الفأرة المضيء ─── */
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (CONFIG.cursorGlowEnabled && window.innerWidth > 768) {
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-
-        document.querySelectorAll('a, button, .feature-list li, .stat-card, .screenshot-frame, .flow-node, .dot')
-            .forEach(el => {
-                el.addEventListener('mouseenter', () => cursorGlow.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursorGlow.classList.remove('hover'));
-            });
-    } else {
-        cursorGlow.style.display = 'none';
-    }
-
-    /* ─── إيقاف التشغيل عند تحريك الفأرة على الشريحة ─── */
-    let userActive = false;
-    document.addEventListener('mousemove', () => {
-        if (!userActive) {
-            userActive = true;
-        }
-    });
-
-    /* ─── بداية التشغيل ─── */
-    window.addEventListener('load', () => {
-        setTimeout(() => {
+        // ══════ بداية التشغيل ══════
+        function startPresentation() {
             updateUI();
             autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
-        }, 500);
-    });
-
-    /* ─── اختصارات الكيبورد الإضافية ─── */
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Home') goToSlide(0);
-        else if (e.key === 'End') goToSlide(totalSlides - 1);
-        else if (e.key >= '1' && e.key <= '9') {
-            const idx = parseInt(e.key) - 1;
-            if (idx < totalSlides) goToSlide(idx);
         }
-    });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startPresentation);
+        } else {
+            startPresentation();
+        }
+
+    })();
     </script>
 </body>
 </html>
