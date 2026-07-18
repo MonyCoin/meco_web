@@ -73,13 +73,52 @@
         .page-hero h1 span { color: var(--primary); }
         .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
 
+        /* زر العرض التعريفي */
+        .slides-promo {
+            background: linear-gradient(135deg, rgba(231,76,60,0.08) 0%, rgba(192,57,43,0.04) 100%);
+            border: 1px solid rgba(231,76,60,0.2);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .slides-promo p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        .btn-slides {
+            background: var(--primary);
+            color: #FFF;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: var(--font);
+            white-space: nowrap;
+        }
+        .btn-slides:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+        }
+
         .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
         .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
         .content-card p, .content-card ul { color: var(--text-secondary); font-size: 1rem; margin-bottom: 12px; }
         .content-card ul { padding-right: 20px; }
         .content-card ul li { margin-bottom: 8px; }
 
-        /* بطاقات الإحصائيات */
         .stats-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 16px; }
         .stat-mini { background: var(--surface-light); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border); }
         .stat-mini .num { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
@@ -98,6 +137,7 @@
             nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
             nav.open { display: flex; }
             .mobile-menu-btn { display: block; }
+            .slides-promo { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -135,6 +175,12 @@
 
     <section>
         <div class="container">
+
+            <!-- 🎬 دعوة للعرض التعريفي -->
+            <div class="slides-promo">
+                <p>🎬 <b>شاهد العرض التعريفي</b> — قصة MECO في 60 ثانية</p>
+                <a href="slides.html" class="btn-slides">▶️ ابدأ العرض الآن</a>
+            </div>
 
             <!-- من نحن -->
             <div class="content-card">
