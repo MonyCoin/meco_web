@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MECO — العرض السينمائي</title>
-    <meta name="description" content="تجربة سينمائية متحركة لمنظومة MECO المالية — أول محفظة عربية لا مركزية على Solana">
+    <title>MECO — التجربة السينمائية التفاعلية</title>
+    <meta name="description" content="عرض تفاعلي ثلاثي الأبعاد لمنظومة MECO المالية — أول محفظة عربية لا مركزية على Solana">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #E74C3C;
-            --primary-glow: rgba(231, 76, 60, 0.6);
-            --primary-dark: #C0392B;
-            --gold: #F39C12;
-            --cyan: #00D9FF;
-            --bg: #05050A;
-            --surface: #0F0F1E;
+            --primary: #FF3E3E;
+            --primary-glow: rgba(255, 62, 62, 0.4);
+            --primary-dark: #9F0F0F;
+            --gold: #FFB300;
+            --gold-glow: rgba(255, 179, 0, 0.3);
+            --cyan: #00F0FF;
+            --bg: #030308;
+            --surface: rgba(15, 15, 30, 0.6);
+            --border: rgba(255, 62, 62, 0.15);
             --text: #FFFFFF;
-            --text-secondary: #A0A0B8;
+            --text-secondary: #8E8EA8;
             --font: 'Tajawal', sans-serif;
             --font-tech: 'Orbitron', sans-serif;
         }
@@ -33,594 +35,447 @@
             overflow: hidden;
             height: 100vh;
             width: 100vw;
+            user-select: none;
         }
 
-        /* ══════════════ شاشه التحميل السينمائية ══════════════ */
+        /* ══════════════ واجهة الـ HUD والمؤثرات البصرية المحيطة ══════════════ */
+        .scanlines {
+            position: fixed; inset: 0; pointer-events: none; z-index: 999;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            opacity: 0.4;
+        }
+
+        .ambient-glow {
+            position: fixed; inset: 0; pointer-events: none; z-index: 1;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 62, 62, 0.08) 0%, transparent 40%);
+            transition: background 0.1s ease;
+        }
+
+        .hud-bracket {
+            position: fixed; width: 24px; height: 24px; border-color: var(--primary); border-style: solid; z-index: 10; pointer-events: none; opacity: 0.6;
+        }
+        .hud-tl { top: 20px; right: 20px; border-width: 2px 2px 0 0; border-radius: 0 8px 0 0; }
+        .hud-tr { top: 20px; left: 20px; border-width: 2px 0 0 2px; border-radius: 8px 0 0 0; }
+        .hud-bl { bottom: 20px; right: 20px; border-width: 0 2px 2px 0; border-radius: 0 0 8px 0; }
+        .hud-br { bottom: 20px; left: 20px; border-width: 0 0 2px 2px; border-radius: 0 0 0 8px; }
+
+        /* ══════════════ شاشه التحميل السينمائية المحدثة ══════════════ */
         .intro-overlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at center, #1A0A0A 0%, #000 100%);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 1s ease, visibility 1s ease;
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, #0B0505 0%, #000000 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 1.2s cubic-bezier(0.8, 0, 0.2, 1), visibility 1.2s;
         }
-
-        .intro-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
+        .intro-overlay.hidden { opacity: 0; visibility: hidden; }
+        .intro-logo-container { position: relative; width: 150px; height: 150px; margin-bottom: 30px; }
         .intro-logo {
-            width: 140px;
-            height: 140px;
-            border-radius: 30px;
-            box-shadow: 0 0 80px var(--primary-glow);
-            animation: introPulse 1.5s ease-in-out infinite;
+            width: 100%; height: 100%; border-radius: 35px;
+            box-shadow: 0 0 60px var(--primary-glow);
+            animation: introPulse 2s ease-in-out infinite;
         }
-
+        .intro-logo-glow {
+            position: absolute; inset: -5px; border-radius: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            z-index: -1; opacity: 0.6; filter: blur(15px);
+            animation: rotateGlow 4s linear infinite;
+        }
         .intro-text {
-            margin-top: 30px;
-            font-family: var(--font-tech);
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 2s linear infinite;
+            font-family: var(--font-tech); font-size: 2rem; font-weight: 900; letter-spacing: 12px;
+            background: linear-gradient(90deg, #FFF, var(--primary), var(--gold), #FFF);
+            background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; text-shadow: 0 0 20px var(--primary-glow);
         }
-
-        .intro-bar {
-            margin-top: 40px;
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
+        .intro-bar-wrapper { margin-top: 40px; width: 250px; position: relative; }
+        .intro-bar { height: 4px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
         .intro-bar::after {
-            content: '';
-            display: block;
-            height: 100%;
-            width: 0;
+            content: ''; display: block; height: 100%; width: 0;
             background: linear-gradient(90deg, var(--primary), var(--gold));
-            animation: loadBar 2.5s ease forwards;
+            animation: loadBar 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
+        .intro-status { font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px; font-family: var(--font-tech); text-transform: uppercase; letter-spacing: 2px; }
 
         @keyframes introPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 60px var(--primary-glow); }
-            50% { transform: scale(1.08); box-shadow: 0 0 100px var(--primary); }
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px var(--primary-glow)); }
+            50% { transform: scale(1.06); filter: drop-shadow(0 0 60px var(--primary)); }
         }
-        @keyframes shimmer {
-            to { background-position: -200% 0; }
-        }
-        @keyframes loadBar {
-            to { width: 100%; }
-        }
+        @keyframes rotateGlow { to { transform: rotate(360deg); } }
+        @keyframes shimmer { to { background-position: -300% 0; } }
+        @keyframes loadBar { to { width: 100%; } }
 
         /* ══════════════ الخلفيات المتحركة ══════════════ */
         #particlesCanvas, #matrixCanvas {
-            position: fixed;
-            inset: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
         }
-        #particlesCanvas { opacity: 0.5; }
-        #matrixCanvas { opacity: 0.08; }
+        #particlesCanvas { opacity: 0.4; }
+        #matrixCanvas { opacity: 0.05; }
 
-        /* ══════════════ الشبكة ثلاثية الأبعاد ══════════════ */
         .grid-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
             background-image:
-                linear-gradient(rgba(231,76,60,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(231,76,60,0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+                linear-gradient(rgba(255,62,62,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,62,62,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
         }
 
-        /* ══════════════ شريط التقدم ══════════════ */
+        /* ══════════════ شريط التقدم العلوي ══════════════ */
         .progress-bar {
-            position: fixed; top: 0; left: 0; height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--gold));
-            z-index: 1000;
-            transition: width 0.5s ease;
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
+            background-size: 200% 100%;
+            z-index: 1000; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 0 15px var(--primary);
+            animation: shimmer 5s linear infinite;
         }
 
-        /* ══════════════ الحاوية الرئيسية ══════════════ */
+        /* ══════════════ محرك المنظور ثلاثي الأبعاد ══════════════ */
         .slides-viewport {
-            position: relative;
-            width: 100vw; height: 100vh;
-            overflow: hidden;
-            z-index: 1;
+            position: relative; width: 100vw; height: 100vh;
+            perspective: 1200px; overflow: hidden; z-index: 2;
         }
 
         .slides-container {
-            display: flex;
-            transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1);
-            height: 100%;
-            width: 100%;
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         .slide {
-            min-width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 30px;
-            position: relative;
-            flex-shrink: 0;
-            overflow: hidden;
+            position: absolute; inset: 0; width: 100vw; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 40px; transform-style: preserve-3d; backface-visibility: hidden;
+            opacity: 0; transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            pointer-events: none;
         }
 
-        /* ══════════════ خلفية الشريحة الديناميكية ══════════════ */
-        .slide::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(231, 76, 60, 0.12) 0%, transparent 60%);
-            z-index: 0;
-        }
+        .slide.active { opacity: 1; pointer-events: auto; }
+
+        /* ── تأثيرات الحركة الهولوغرافية ثلاثية الأبعاد لكل شريحة ── */
+        .slide.active-next { transform: translate3d(100vw, 0, -800px) rotateY(-45deg); }
+        .slide.active-prev { transform: translate3d(-100vw, 0, -800px) rotateY(45deg); }
 
         .slide-content {
-            max-width: 900px;
-            text-align: center;
-            z-index: 2;
-            position: relative;
-            width: 100%;
+            max-width: 950px; text-align: center; position: relative;
+            transform: translateZ(100px); transition: transform 1s ease;
         }
 
-        /* ══════════════ الهيرو السينمائي ══════════════ */
+        /* ══════════════ الهيرو واللوجو الرائد ══════════════ */
+        .hero-logo-frame {
+            position: relative; width: 150px; height: 150px; margin: 0 auto 35px;
+            animation: heroFloat 5s ease-in-out infinite;
+        }
         .hero-logo {
-            width: 140px;
-            height: 140px;
-            border-radius: 30px;
-            margin: 0 auto 30px;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 20px 60px var(--primary-glow);
-            animation: heroFloat 4s ease-in-out infinite;
+            width: 100%; height: 100%; border-radius: 35px;
+            box-shadow: 0 30px 70px var(--primary-glow);
+            border: 2px solid rgba(255,62,62,0.3);
+        }
+        .hero-logo-halo {
+            position: absolute; inset: -15px; border: 1px dashed rgba(255, 62, 62, 0.3);
+            border-radius: 50%; animation: spinClockwise 20s linear infinite; pointer-events: none;
         }
 
         @keyframes heroFloat {
             0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
         }
+        @keyframes spinClockwise { to { transform: rotate(360deg); } }
 
         .hero-title {
-            font-family: var(--font-tech);
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #FFF 0%, var(--primary) 50%, var(--gold) 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 5s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            font-family: var(--font-tech); font-size: 4rem; font-weight: 900; margin-bottom: 25px;
+            letter-spacing: -1px; line-height: 1.1;
+            background: linear-gradient(135deg, #FFFFFF 20%, var(--primary) 60%, var(--gold) 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 62, 62, 0.2);
         }
 
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            animation: fadeUp 1s ease 0.5s both;
+            font-size: 1.4rem; color: var(--text-secondary); margin-bottom: 12px;
+            font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .hero-tagline {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 10px 24px;
-            border: 1px solid var(--primary);
-            border-radius: 50px;
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 0.9rem;
-            background: rgba(231, 76, 60, 0.05);
-            animation: fadeUp 1s ease 1s both;
+            display: inline-block; margin-top: 30px; padding: 12px 30px;
+            border: 1px solid var(--primary); border-radius: 50px;
+            color: #FFF; font-weight: 800; font-size: 0.95rem; letter-spacing: 1px;
+            background: linear-gradient(90deg, rgba(255, 62, 62, 0.15), rgba(255, 179, 0, 0.05));
+            box-shadow: 0 0 20px rgba(255, 62, 62, 0.15);
+            transition: all 0.3s;
         }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hero-tagline:hover {
+            box-shadow: 0 0 30px var(--primary); transform: scale(1.05);
         }
 
         /* ══════════════ عناصر الشرائح العامة ══════════════ */
         .slide-icon {
-            font-size: 5rem;
-            margin-bottom: 25px;
-            display: inline-block;
-            filter: drop-shadow(0 0 30px var(--primary-glow));
-            animation: iconBounce 2s ease-in-out infinite;
+            font-size: 4.5rem; margin-bottom: 25px; display: inline-block;
+            filter: drop-shadow(0 0 25px var(--primary-glow));
+            animation: iconBounce 3s ease-in-out infinite;
         }
 
         @keyframes iconBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.1); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         .slide-title {
-            font-size: 2.4rem;
-            font-weight: 900;
-            margin-bottom: 25px;
-            color: var(--text);
-            position: relative;
-            display: inline-block;
+            font-size: 2.6rem; font-weight: 900; margin-bottom: 35px; color: var(--text);
+            position: relative; display: inline-block; letter-spacing: -0.5px;
         }
-
         .slide-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--gold));
-            border-radius: 2px;
+            content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--gold));
+            box-shadow: 0 0 8px var(--primary);
         }
-
         .slide-title .accent {
             background: linear-gradient(90deg, var(--primary), var(--gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 62, 62, 0.2);
         }
 
         .slide-text {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            line-height: 2;
-            margin-bottom: 18px;
+            font-size: 1.15rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 20px;
         }
+        .slide-text b { color: #FFF; font-weight: 700; }
 
-        .slide-text b { color: var(--text); }
-
-        /* ══════════════ قوائم المميزات ══════════════ */
+        /* ══════════════ قوائم المميزات (زجاجية ومضيئة) ══════════════ */
         .feature-list {
-            list-style: none;
-            text-align: right;
-            display: inline-block;
-            max-width: 700px;
+            list-style: none; text-align: right; display: inline-flex; flex-direction: column; gap: 15px;
+            max-width: 750px; width: 100%; margin: 0 auto;
         }
 
         .feature-list li {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 18px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(231, 76, 60, 0.15);
-            border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: translateX(50px);
+            font-size: 1.1rem; color: var(--text-secondary); padding: 16px 24px;
+            background: rgba(10, 10, 20, 0.45);
+            border: 1px solid rgba(255, 62, 62, 0.1); border-radius: 16px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0; transform: translate3d(80px, 0, 0);
+            display: flex; align-items: center; gap: 16px;
         }
 
-        .feature-list li.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        .feature-list li.visible { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .feature-list li:hover {
-            background: rgba(231, 76, 60, 0.08);
-            border-color: var(--primary);
-            transform: translateX(-8px) scale(1.02);
+            background: rgba(255, 62, 62, 0.08); border-color: var(--primary);
+            transform: translate3d(-10px, 0, 15px);
+            box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 62, 62, 0.15);
         }
 
         .feature-list li .check {
-            color: var(--primary);
-            font-size: 1.4rem;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 8px var(--primary-glow));
+            font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; justify-content: center;
+            text-shadow: 0 0 10px var(--primary);
         }
 
-        /* ══════════════ بطاقات الإحصائيات ══════════════ */
+        /* ══════════════ بطاقات الإحصائيات الفخمة ══════════════ */
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            margin-top: 25px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;
         }
 
         .stat-card {
-            background: linear-gradient(135deg, rgba(231,76,60,0.05) 0%, rgba(243,156,18,0.05) 100%);
-            border: 1px solid rgba(231,76,60,0.25);
-            border-radius: 20px;
-            padding: 28px 20px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-            opacity: 0;
-            transform: scale(0.8);
+            background: rgba(15, 15, 30, 0.4);
+            border: 1px solid rgba(255, 62, 62, 0.15); border-radius: 24px;
+            padding: 35px 25px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0; transform: scale3d(0.85, 0.85, 1);
         }
 
-        .stat-card.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .stat-card.visible { opacity: 1; transform: scale3d(1, 1, 1); }
 
         .stat-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(231, 76, 60, 0.3);
+            transform: translate3d(0, -10px, 20px); border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 30px var(--primary-glow);
         }
 
         .stat-num {
-            font-family: var(--font-tech);
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            font-family: var(--font-tech); font-size: 2.4rem; font-weight: 900;
+            background: linear-gradient(90deg, #FFFFFF, var(--primary), var(--gold));
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 8px; text-shadow: 0 0 20px rgba(255,62,62,0.3);
         }
 
-        .stat-lbl {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
+        .stat-lbl { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.5px; }
 
-        /* ══════════════ معرض الصور المتحرك ══════════════ */
+        /* ══════════════ معرض الصور ثلاثي الأبعاد ══════════════ */
         .screenshot-carousel {
-            display: flex;
-            gap: 16px;
-            margin-top: 20px;
-            overflow: hidden;
-            padding: 20px 0;
-            mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-            -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+            display: flex; gap: 20px; margin-top: 35px; overflow: hidden; padding: 25px 0;
+            mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
         }
 
-        .screenshot-track {
-            display: flex;
-            gap: 16px;
-            animation: scrollGallery 25s linear infinite;
-        }
+        .screenshot-track { display: flex; gap: 20px; animation: scrollGallery 35s linear infinite; }
 
         @keyframes scrollGallery {
-            from { transform: translateX(0); }
-            to { transform: translateX(calc(-100% - 16px)); }
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(calc(-100% - 20px), 0, 0); }
         }
 
         .screenshot-frame {
-            position: relative;
-            flex-shrink: 0;
-            width: 140px;
-            aspect-ratio: 9/16;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 2px solid rgba(231, 76, 60, 0.3);
-            background: var(--surface);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; flex-shrink: 0; width: 160px; aspect-ratio: 9/16;
+            border-radius: 22px; overflow: hidden; border: 2px solid rgba(255, 62, 62, 0.2);
+            background: #090915; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
         }
 
         .screenshot-frame:hover {
-            transform: scale(1.15) translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px var(--primary-glow);
+            transform: scale(1.18) translateY(-15px) rotateY(-5deg);
+            border-color: var(--primary); box-shadow: 0 25px 60px var(--primary-glow);
             z-index: 10;
         }
 
-        .screenshot-frame img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-        }
+        .screenshot-frame img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
-        /* ══════════════ المخطط البياني المتحرك ══════════════ */
+        /* ══════════════ مخطط التدفق التفاعلي ══════════════ */
         .flow-diagram {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
+            display: flex; align-items: center; justify-content: center; gap: 25px; margin-top: 35px; flex-wrap: wrap;
         }
 
         .flow-node {
-            background: linear-gradient(135deg, rgba(231,76,60,0.15), rgba(243,156,18,0.1));
-            border: 1px solid var(--primary);
-            border-radius: 16px;
-            padding: 18px 24px;
-            min-width: 150px;
-            text-align: center;
-            font-weight: 700;
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s;
+            background: rgba(15, 15, 30, 0.5);
+            border: 1px solid rgba(255,62,62,0.3); border-radius: 20px;
+            padding: 22px 30px; min-width: 180px; text-align: center; font-weight: 700;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            opacity: 0; transform: translate3d(0, 40px, 0);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        .flow-node.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .flow-node.visible { opacity: 1; transform: translate3d(0, 0, 0); }
 
         .flow-node:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 35px var(--primary-glow);
+            transform: translateY(-8px) scale(1.05); border-color: var(--primary);
+            box-shadow: 0 20px 45px var(--primary-glow);
         }
 
-        .flow-node .icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+        .flow-node .icon { font-size: 2.2rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--primary-glow)); }
 
         .flow-arrow {
-            font-size: 2rem;
-            color: var(--primary);
-            animation: arrowPulse 1.5s ease-in-out infinite;
+            font-size: 2.5rem; color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+            animation: arrowPulse 1.8s ease-in-out infinite;
         }
 
         @keyframes arrowPulse {
-            0%, 100% { transform: translateX(0); opacity: 0.5; }
-            50% { transform: translateX(5px); opacity: 1; }
+            0%, 100% { transform: translateX(0); opacity: 0.4; }
+            50% { transform: translateX(8px); opacity: 1; }
         }
 
         /* ══════════════ زر التحميل السينمائي ══════════════ */
         .cta-btn {
-            display: inline-block;
+            display: inline-flex; align-items: center; justify-content: center; gap: 15px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #FFF;
-            padding: 18px 48px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            text-decoration: none;
-            margin-top: 35px;
-            transition: all 0.3s;
-            box-shadow: 0 10px 40px var(--primary-glow);
-            position: relative;
-            overflow: hidden;
+            color: #FFF; padding: 22px 55px; border-radius: 100px;
+            font-size: 1.3rem; font-weight: 900; text-decoration: none; margin-top: 40px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 15px 45px var(--primary-glow);
+            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
         }
 
         .cta-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s ease;
         }
 
         .cta-btn:hover::before { left: 100%; }
 
         .cta-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 50px var(--primary);
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 25px 60px var(--primary);
         }
 
         .cta-btn .arrow {
-            display: inline-block;
-            margin-right: 8px;
-            animation: arrowDown 1.5s ease-in-out infinite;
+            display: inline-block; font-size: 1.5rem;
+            animation: arrowDown 1.8s ease-in-out infinite;
         }
 
         @keyframes arrowDown {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(5px); }
+            50% { transform: translateY(6px); }
         }
 
-        /* ══════════════ أزرار التحكم ══════════════ */
+        /* ══════════════ عناصر واجهة المستخدم والتحكم ══════════════ */
         .nav-controls {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 16px; z-index: 100;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(20px);
-            padding: 10px 18px;
-            border-radius: 50px;
-            border: 1px solid rgba(231, 76, 60, 0.2);
+            display: flex; align-items: center; gap: 20px; z-index: 100;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 12px 24px; border-radius: 100px;
+            border: 1px solid rgba(255, 62, 62, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .nav-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #FFF; font-size: 1.3rem; cursor: pointer;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            color: #FFF; font-size: 1.5rem; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             font-family: var(--font);
         }
 
         .nav-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: scale(1.1);
-            box-shadow: 0 0 20px var(--primary-glow);
+            background: var(--primary); border-color: var(--primary);
+            transform: scale(1.15); box-shadow: 0 0 25px var(--primary-glow);
         }
 
-        .dots { display: flex; gap: 8px; }
+        .dots { display: flex; gap: 10px; }
 
         .dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: rgba(255,255,255,0.2); cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 11px; height: 11px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .dot.active {
-            background: linear-gradient(135deg, var(--primary), var(--gold));
-            width: 32px;
-            border-radius: 12px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+            width: 35px; border-radius: 12px;
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .play-btn {
-            background: rgba(231, 76, 60, 0.2) !important;
-            border-color: var(--primary) !important;
-            color: var(--primary) !important;
+        .audio-hud-toggle {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 62, 62, 0.2);
+            color: var(--text-secondary); width: 44px; height: 44px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .audio-hud-toggle:hover {
+            border-color: var(--primary); color: #FFF; transform: scale(1.1);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        /* ══════════════ زر العودة ══════════════ */
         .skip-btn {
-            position: fixed; top: 20px; right: 20px; z-index: 100;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(231, 76, 60, 0.2);
-            color: var(--text-secondary);
-            padding: 10px 20px; border-radius: 30px;
-            cursor: pointer; font-family: var(--font);
-            font-size: 0.9rem; transition: all 0.3s;
-            text-decoration: none;
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 62, 62, 0.2);
+            color: var(--text-secondary); padding: 12px 24px; border-radius: 50px;
+            cursor: pointer; font-family: var(--font); font-weight: 700;
+            font-size: 0.95rem; transition: all 0.3s; text-decoration: none;
         }
 
         .skip-btn:hover {
-            background: var(--primary);
-            color: #FFF;
-            border-color: var(--primary);
+            background: var(--primary); color: #FFF; border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
-        /* ══════════════ عداد الشرائح ══════════════ */
-        .slide-counter {
-            position: fixed; top: 20px; left: 20px; z-index: 100;
-            font-family: var(--font-tech);
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(231, 76, 60, 0.2);
-            color: var(--text-secondary);
-            padding: 10px 20px; border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        .slide-counter .current {
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        /* ══════════════ ريسبونسف ══════════════ */
+        /* ══════════════ شاشات الجوال والتابلت ══════════════ */
         @media (max-width: 768px) {
-            .hero-title { font-size: 2rem; }
-            .slide-title { font-size: 1.5rem; }
-            .slide-text { font-size: 0.95rem; }
-            .slide { padding: 30px 20px; }
-            .stats-grid { grid-template-columns: 1fr; gap: 10px; }
-            .stat-num { font-size: 1.5rem; }
-            .hero-logo { width: 90px; height: 90px; }
+            .hero-title { font-size: 2.2rem; }
+            .slide-title { font-size: 1.8rem; }
+            .slide-text { font-size: 1rem; }
+            .slide { padding: 30px 15px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+            .stat-card { padding: 25px 15px; }
+            .stat-num { font-size: 1.8rem; }
+            .hero-logo-frame { width: 100px; height: 100px; }
             .slide-icon { font-size: 3.5rem; }
-            .flow-diagram { flex-direction: column; gap: 10px; }
-            .flow-arrow { transform: rotate(90deg); }
-            .screenshot-frame { width: 110px; }
-            .feature-list li { font-size: 0.9rem; padding: 10px 14px; }
+            .flow-diagram { flex-direction: column; gap: 12px; }
+            .flow-arrow { transform: rotate(90deg); margin: 5px 0; }
+            .screenshot-frame { width: 125px; }
+            .feature-list li { font-size: 0.95rem; padding: 12px 16px; }
+            .skip-btn { display: none; } /* إخفاء لتوفير مساحة على الشاشات الصغيرة */
         }
     </style>
 </head>
@@ -628,158 +483,169 @@
 
     <!-- ══════ شاشة التحميل السينمائية ══════ -->
     <div class="intro-overlay" id="introOverlay">
-        <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="intro-logo">
-        <div class="intro-text">M E C O</div>
-        <div class="intro-bar"></div>
+        <div class="intro-logo-container">
+            <div class="intro-logo-glow"></div>
+            <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="intro-logo">
+        </div>
+        <div class="intro-text">MECO ECOSYSTEM</div>
+        <div class="intro-bar-wrapper">
+            <div class="intro-bar"></div>
+        </div>
+        <div class="intro-status" id="introStatus">CONNECTING TO SOLANA BLOCKCHAIN...</div>
     </div>
 
-    <!-- ══════ الخلفيات المتحركة ══════ -->
+    <!-- ══════ واجهة الـ HUD المحيطية ══════ -->
+    <div class="scanlines"></div>
+    <div class="ambient-glow" id="ambientGlow"></div>
+    <div class="hud-bracket hud-tl"></div>
+    <div class="hud-bracket hud-tr"></div>
+    <div class="hud-bracket hud-bl"></div>
+    <div class="hud-bracket hud-br"></div>
+
+    <!-- ══════ الخلفيات الرقمية ══════ -->
     <canvas id="matrixCanvas"></canvas>
     <canvas id="particlesCanvas"></canvas>
     <div class="grid-bg"></div>
 
     <!-- ══════ شريط التقدم ══════ -->
-    <div class="progress-bar" id="progressBar" style="width: 11%;"></div>
+    <div class="progress-bar" id="progressBar"></div>
 
-    <!-- ══════ عداد الشرائح ══════ -->
-    <div class="slide-counter">
-        <span class="current" id="currentNum">01</span> / <span id="totalNum">09</span>
-    </div>
+    <!-- ══════ واجهة التخطي والتحكم الصوتي ══════ -->
+    <a href="about.html" class="skip-btn">⟵ العودة للرئيسية</a>
+    <button class="audio-hud-toggle" id="audioToggle" title="كتم/تفعيل الموسيقى">🔇</button>
 
-    <!-- ══════ زر العودة ══════ -->
-    <a href="about.html" class="skip-btn">⟵ الرئيسية</a>
-
-    <!-- ══════ منطقة الشرائح ══════ -->
+    <!-- ══════ محرك الشرائح ══════ -->
     <div class="slides-viewport">
         <div class="slides-container" id="slidesContainer">
 
-            <!-- ════ شريحة 1: البطل ════ -->
-            <div class="slide" data-slide="1">
+            <!-- ════ الشريحة 1: المقدمة الهولوغرافية ════ -->
+            <div class="slide active" data-slide="1">
                 <div class="slide-content">
-                    <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="hero-logo">
+                    <div class="hero-logo-frame">
+                        <div class="hero-logo-halo"></div>
+                        <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO" class="hero-logo">
+                    </div>
                     <h1 class="hero-title">منظومة MECO</h1>
-                    <p class="hero-subtitle">أول محفظة عربية لا مركزية على شبكة Solana</p>
-                    <p class="hero-subtitle" style="font-size:0.95rem;">رمز رقمي + محفظة ذكية = مستقبل التمويل الرقمي العربي</p>
-                    <div class="hero-tagline">🎬 انضم للثورة المالية اللامركزية</div>
+                    <p class="hero-subtitle">الجيل القادم من الحلول المالية اللامركزية العربية</p>
+                    <p class="hero-subtitle" style="font-size: 1.05rem; opacity: 0.8;">السرعة والأمان المطلق على بلوكتشين Solana</p>
+                    <div class="hero-tagline">🚀 تحكّم بمستقبلك المالي الآن</div>
                 </div>
             </div>
 
-            <!-- ════ شريحة 2: من نحن ════ -->
+            <!-- ════ الشريحة 2: الرؤية ════ -->
             <div class="slide" data-slide="2">
                 <div class="slide-content">
                     <div class="slide-icon">🏛️</div>
-                    <h2 class="slide-title">من <span class="accent">نحن</span></h2>
+                    <h2 class="slide-title">الرؤية <span class="accent">والمؤسسة</span></h2>
                     <p class="slide-text"><b>مؤسسة MonyCoin للتطوير الرقمي</b></p>
-                    <p class="slide-text">مؤسسة تقنية رائدة متخصصة في تخطيط وتنفيذ المشروعات الرقمية الحديثة المعتمدة على تقنيات البلوكتشين.</p>
-                    <p class="slide-text">نعمل وفق رؤية واضحة ومنهجية مؤسسية لبناء <b>حلول رقمية حقيقية ومستدامة</b> تخدم المستخدمين والمجتمع الرقمي.</p>
+                    <p class="slide-text">نحن لا نطور واجهات برمجية فحسب، بل نبني <b>بنية تحتية متكاملة</b> تهدف إلى تمكين المطور العربي والمستثمر من إدارة الأصول الرقمية بأعلى مستويات الاحترافية والشفافية.</p>
+                    <p class="slide-text">نهجنا يرتكز على المصداقية المطلقة والحلول العملية والرموز القائمة على القيمة الحقيقية والاستخدام المستدام.</p>
                 </div>
             </div>
 
-            <!-- ════ شريحة 3: منظومة MECO ════ -->
+            <!-- ════ الشريحة 3: الرمز والبيئة الاقتصادية ════ -->
             <div class="slide" data-slide="3">
                 <div class="slide-content">
                     <div class="slide-icon">💎</div>
-                    <h2 class="slide-title">منظومة <span class="accent">MECO</span> المالية</h2>
+                    <h2 class="slide-title">رمز <span class="accent">MECO</span> المالي</h2>
                     <ul class="feature-list" data-anim="list">
-                        <li><span class="check">🪙</span> <b>رمز MECO</b> — عرض ثابت 1 مليار، عقد متنازل عنه، 0% ضرائب</li>
-                        <li><span class="check">📱</span> <b>محفظة MECO Wallet</b> — تطبيق لامركزي متكامل</li>
-                        <li><span class="check">🔄</span> إرسال، استقبال، تبادل، تخزين في مكان واحد</li>
+                        <li><span class="check">🪙</span> <b>عرض ثابت ومغلق</b> — 1 مليار رمز فقط بلا أي احتمالية للتضخم.</li>
+                        <li><span class="check">🔐</span> <b>حماية السيولة</b> — عقد تنازل كامل وخوارزميات أمان مشددة.</li>
+                        <li><span class="check">🛑</span> <b>0% ضرائب</b> — معاملات نظيفة بالكامل بدون عمولات مخفية.</li>
                     </ul>
-                    <p class="slide-text" style="margin-top:20px;">🎯 <b>الهدف:</b> مفهوم جديد للرموز الرقمية قائم على القيمة الحقيقية</p>
                 </div>
             </div>
 
-            <!-- ════ شريحة 4: معرض الصور المتحرك ════ -->
+            <!-- ════ الشريحة 4: المعرض ════ -->
             <div class="slide" data-slide="4">
                 <div class="slide-content" style="max-width: 1000px;">
                     <div class="slide-icon">📱</div>
-                    <h2 class="slide-title">لقطات من <span class="accent">التطبيق</span></h2>
-                    <p class="slide-text" style="margin-bottom:10px;">اكتشف واجهة MECO Wallet الاحترافية</p>
+                    <h2 class="slide-title">تجربة مستخدم <span class="accent">أنيقة</span></h2>
+                    <p class="slide-text">تصفح لقطات حية من تطبيق MECO Wallet الاحترافي</p>
                     <div class="screenshot-carousel">
                         <div class="screenshot-track" id="galleryTrack"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- ════ شريحة 5: المميزات ════ -->
+            <!-- ════ الشريحة 5: قدرات المحفظة الذكية ════ -->
             <div class="slide" data-slide="5">
                 <div class="slide-content">
-                    <div class="slide-icon">🔐</div>
-                    <h2 class="slide-title">مميزات <span class="accent">MECO Wallet</span></h2>
+                    <div class="slide-icon">🛡️</div>
+                    <h2 class="slide-title">قوة وحماية <span class="accent">الـ Web3</span></h2>
                     <ul class="feature-list" data-anim="list">
-                        <li><span class="check">✔️</span> أمان كامل — أنت المالك الوحيد لمحفظتك (12 كلمة سرية)</li>
-                        <li><span class="check">✔️</span> حتى 10 حسابات منفصلة لإدارة مشاريعك الرقمية</li>
-                        <li><span class="check">✔️</span> مبادلة فورية عبر Jupiter API بأفضل الأسعار</li>
-                        <li><span class="check">✔️</span> نظام Staking بعوائد تصل إلى 40% سنوياً</li>
-                        <li><span class="check">✔️</span> متصفح Web3 مدمج وربط عبر WalletConnect</li>
+                        <li><span class="check">🔑</span> <b>سيادة كاملة</b> — الكلمات السرية الـ 12 تُحفظ على جهازك محلياً بشكل مشفر تماماً.</li>
+                        <li><span class="check">📁</span> <b>متعدد الحسابات</b> — إدارة وتوليد ما يصل إلى 10 حسابات منفصلة تماماً.</li>
+                        <li><span class="check">⚡</span> <b>مبادلة ذكية</b> — تكامل مع مجمع السيولة Jupiter لتبادل العملات بأفضل سعر فوري.</li>
+                        <li><span class="check">📈</span> <b>التخزين الذكي (Staking)</b> — عقود ذكية مبسطة توفر عوائد سنوية تبلغ 40%.</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- ════ شريحة 6: الأرقام ════ -->
+            <!-- ════ الشريحة 6: الأرقام الاقتصادية ════ -->
             <div class="slide" data-slide="6">
                 <div class="slide-content">
-                    <div class="slide-icon">📊</div>
-                    <h2 class="slide-title">MECO <span class="accent">بالأرقام</span></h2>
+                    <div class="slide-icon">📈</div>
+                    <h2 class="slide-title">المقاييس <span class="accent">الرئيسية</span></h2>
                     <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-num" data-count="1000000000">0</div><div class="stat-lbl">إجمالي المعروض (ثابت)</div></div>
-                        <div class="stat-card"><div class="stat-num" data-count="0" data-suffix="%">0%</div><div class="stat-lbl">ضرائب على المعاملات</div></div>
-                        <div class="stat-card"><div class="stat-num" data-count="10" data-suffix="+">0</div><div class="stat-lbl">حسابات فرعية داخل المحفظة</div></div>
-                        <div class="stat-card"><div class="stat-num" data-count="40" data-suffix="%">0%</div><div class="stat-lbl">أعلى عائد سنوي للتخزين</div></div>
+                        <div class="stat-card"><div class="stat-num" data-count="1000000000">0</div><div class="stat-lbl">إجمالي المعروض لرمز MECO</div></div>
+                        <div class="stat-card"><div class="stat-num" data-count="0" data-suffix="%">0%</div><div class="stat-lbl">الضرائب على المبيعات والشراء</div></div>
+                        <div class="stat-card"><div class="stat-num" data-count="10" data-suffix=" حسابات">0</div><div class="stat-lbl">إدارة المحافظ في واجهة واحدة</div></div>
+                        <div class="stat-card"><div class="stat-num" data-count="40" data-suffix="%">0%</div><div class="stat-lbl">عائد تخزين سنوي كحد أقصى</div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- ════ شريحة 7: النموذج الاقتصادي ════ -->
+            <!-- ════ الشريحة 7: حلقة النمو اللانهائية ════ -->
             <div class="slide" data-slide="7">
                 <div class="slide-content">
                     <div class="slide-icon">🔄</div>
-                    <h2 class="slide-title">منظومة <span class="accent">ذاتية النمو</span></h2>
+                    <h2 class="slide-title">آلية النمو <span class="accent">البروتوكولي</span></h2>
                     <div class="flow-diagram">
                         <div class="flow-node" data-anim="node">
-                            <span class="icon">💰</span>
-                            رسوم الاستخدام
+                            <span class="icon">🛒</span>
+                            رسوم الخدمات بالتطبيق
                         </div>
                         <div class="flow-arrow">←</div>
                         <div class="flow-node" data-anim="node">
-                            <span class="icon">🏦</span>
-                            محفظة معلنة
+                            <span class="icon">💼</span>
+                            تحويل تلقائي للمجمع
                         </div>
                         <div class="flow-arrow">←</div>
                         <div class="flow-node" data-anim="node">
-                            <span class="icon">🌊</span>
-                            مجمع سيولة MECO
+                            <span class="icon">🔥</span>
+                            شراء ودعم سيولة MECO
                         </div>
                     </div>
-                    <p class="slide-text" style="margin-top:30px;"><b>دعم مستمر للسيولة</b> + نمو تدريجي للقيمة + استدامة بدون مضاربات</p>
+                    <p class="slide-text" style="margin-top: 35px;"><b>تأمين نمو مستدام:</b> الأرباح الناتجة عن خدمات المحفظة تساهم في رفع وتعزيز سيولة الرمز بشكل مباشر وتلقائي.</p>
                 </div>
             </div>
 
-            <!-- ════ شريحة 8: الشبكة التقنية ════ -->
+            <!-- ════ الشريحة 8: التفوق التكنولوجي لبلوكتشين Solana ════ -->
             <div class="slide" data-slide="8">
                 <div class="slide-content">
-                    <div class="slide-icon">⛓️</div>
-                    <h2 class="slide-title">مبنية على <span class="accent">Solana</span></h2>
-                    <p class="slide-text">أسرع بلوكتشين في العالم بقدرة معالجة <b>65,000 معاملة/ثانية</b></p>
-                    <p class="slide-text">رسوم شبه معدومة (أقل من <b>0.001$</b> للمعاملة)</p>
-                    <p class="slide-text" style="margin-top:20px; color: var(--primary); font-weight: 700;">
-                        ⚡ سرعة خيالية • 💸 تكلفة شبه صفرية • 🔒 أمان لا مثيل له
+                    <div class="slide-icon">⚡</div>
+                    <h2 class="slide-title">أداء فائق مع <span class="accent">Solana</span></h2>
+                    <p class="slide-text">استفد من سرعة معالجة تصل إلى <b>65,000 معاملة بالثانية</b> لتجربة تحويل فورية.</p>
+                    <p class="slide-text">انسَ أمر الرسوم العالية تماماً؛ تكلفة المعاملة الواحدة لا تتعدى جزءاً بسيطاً من السنت (أقل من <b>0.001$</b>).</p>
+                    <p class="slide-text" style="margin-top: 25px; color: var(--primary); font-weight: 800; font-family: var(--font-tech);">
+                        LOW LATENCY • ULTRA-LOW FEES • BATTLE-TESTED SECURITY
                     </p>
                 </div>
             </div>
 
-            <!-- ════ شريحة 9: دعوة للتحميل ════ -->
+            <!-- ════ الشريحة 9: بوابة البدء ════ -->
             <div class="slide" data-slide="9">
                 <div class="slide-content">
-                    <div class="slide-icon">🚀</div>
-                    <h2 class="slide-title">ابدأ <span class="accent">رحلتك الآن</span></h2>
-                    <p class="slide-text">منظومة مالية متكاملة تنتظرك. <b>حَمِّل التطبيق</b> وانضم إلى مستقبل التمويل الرقمي العربي.</p>
+                    <div class="slide-icon">👑</div>
+                    <h2 class="slide-title">ابدأ عهدك المالي <span class="accent">الجديد</span></h2>
+                    <p class="slide-text">اللامركزية الحقيقية أصبحت بين يديك الآن باللغة العربية. <b>حمّل المحفظة</b> واستكشف ميزات الغد.</p>
                     <a href="https://monycoin.github.io/meco_wallet-app/" class="cta-btn">
-                        <span class="arrow">⬇</span> تحميل MECO Wallet
+                        <span class="arrow">⬇</span> تحميل تطبيق MECO Wallet
                     </a>
-                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-top:25px;">
-                        🌐 <a href="https://monycoin.github.io/meco-token/" style="color:var(--primary); text-decoration:none;">الموقع الرسمي</a>
-                        &nbsp;•&nbsp; 🐙 <a href="https://github.com/MonyCoin" style="color:var(--primary); text-decoration:none;">GitHub</a>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 35px;">
+                        🌐 <a href="https://monycoin.github.io/meco-token/" style="color: var(--primary); text-decoration: none; font-weight: 700;">الموقع الرسمي للرمز</a>
+                        &nbsp;•&nbsp; 🐙 <a href="https://github.com/MonyCoin" style="color: var(--primary); text-decoration: none; font-weight: 700;">منصة GitHub</a>
                     </p>
                 </div>
             </div>
@@ -787,117 +653,224 @@
         </div>
     </div>
 
-    <!-- ══════ أزرار التنقل ══════ -->
+    <!-- ══════ نظام التحكم والتشغيل ══════ -->
     <div class="nav-controls">
-        <button class="nav-btn" id="prevBtn" title="السابق">‹</button>
-        <button class="nav-btn play-btn" id="playBtn" title="تشغيل/إيقاف">⏸</button>
+        <button class="nav-btn" id="prevBtn" title="الشريحة السابقة">‹</button>
+        <button class="nav-btn" id="playBtn" style="color: var(--primary);" title="تشغيل/إيقاف العرض التلقائي">⏸</button>
         <div class="dots" id="dotsContainer"></div>
-        <button class="nav-btn" id="nextBtn" title="التالي">›</button>
+        <button class="nav-btn" id="nextBtn" title="الشريحة التالية">›</button>
     </div>
 
     <script>
     /* ═══════════════════════════════════════════════════════════════
-       🎬 MECO CINEMATIC PRESENTATION - ENGINE v2.0
+       🎬 MECO ADVANCED CINEMATIC WEB ENGINE v3.0
        ═══════════════════════════════════════════════════════════════ */
 
     (function() {
         'use strict';
 
         const CONFIG = {
-            autoPlayDelay: 6000,
-            particlesEnabled: true,
-            matrixRainEnabled: true,
+            autoPlayDelay: 7000,
+            particlesCount: 90,
+            matrixSpeed: 16
         };
 
-        // ══════ إزالة شاشة التحميل بعد 3 ثوانٍ ══════
-        setTimeout(function() {
+        // ── تتبع حركة الفأرة لإضافة تأثير الإضاءة التفاعلية ──
+        document.addEventListener('mousemove', function(e) {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', x + '%');
+            document.documentElement.style.setProperty('--mouse-y', y + '%');
+        });
+
+        // ── محاكاة تحميل بيانات البلوكتشين وإلغاء شاشة الـ Intro ──
+        const statuses = [
+            "CONNECTING TO SOLANA MAINNET...",
+            "RETRIEVING TOKEN LIQUIDITY POOLS...",
+            "SYNCING STAKING SMART CONTRACTS...",
+            "COMPILING DECENTRALIZED HUD..."
+        ];
+        let statusIdx = 0;
+        const statusInterval = setInterval(() => {
+            const el = document.getElementById('introStatus');
+            if (el) el.textContent = statuses[statusIdx % statuses.length];
+            statusIdx++;
+        }, 700);
+
+        setTimeout(() => {
+            clearInterval(statusInterval);
             const intro = document.getElementById('introOverlay');
             if (intro) intro.classList.add('hidden');
-        }, 3000);
+        }, 3200);
 
-        // ══════ تحميل الصور وملء المعرض ══════
+        // ── بناء معرض الصور المتحرك ──
         const BASE_URL = 'https://raw.githubusercontent.com/MonyCoin/meco_web/main';
         const screenshots = [];
         for (let i = 1; i <= 12; i++) {
-            screenshots.push(BASE_URL + '/screen_' + i + '_home.png');
+            screenshots.push(`${BASE_URL}/screen_${i}_home.png`);
         }
 
         const galleryTrack = document.getElementById('galleryTrack');
         if (galleryTrack) {
-            const allScreens = screenshots.concat(screenshots);
-            allScreens.forEach(function(src) {
+            const allScreens = screenshots.concat(screenshots); // مضاعفة المعرض لحركة لا نهائية سلسة
+            allScreens.forEach(src => {
                 const frame = document.createElement('div');
                 frame.className = 'screenshot-frame';
                 const img = document.createElement('img');
                 img.src = src;
-                img.alt = 'MECO Wallet';
+                img.alt = 'MECO Wallet Dashboard';
                 img.loading = 'lazy';
                 frame.appendChild(img);
                 galleryTrack.appendChild(frame);
             });
         }
 
-        // ══════ نظام الشرائح ══════
-        const slidesContainer = document.getElementById('slidesContainer');
+        // ── محرك الصوت التخليقي الداخلي (Internal Web Audio Synthesizer) ──
+        let audioCtx = null;
+        let ambientOsc = null;
+        let ambientGain = null;
+        let filterNode = null;
+        let isAudioPlaying = false;
+
+        function initSynth() {
+            try {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+                
+                // إنشاء مولد نغمات ومصفي هادئ لبناء نغمة سينمائية غامرة (Cosmic Pad)
+                ambientOsc = audioCtx.createOscillator();
+                ambientGain = audioCtx.createGain();
+                filterNode = audioCtx.createBiquadFilter();
+
+                ambientOsc.type = 'sawtooth';
+                ambientOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // نغمة بموجة منخفضة دافئة (A1 frequency)
+                
+                filterNode.type = 'lowpass';
+                filterNode.frequency.setValueAtTime(220, audioCtx.currentTime); // تصفية الموجات العالية للحصول على هدوء
+                filterNode.Q.setValueAtTime(3, audioCtx.currentTime);
+
+                // حركة تذبذب خفيفة لمحاكاة دقات الفضاء الرقمي
+                const lfo = audioCtx.createOscillator();
+                const lfoGain = audioCtx.createGain();
+                lfo.frequency.setValueAtTime(0.2, audioCtx.currentTime); // تذبذب بطيء للغاية
+                lfoGain.gain.setValueAtTime(60, audioCtx.currentTime);
+                
+                lfo.connect(lfoGain);
+                lfoGain.connect(filterNode.frequency);
+                lfo.start();
+
+                ambientGain.gain.setValueAtTime(0.04, audioCtx.currentTime); // هادئ جداً لكي لا يزعج العميل
+
+                ambientOsc.connect(filterNode);
+                filterNode.connect(ambientGain);
+                ambientGain.connect(audioCtx.destination);
+                
+                ambientOsc.start();
+            } catch (e) {
+                console.warn("Web Audio API is not supported in this browser.");
+            }
+        }
+
+        function playClickSound() {
+            if (!audioCtx || !isAudioPlaying) return;
+            // صوت نقرة رقمية ناعمة (Digital UI Click)
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.12);
+        }
+
+        const audioToggle = document.getElementById('audioToggle');
+        if (audioToggle) {
+            audioToggle.addEventListener('click', () => {
+                if (!audioCtx) {
+                    initSynth();
+                    isAudioPlaying = true;
+                    audioToggle.textContent = '🔊';
+                } else {
+                    if (isAudioPlaying) {
+                        audioCtx.suspend();
+                        isAudioPlaying = false;
+                        audioToggle.textContent = '🔇';
+                    } else {
+                        audioCtx.resume();
+                        isAudioPlaying = true;
+                        audioToggle.textContent = '🔊';
+                    }
+                }
+            });
+        }
+
+        // ── محرك التنقل والشرائح ثلاثي الأبعاد المحدث ──
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
-        const totalNumEl = document.getElementById('totalNum');
-        const currentNumEl = document.getElementById('currentNum');
+        const slidesContainer = document.getElementById('slidesContainer');
         const progressBar = document.getElementById('progressBar');
         const dotsContainer = document.getElementById('dotsContainer');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const playBtn = document.getElementById('playBtn');
 
-        if (totalNumEl) totalNumEl.textContent = String(totalSlides).padStart(2, '0');
+        let currentSlide = 0;
+        let isPlaying = true;
+        let autoPlayInterval = null;
 
-        // إنشاء النقاط
+        // توليد مؤشرات الصفحات الرقمية (Dots)
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
-            dot.className = 'dot' + (i === 0 ? ' active' : '');
-            (function(index) {
-                dot.addEventListener('click', function() { goToSlide(index); });
-            })(i);
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => { playClickSound(); goToSlide(i); });
             dotsContainer.appendChild(dot);
         }
         const dots = document.querySelectorAll('.dot');
 
-        let currentSlide = 0;
-        let autoPlayInterval = null;
-        let isPlaying = true;
+        function updateUI(direction = 'next') {
+            slides.forEach((slide, idx) => {
+                slide.className = 'slide'; // إعادة تعيين الفئات
+                if (idx === currentSlide) {
+                    slide.classList.add('active');
+                } else if (idx < currentSlide) {
+                    slide.classList.add('active-prev');
+                } else {
+                    slide.classList.add('active-next');
+                }
+            });
 
-        function updateUI() {
-            if (slidesContainer) {
-                slidesContainer.style.transform = 'translateX(-' + (currentSlide * 100) + 'vw)';
-            }
             if (progressBar) {
-                progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
-            }
-            if (currentNumEl) {
-                currentNumEl.textContent = String(currentSlide + 1).padStart(2, '0');
+                progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
             }
 
-            dots.forEach(function(dot, i) {
-                dot.classList.toggle('active', i === currentSlide);
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentSlide);
             });
 
             animateCurrentSlide();
         }
 
         function goToSlide(index) {
+            const dir = index > currentSlide ? 'next' : 'prev';
             currentSlide = index;
-            updateUI();
+            updateUI(dir);
             resetAutoPlay();
         }
 
         function nextSlide() {
+            playClickSound();
             currentSlide = (currentSlide + 1) % totalSlides;
-            updateUI();
+            updateUI('next');
         }
 
         function prevSlide() {
+            playClickSound();
             currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateUI();
+            updateUI('prev');
         }
 
         function resetAutoPlay() {
@@ -917,91 +890,54 @@
             }
         }
 
-        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); resetAutoPlay(); });
-        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); resetAutoPlay(); });
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
         if (playBtn) playBtn.addEventListener('click', togglePlay);
 
-        // الكيبورد
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); nextSlide(); }
-            else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+        // واجهات التحكم عبر لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
             else if (e.key === ' ') { e.preventDefault(); togglePlay(); }
-            else if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
-            else if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
         });
 
-        // اللمس
-        let touchStartX = 0;
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        document.addEventListener('touchend', function(e) {
-            const dx = touchStartX - e.changedTouches[0].screenX;
-            if (Math.abs(dx) > 50) dx > 0 ? nextSlide() : prevSlide();
-        }, { passive: true });
-
-        // عجلة الفأرة
-        let wheelTimeout;
-        document.addEventListener('wheel', function(e) {
-            if (wheelTimeout) return;
-            e.preventDefault();
-            e.deltaY > 0 ? nextSlide() : prevSlide();
-            wheelTimeout = setTimeout(function() { wheelTimeout = null; }, 1200);
-            resetAutoPlay();
-        }, { passive: false });
-
-        // ══════ أنيميشن عناصر الشريحة الحالية ══════
+        // تشغيل وإيقاف الأنيميشن للعناصر الداخلية للشريحة النشطة
         function animateCurrentSlide() {
             const slide = slides[currentSlide];
             if (!slide) return;
 
-            // إعادة تعيين العناصر
-            slide.querySelectorAll('.feature-list li').forEach(function(li) {
-                li.classList.remove('visible');
-            });
-            slide.querySelectorAll('.stat-card').forEach(function(card) {
+            // إعادة تصفير العناصر
+            slide.querySelectorAll('.feature-list li').forEach(li => li.classList.remove('visible'));
+            slide.querySelectorAll('.flow-node').forEach(node => node.classList.remove('visible'));
+            slide.querySelectorAll('.stat-card').forEach(card => {
                 card.classList.remove('visible');
                 const numEl = card.querySelector('.stat-num');
-                if (numEl) {
-                    const target = numEl.dataset.count;
-                    const suffix = numEl.dataset.suffix || '';
-                    if (target === '0') {
-                        numEl.textContent = '0' + suffix;
-                    } else {
-                        numEl.textContent = '0';
-                    }
-                }
-            });
-            slide.querySelectorAll('.flow-node').forEach(function(node) {
-                node.classList.remove('visible');
+                if (numEl) numEl.textContent = '0' + (numEl.dataset.suffix || '');
             });
 
-            // تشغيل أنيميشن القوائم
+            // تفعيل أنيميشن قوائم المميزات بتتابع متناسق
             const listItems = slide.querySelectorAll('[data-anim="list"] li');
-            listItems.forEach(function(li, i) {
-                setTimeout(function() { li.classList.add('visible'); }, 200 + (i * 200));
+            listItems.forEach((li, idx) => {
+                setTimeout(() => { li.classList.add('visible'); }, 150 + (idx * 150));
             });
 
-            // تشغيل أنيميشن البطاقات
+            // تفعيل أنيميشن الأرقام والبطاقات
             const cards = slide.querySelectorAll('.stat-card');
-            cards.forEach(function(card, i) {
-                setTimeout(function() {
+            cards.forEach((card, idx) => {
+                setTimeout(() => {
                     card.classList.add('visible');
                     const numEl = card.querySelector('.stat-num');
-                    if (numEl && numEl.dataset.count) {
-                        animateNumber(numEl);
-                    }
-                }, 300 + (i * 250));
+                    if (numEl) animateNumber(numEl);
+                }, 200 + (idx * 200));
             });
 
-            // تشغيل أنيميشن العقد
+            // تفعيل أنيميشن التدفق الرسومي
             const nodes = slide.querySelectorAll('[data-anim="node"]');
-            nodes.forEach(function(node, i) {
-                setTimeout(function() { node.classList.add('visible'); }, 400 + (i * 300));
+            nodes.forEach((node, idx) => {
+                setTimeout(() => { node.classList.add('visible'); }, 300 + (idx * 250));
             });
         }
 
-        // ══════ عد الأرقام المتحرك ══════
         function animateNumber(el) {
             const target = parseInt(el.dataset.count);
             const suffix = el.dataset.suffix || '';
@@ -1013,39 +949,35 @@
                 return;
             }
 
-            function update(now) {
+            function frame(now) {
                 const elapsed = now - start;
                 const progress = Math.min(elapsed / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const current = Math.floor(target * easeOut);
 
-                if (target >= 1000000) {
-                    el.textContent = current.toLocaleString('en-US') + suffix;
-                } else {
-                    el.textContent = current + suffix;
-                }
+                el.textContent = (target >= 1000000 ? current.toLocaleString('en-US') : current) + suffix;
 
                 if (progress < 1) {
-                    requestAnimationFrame(update);
+                    requestAnimationFrame(frame);
                 } else {
                     el.textContent = (target >= 1000000 ? target.toLocaleString('en-US') : target) + suffix;
                 }
             }
-            requestAnimationFrame(update);
+            requestAnimationFrame(frame);
         }
 
-        // ══════ الجزيئات المتحركة ══════
+        // ── شبكة الجزيئات ثلاثية الأبعاد (Interactive Particle Web) ──
         const particlesCanvas = document.getElementById('particlesCanvas');
         if (particlesCanvas) {
             const pCtx = particlesCanvas.getContext('2d');
             let particles = [];
 
-            function resizeParticles() {
+            function resize() {
                 particlesCanvas.width = window.innerWidth;
                 particlesCanvas.height = window.innerHeight;
             }
-            window.addEventListener('resize', resizeParticles);
-            resizeParticles();
+            window.addEventListener('resize', resize);
+            resize();
 
             function Particle() {
                 this.reset();
@@ -1053,44 +985,44 @@
             Particle.prototype.reset = function() {
                 this.x = Math.random() * particlesCanvas.width;
                 this.y = Math.random() * particlesCanvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 0.5;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                this.color = Math.random() > 0.5 ? '231,76,60' : '243,156,18';
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2 + 0.6;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.color = Math.random() > 0.4 ? '255, 62, 62' : '255, 179, 0';
             };
             Particle.prototype.update = function() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (this.x < 0 || this.x > particlesCanvas.width ||
-                    this.y < 0 || this.y > particlesCanvas.height) {
+                if (this.x < 0 || this.x > particlesCanvas.width || this.y < 0 || this.y > particlesCanvas.height) {
                     this.reset();
                 }
             };
             Particle.prototype.draw = function() {
                 pCtx.beginPath();
                 pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                pCtx.fillStyle = 'rgba(' + this.color + ',' + this.opacity + ')';
+                pCtx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
                 pCtx.fill();
             };
 
-            for (let i = 0; i < 80; i++) particles.push(new Particle());
+            for (let i = 0; i < CONFIG.particlesCount; i++) particles.push(new Particle());
 
             function animateParticles() {
                 pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-                particles.forEach(function(p) { p.update(); p.draw(); });
+                particles.forEach(p => { p.update(); p.draw(); });
 
+                // رسم خطوط الترابط الشبكي
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
                         const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 130) {
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 140) {
                             pCtx.beginPath();
                             pCtx.moveTo(particles[i].x, particles[i].y);
                             pCtx.lineTo(particles[j].x, particles[j].y);
-                            pCtx.strokeStyle = 'rgba(231,76,60,' + (0.08 * (1 - dist/130)) + ')';
-                            pCtx.lineWidth = 0.6;
+                            pCtx.strokeStyle = `rgba(255, 62, 62, ${0.1 * (1 - dist / 140)})`;
+                            pCtx.lineWidth = 0.5;
                             pCtx.stroke();
                         }
                     }
@@ -1100,55 +1032,55 @@
             animateParticles();
         }
 
-        // ══════ خلفية المطر الرقمي (Matrix) ══════
+        // ── خلفية المطر المضيء من الخيال العلمي (Matrix Crimson Rain) ──
         const matrixCanvas = document.getElementById('matrixCanvas');
         if (matrixCanvas) {
             const mCtx = matrixCanvas.getContext('2d');
-            const matrixChars = 'MECO01';
-            let matrixDrops = [];
+            const characters = 'MECO01';
+            let drops = [];
 
             function resizeMatrix() {
                 matrixCanvas.width = window.innerWidth;
                 matrixCanvas.height = window.innerHeight;
-                const fontSize = 14;
-                const columns = Math.floor(matrixCanvas.width / fontSize);
-                matrixDrops = [];
+                const columns = Math.floor(matrixCanvas.width / CONFIG.matrixSpeed);
+                drops = [];
                 for (let i = 0; i < columns; i++) {
-                    matrixDrops.push(Math.random() * matrixCanvas.height);
+                    drops.push(Math.random() * -100);
                 }
             }
             window.addEventListener('resize', resizeMatrix);
             resizeMatrix();
 
             function drawMatrix() {
-                mCtx.fillStyle = 'rgba(5, 5, 10, 0.05)';
+                mCtx.fillStyle = 'rgba(3, 3, 8, 0.04)'; // تلاشي مستمر لإنتاج أثر متتابع
                 mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-                mCtx.fillStyle = '#E74C3C';
-                mCtx.font = '14px monospace';
+                mCtx.fillStyle = '#FF3E3E';
+                mCtx.font = '12px monospace';
 
-                for (let i = 0; i < matrixDrops.length; i++) {
-                    const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                    mCtx.fillText(text, i * 14, matrixDrops[i]);
-                    if (matrixDrops[i] > matrixCanvas.height && Math.random() > 0.975) {
-                        matrixDrops[i] = 0;
+                for (let i = 0; i < drops.length; i++) {
+                    const char = characters[Math.floor(Math.random() * characters.length)];
+                    mCtx.fillText(char, i * CONFIG.matrixSpeed, drops[i]);
+
+                    if (drops[i] > matrixCanvas.height && Math.random() > 0.985) {
+                        drops[i] = 0;
                     }
-                    matrixDrops[i] += 14;
+                    drops[i] += CONFIG.matrixSpeed;
                 }
                 requestAnimationFrame(drawMatrix);
             }
             drawMatrix();
         }
 
-        // ══════ بداية التشغيل ══════
-        function startPresentation() {
+        // ── بدء الإقلاع والتهيئة الفنية ──
+        function initPresentation() {
             updateUI();
             autoPlayInterval = setInterval(nextSlide, CONFIG.autoPlayDelay);
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', startPresentation);
+            document.addEventListener('DOMContentLoaded', initPresentation);
         } else {
-            startPresentation();
+            initPresentation();
         }
 
     })();
