@@ -1,0 +1,37 @@
+# GitHub Pages Configuration
+theme: null
+enforce_https: true
+
+# Site Settings
+title: MECO Wallet
+description: منظومة مالية رقمية عربية على Solana - محفظة ذكية وآمنة
+baseurl: /meco_web
+url: https://monycoin.github.io/meco_web
+
+# Author
+author:
+  name: MonyCoin Digital Development Foundation
+  url: https://github.com/MonyCoin
+
+# Social
+social:
+  twitter: MoniCoinMECO
+  github: MonyCoin
+
+# Markdown
+markdown: kramdown
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+
+# Exclude
+exclude:
+  - .gitignore
+  - README.md
+  - node_modules
+  - .DS_Store
+
+# Timezone
+timezone: UTC
