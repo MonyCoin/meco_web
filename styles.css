@@ -12,7 +12,6 @@ ul, ol { list-style: none; }
 
 /* ---------- 2. Design Tokens ---------- */
 :root {
-  /* Brand */
   --meco-primary: #725CFF;
   --meco-primary-2: #4A38D8;
   --meco-cyan: #27D7D0;
@@ -20,40 +19,33 @@ ul, ol { list-style: none; }
   --meco-success: #45D39C;
   --meco-danger: #EF6B7A;
 
-  /* Surfaces (Dark) */
   --meco-bg: #080B16;
   --meco-bg-2: #0B1020;
   --meco-surface: #101728;
   --meco-surface-2: #151E32;
   --meco-surface-3: #1B2540;
 
-  /* Text */
   --meco-text: #F7F8FC;
   --meco-text-2: #B8C1D6;
   --meco-muted: #7A86A0;
 
-  /* Lines */
   --meco-line: rgba(157, 167, 188, .14);
   --meco-line-2: rgba(157, 167, 188, .24);
 
-  /* Effects */
   --meco-glow: 0 0 40px rgba(114, 92, 255, .35);
   --meco-shadow-sm: 0 4px 14px rgba(0,0,0,.24);
   --meco-shadow-md: 0 14px 40px rgba(0,0,0,.32);
   --meco-shadow-lg: 0 30px 70px rgba(0,0,0,.45);
 
-  /* Layout */
   --meco-radius-sm: 10px;
   --meco-radius: 16px;
   --meco-radius-lg: 24px;
   --meco-radius-full: 999px;
   --meco-container: 1180px;
 
-  /* Type */
   --meco-font: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --meco-transition: .28s cubic-bezier(.2,.8,.2,1);
 
-  /* Gradients */
   --meco-grad-primary: linear-gradient(135deg, #725CFF 0%, #4A38D8 100%);
   --meco-grad-hero: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(114,92,255,.28), transparent 70%),
                     radial-gradient(ellipse 40% 40% at 80% 20%, rgba(39,215,208,.12), transparent 70%);
@@ -608,7 +600,133 @@ footer p {
   font-size: 1.05rem;
 }
 
-/* ---------- 15. Responsive ---------- */
+/* ---------- 15. Timeline (Roadmap) ---------- */
+.timeline {
+  position: relative;
+  padding-right: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 8px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--meco-primary), var(--meco-cyan), transparent);
+  border-radius: 2px;
+}
+
+.phase-card {
+  position: relative;
+  background: var(--meco-surface);
+  border: 1px solid var(--meco-line);
+  border-radius: var(--meco-radius-lg);
+  padding: 26px 26px 22px;
+  margin-bottom: 22px;
+  transition: var(--meco-transition);
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  right: -38px;
+  top: 30px;
+  width: 14px;
+  height: 14px;
+  background: var(--meco-muted);
+  border: 3px solid var(--meco-bg);
+  border-radius: 50%;
+  z-index: 2;
+  transition: var(--meco-transition);
+}
+.phase-card:hover {
+  border-color: var(--meco-primary);
+  transform: translateX(-4px);
+  box-shadow: var(--meco-shadow-md);
+}
+.phase-card:hover::before {
+  background: var(--meco-primary);
+  box-shadow: 0 0 0 4px rgba(114,92,255,.2);
+}
+
+.phase-card.completed::before { background: var(--meco-success); }
+.phase-card.completed:hover::before {
+  box-shadow: 0 0 0 4px rgba(69,211,156,.2);
+}
+.phase-card.active::before { background: var(--meco-gold); }
+.phase-card.active:hover::before {
+  box-shadow: 0 0 0 4px rgba(247,200,115,.2);
+}
+.phase-card.active {
+  border-color: rgba(247,200,115,.4);
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.phase-header h2 {
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--meco-text);
+  margin: 0;
+}
+
+.phase-badge {
+  padding: 5px 12px;
+  border-radius: var(--meco-radius-full);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.phase-badge.completed {
+  background: rgba(69,211,156,.14);
+  color: var(--meco-success);
+  border: 1px solid rgba(69,211,156,.3);
+}
+.phase-badge.active {
+  background: rgba(247,200,115,.14);
+  color: var(--meco-gold);
+  border: 1px solid rgba(247,200,115,.3);
+}
+.phase-badge.planned {
+  background: var(--meco-surface-2);
+  color: var(--meco-muted);
+  border: 1px solid var(--meco-line);
+}
+
+.phase-card ul {
+  padding-right: 20px;
+  list-style: none;
+}
+.phase-card ul li {
+  position: relative;
+  color: var(--meco-text-2);
+  font-size: .96rem;
+  padding: 6px 0;
+  padding-right: 22px;
+  line-height: 1.7;
+}
+.phase-card ul li::before {
+  content: '';
+  position: absolute;
+  right: 4px;
+  top: 15px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--meco-primary);
+  opacity: .7;
+}
+
+/* ---------- 16. Responsive ---------- */
 @media (max-width: 960px) {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .stats-mini { grid-template-columns: repeat(2, 1fr); }
@@ -651,6 +769,14 @@ footer p {
   .content-card { padding: 28px 22px; }
 }
 
+@media (max-width: 640px) {
+  .timeline { padding-right: 22px; }
+  .timeline::before { right: 4px; }
+  .phase-card::before { right: -26px; }
+  .phase-card { padding: 22px 20px; }
+  .phase-header h2 { font-size: 1.05rem; }
+}
+
 @media (max-width: 520px) {
   .container { padding: 0 18px; }
   .stats-mini { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -661,7 +787,7 @@ footer p {
   .legal-links { gap: 14px; }
 }
 
-/* ---------- 16. Reduced motion ---------- */
+/* ---------- 17. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;
