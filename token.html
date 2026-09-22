@@ -1,239 +1,253 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عملة MECO (MonyCoin) — التوكنوميكس والمعلومات</title>
-    <meta name="description" content="معلومات عملة MECO الرسمية: العقد، التوكنوميكس، توزيع المحافظ، وصلاحيات العقد. شفافية كاملة على شبكة Solana.">
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #E74C3C;
-            --primary-dark: #C0392B;
-            --primary-light: rgba(231, 76, 60, 0.12);
-            --bg: #0A0A0F;
-            --surface: #1A1A2E;
-            --surface-light: #252540;
-            --text: #FFFFFF;
-            --text-secondary: #A0A0B0;
-            --gold: #FFD700;
-            --success: #10B981;
-            --error: #EF4444;
-            --border: #2A2A3E;
-            --radius: 16px;
-            --max-width: 900px;
-            --font: 'Tajawal', sans-serif;
-        }
-
-        [data-theme="light"] {
-            --bg: #F8FAFD;
-            --surface: #FFFFFF;
-            --surface-light: #F0F2F5;
-            --text: #1A1A2E;
-            --text-secondary: #6B7280;
-            --border: #E5E7EB;
-            --primary-light: rgba(231, 76, 60, 0.06);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: var(--font);
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
-
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 14px 0;
-        }
-        [data-theme="light"] header { background: rgba(255, 255, 255, 0.9); }
-        header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
-        .logo img { width: 44px; height: 44px; border-radius: 14px; }
-        .logo span { font-size: 1.4rem; font-weight: 900; color: var(--text); }
-        .logo span b { color: var(--primary); }
-
-        nav { display: flex; align-items: center; gap: 28px; }
-        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
-        nav a:hover, nav a.active { color: var(--primary); }
-
-        .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .btn { padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font); }
-        .btn-primary { background: var(--primary); color: #FFF; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25); }
-        .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; }
-
-        .page-hero { padding: 80px 0 40px; text-align: center; }
-        .page-hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
-        .page-hero h1 span { color: var(--primary); }
-        .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
-
-        .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
-        .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
-        .content-card p, .content-card ul { color: var(--text-secondary); font-size: 1rem; margin-bottom: 12px; }
-
-        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-        table th, table td { padding: 12px 16px; border: 1px solid var(--border); text-align: center; }
-        table th { background: var(--surface-light); color: var(--text); font-weight: 700; }
-        table td { color: var(--text-secondary); }
-        .mint-address { background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; font-family: monospace; font-size: 0.9rem; word-break: break-all; margin: 8px 0; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin: 4px; }
-        .badge-success { background: var(--success); color: #FFF; }
-        .badge-error { background: var(--error); color: #FFF; }
-
-        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
-        footer .legal-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
-        footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-        footer .legal-links a:hover { color: var(--primary); }
-        footer p { color: var(--text-secondary); font-size: 0.85rem; }
-
-        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
-
-        @media (max-width: 768px) {
-            .page-hero h1 { font-size: 2rem; }
-            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
-            nav.open { display: flex; }
-            .mobile-menu-btn { display: block; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MECO Token — رمز SPL على Solana بمعروض ثابت 1 مليار، بدون ضرائب، وتوكنوميكس موثّقة وشفافة.">
+<meta name="keywords" content="MECO Token, SPL Token, Solana, توكنوميكس, رمز رقمي, MonyCoin">
+<meta name="theme-color" content="#080B16">
+<meta property="og:title" content="MECO Token — رمز SPL على Solana">
+<meta property="og:description" content="معروض ثابت، بدون ضرائب، وتوكنوميكس موثّقة على الشبكة.">
+<meta property="og:image" content="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<title>MECO Token — رمز SPL على Solana</title>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="MECO Logo">
-                <span>MECO<b>Wallet</b></span>
-            </a>
-            <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-            <nav>
-                <a href="index.html">الرئيسية</a>
-                <a href="about.html">عن المشروع</a>
-                <a href="token.html" class="active">العملة</a>
-                <a href="wallet.html">المحفظة</a>
-                <a href="roadmap.html">خارطة الطريق</a>
-                <a href="blog.html">المدونة</a>
-                <a href="contact.html">اتصل بنا</a>
-            </nav>
-            <div class="header-actions">
-                <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
-                <a href="https://monycoin.github.io/meco_wallet-app/" class="btn btn-primary">⬇️ تحميل</a>
-            </div>
-        </div>
-    </header>
+<!-- ============ Header ============ -->
+<header>
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="MECO Network">
+      <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
+      <span>MECO<b>Network</b></span>
+    </a>
 
-    <section class="page-hero">
-        <div class="container">
-            <h1>عملة <span>MECO (MonyCoin)</span></h1>
-            <p>جميع المعلومات التقنية عن العملة: العقد، التوزيع، التوكنوميكس، وصلاحيات العقد</p>
-        </div>
-    </section>
+    <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
 
-    <section>
-        <div class="container">
-            <div class="content-card">
-                <h2>🪙 معلومات أساسية</h2>
-                <table>
-                    <tr><th>اسم العملة</th><td>MonyCoin</td></tr>
-                    <tr><th>الرمز</th><td>MECO</td></tr>
-                    <tr><th>الشبكة</th><td>Solana</td></tr>
-                    <tr><th>المعيار</th><td>SPL Token</td></tr>
-                    <tr><th>إجمالي المعروض</th><td>1,000,000,000 MECO</td></tr>
-                    <tr><th>الضرائب</th><td>0%</td></tr>
-                    <tr><th>الحرق</th><td>غير مفعّل حاليًا</td></tr>
-                </table>
-            </div>
+    <nav aria-label="القائمة الرئيسية">
+      <a href="index.html">الرئيسية</a>
+      <a href="token.html" class="active">MECO Token</a>
+      <a href="wallet.html">MECO Wallet</a>
+      <a href="about.html">عن المشروع</a>
+      <a href="roadmap.html">خارطة الطريق</a>
+      <a href="blog.html">المدونة</a>
+      <a href="contact.html">تواصل معنا</a>
+    </nav>
 
-            <div class="content-card">
-                <h2>📋 عنوان العقد (Mint Address)</h2>
-                <div class="mint-address">A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W</div>
-                <p style="text-align:center; margin-top:8px;">
-                    <a href="https://solscan.io/token/A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W" target="_blank" style="color:var(--primary)">عرض على Solscan ↗</a>
-                </p>
-            </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" aria-label="تبديل المظهر">☀️</button>
+    </div>
+  </div>
+</header>
 
-            <div class="content-card">
-                <h2>🔐 صلاحيات العقد</h2>
-                <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center;">
-                    <span class="badge badge-error">سك العملة (Mint): ❌ ملغى نهائيًا</span>
-                    <span class="badge badge-error">التجميد (Freeze): ❌ ملغى نهائيًا</span>
-                    <span class="badge badge-success">العقد: غير قابل للتعديل</span>
-                </div>
-                <p style="margin-top:16px;">هذه الصلاحيات تعني أنه لا يمكن لأي جهة إصدار المزيد من العملات أو تجميد أرصدة المستخدمين. الثقة مبنية على الكود.</p>
-            </div>
+<main>
 
-            <div class="content-card">
-                <h2>📊 التوكنوميكس (Tokenomics)</h2>
-                <table>
-                    <tr><th>الفئة</th><th>النسبة</th><th>الكمية</th><th>الحالة</th></tr>
-                    <tr><td>السيولة (Liquidity)</td><td>50%</td><td>500,000,000</td><td>✅ نشطة</td></tr>
-                    <tr><td>التطوير (Development)</td><td>20%</td><td>200,000,000</td><td>✅ تشغيلية</td></tr>
-                    <tr><td>الخزينة (Treasury)</td><td>10%</td><td>100,000,000</td><td>🔒 مقفلة 12 شهر</td></tr>
-                    <tr><td>الفريق (Team)</td><td>10%</td><td>100,000,000</td><td>🔒 مقفلة 12 شهر</td></tr>
-                    <tr><td>المجتمع (Community)</td><td>10%</td><td>100,000,000</td><td>✅ توزيع</td></tr>
-                </table>
-                <p>تم توزيع إجمالي المعروض على خمس محافظ مستقلة لضمان التنظيم والشفافية. جميع المحافظ معلنة ويمكن تتبعها على Solscan.</p>
-            </div>
+<!-- ============ Page Hero ============ -->
+<section class="page-hero">
+  <div class="container">
+    <span style="display:inline-block;font-size:.82rem;font-weight:800;letter-spacing:.12em;color:var(--meco-primary);text-transform:uppercase;margin-bottom:12px;">MECO Token</span>
+    <h1>الرمز الرقمي للمنظومة</h1>
+    <p>رمز SPL على Solana بمعروض ثابت، بدون ضرائب، وتوكنوميكس موثّقة بالكامل على الشبكة.</p>
+  </div>
+</section>
 
-            <div class="content-card">
-                <h2>🏦 المحافظ الرسمية (Official Wallets)</h2>
-                <table>
-                    <tr><th>المحفظة</th><th>العنوان</th></tr>
-                    <tr><td>السيولة (Liquidity)</td><td>4Y5phVWRj9kQvSBDU3hwE2JuXJxuF8epZbeWWiYFbVMT</td></tr>
-                    <tr><td>التطوير (Development)</td><td>5CFe4cckpQN9pUrTa6Tr7ZmSLhj5hb6YikbnANic2ZRq</td></tr>
-                    <tr><td>الخزينة (Treasury)</td><td>EK7oqBT8GeQhzNt28CDfPpsjQNL1nghpciUuNynEGXCB</td></tr>
-                    <tr><td>الفريق (Team)</td><td>3ekCiBB4C4eHxgQV5z7rPQmSEXTLDDPmes1rLtvpcYsA</td></tr>
-                    <tr><td>المجتمع (Community)</td><td>AeCkccj1qQxSiXuRCKZM3NmyBHB783go97gqQC5cd4w</td></tr>
-                    <tr><td>تحصيل الرسوم (Fee Collection)</td><td>BkaJsFAJKPQZgreBFLrY2pPUi44fTJzXhmeBc8LeuF5W</td></tr>
-                </table>
-            </div>
+<!-- ============ Quick Stats ============ -->
+<section class="stats-mini" aria-label="أرقام MECO Token">
+  <div class="stat-mini">
+    <div class="num">1B</div>
+    <div class="lbl">إجمالي المعروض</div>
+  </div>
+  <div class="stat-mini">
+    <div class="num">0%</div>
+    <div class="lbl">ضرائب الشراء والبيع</div>
+  </div>
+  <div class="stat-mini">
+    <div class="num">SPL</div>
+    <div class="lbl">معيار التوكن</div>
+  </div>
+  <div class="stat-mini">
+    <div class="num">Solana</div>
+    <div class="lbl">الشبكة</div>
+  </div>
+</section>
 
-            <div class="content-card">
-                <h2>📊 محافظ إدارة السوق (Market Making)</h2>
-                <p>مجموعة من 30 محفظة مستقلة تعمل كصانع سوق داخلي (Internal Market Maker) لحماية قيمة الرمز من التلاعب والمضاربات العنيفة. هذه المحافظ مزودة بكميات محدودة من MECO وسيولة بسيطة من SOL و USDT، وتعمل كأداة دفاعية لضبط إيقاع السوق وامتصاص الصدمات السعرية.</p>
-                <p>تم التصريح عن وجود 30 محفظة مخصصة لهذا الغرض، مما يعزز الشفافية. دورها دفاعي وتنظيمي بحت، ولا تُستخدم للتوزيع أو الترويج أو البيع المسبق.</p>
-            </div>
+<!-- ============ Token Info ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">نظرة عامة</span>
+      <h2>ما هو MECO Token؟</h2>
+      <p>الأصل الرقمي الأساسي لمنظومة MECO Network، مصمّم للاستخدام اليومي والتبادل السلس.</p>
+    </div>
 
-            <div class="content-card">
-                <h2>📈 سياسة القفل (Vesting)</h2>
-                <ul>
-                    <li><b>محفظة الفريق (Team):</b> قفل لمدة 12 شهرًا، ثم فتح تدريجي بنسبة 10% شهريًا.</li>
-                    <li><b>محفظة الخزينة (Treasury):</b> قفل لمدة 12 شهرًا، مخصصة لدعم الاستدامة.</li>
-                </ul>
-                <p>سياسة القفل تضمن التزام الفريق والاستدامة طويلة المدى للمشروع، وتمنع أي ضغط بيعي مفاجئ.</p>
-            </div>
-        </div>
-    </section>
+    <div class="grid grid-2">
+      <article class="card">
+        <div class="icon">⚖️</div>
+        <h3>معروض ثابت</h3>
+        <p>1,000,000,000 MECO فقط — لا إصدار إضافي، ولا حرق مفاجئ، ولا تغيير في الإجمالي.</p>
+      </article>
 
-    <footer>
-        <div class="container">
-            <div class="legal-links">
-                <a href="privacy.html">سياسة الخصوصية</a>
-                <a href="terms.html">شروط الاستخدام</a>
-                <a href="notice.html">حقوق الملكية الفكرية</a>
-            </div>
-            <div style="margin-bottom:12px;">
-                <span style="color:var(--text-secondary); font-size:0.8rem;">™ "MECO", "MECO Wallet", and the MECO logo are trademarks of MonyCoin Digital Development Foundation.</span>
-            </div>
-            <p>© 2026 MonyCoin Digital Development Foundation. Some rights reserved under the 0BSD License.</p>
-            <p style="margin-top:4px;">المؤسس: محمد سعادة</p>
-        </div>
-    </footer>
+      <article class="card">
+        <div class="icon">🚫</div>
+        <h3>بدون ضرائب</h3>
+        <p>لا توجد أي رسوم إضافية على الشراء أو البيع — فقط رسوم شبكة Solana الرمزية.</p>
+      </article>
 
-    <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-        }
-    </script>
+      <article class="card">
+        <div class="icon">🔒</div>
+        <h3>عقد موثّق</h3>
+        <p>العقد متاح للعموم على Solscan مع بيانات كاملة وقابل للتحقق من أي شخص.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🛠️</div>
+        <h3>مفتوح المصدر</h3>
+        <p>كود العقد منشور على GitHub — لا توجد شروط خفية أو صلاحيات مركزية خطيرة.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Tokenomics ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">التوكنوميكس</span>
+      <h2>توزيع المعروض</h2>
+      <p>شفافية كاملة في توزيع الرمز — كل حصة معلنة ومعروفة.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="icon">💧</div>
+        <h3>50% — السيولة</h3>
+        <p>مخصّصة لتوفير السيولة على منصات التداول اللامركزية وضمان استقرار السعر.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🚀</div>
+        <h3>20% — التطوير</h3>
+        <p>مخصّصة لتطوير المحفظة، المنظومة، والبنية التحتية التقنية للمشروع.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🌍</div>
+        <h3>15% — المجتمع</h3>
+        <p>للحملات التسويقية، المكافآت، والنمو المجتمعي في العالم العربي.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">👥</div>
+        <h3>10% — الفريق</h3>
+        <p>مخصّصة للفريق المؤسس، مع جدول استحقاق طويل الأمد (Vesting) لضمان الالتزام.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🎁</div>
+        <h3>5% — الاحتياطي</h3>
+        <p>احتياطي استراتيجي للطوارئ والفرص المستقبلية في المنظومة.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">📊</div>
+        <h3>مُوثَّق بالكامل</h3>
+        <p>جميع العناوين والحصص موثّقة على الشبكة ويمكن مراجعتها من Solscan.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Use Cases ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">الاستخدامات</span>
+      <h2>أين يُستخدم MECO؟</h2>
+      <p>الرمز ليس مجرد أصل استثماري — بل أداة عملية داخل المنظومة.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="icon">💳</div>
+        <h3>وسيلة تبادل</h3>
+        <p>استخدم MECO في المدفوعات والتحويلات داخل منظومة MECO Wallet.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🏛️</div>
+        <h3>حوكمة مستقبلية</h3>
+        <p>المشاركة في قرارات المنظومة عبر التصويت — ضمن خارطة الطريق.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">💎</div>
+        <h3>Staking ومكافآت</h3>
+        <p>شارك في برامج Staking داخل المحفظة واكسب مكافآت على رموزك.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Contract Transparency ============ -->
+<section class="section">
+  <div class="container">
+    <div class="content-card">
+      <h2>🔍 التحقق من العقد</h2>
+      <p>
+        عقد MECO Token منشور علناً على Solana. يمكن لأي شخص التحقق من المعروض الحالي،
+        عدد الحاملين، والمعاملات مباشرة من متصفح الشبكة.
+      </p>
+      <h3>روابط رسمية</h3>
+      <p>• <a href="https://github.com/MonyCoin/meco-token" target="_blank" rel="noopener noreferrer">مستودع التوكن على GitHub ↗</a></p>
+      <p>• <a href="https://github.com/MonyCoin/meco-token" target="_blank" rel="noopener noreferrer">الوثيقة التقنية (Whitepaper) ↗</a></p>
+      <p>• <a href="https://solscan.io" target="_blank" rel="noopener noreferrer">التحقق على Solscan ↗</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Roadmap Hint ============ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-block">
+      <h2>مراحل MECO Token</h2>
+      <p>من الإطلاق إلى القوائم، الحوكمة، والتوسع — تابع خارطة الطريق الكاملة.</p>
+      <a href="roadmap.html" class="btn btn-outline btn-lg">عرض خارطة الطريق</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer>
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="MECO Network">
+      <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
+      <span>MECO<b>Network</b></span>
+    </a>
+
+    <div class="social-links">
+      <a href="https://x.com/MoniCoinMECO" target="_blank" rel="noopener noreferrer" aria-label="X">𝕏</a>
+      <a href="https://t.me/monycoin1" target="_blank" rel="noopener noreferrer" aria-label="Telegram">✈️</a>
+      <a href="https://github.com/MonyCoin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">🐙</a>
+      <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
+    </div>
+
+    <div class="legal-links">
+      <a href="privacy.html">سياسة الخصوصية</a>
+      <a href="terms.html">شروط الاستخدام</a>
+      <a href="notice.html">حقوق الملكية</a>
+    </div>
+
+    <p>© 2026 MonyCoin Digital Development Foundation — المؤسس: محمد سعادة</p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
 </body>
 </html>
