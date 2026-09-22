@@ -893,7 +893,126 @@ footer p {
   word-break: break-all;
 }
 
-/* ---------- 18. Responsive ---------- */
+/* ---------- 18. Contract Address ---------- */
+.contract-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--meco-surface-2);
+  border: 1px solid var(--meco-line);
+  border-radius: var(--meco-radius);
+  padding: 16px 18px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.contract-address {
+  flex: 1;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: .88rem;
+  color: var(--meco-cyan);
+  direction: ltr;
+  text-align: left;
+  word-break: break-all;
+  min-width: 200px;
+  line-height: 1.5;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--meco-grad-primary);
+  color: #fff;
+  border-radius: var(--meco-radius-full);
+  font-size: .84rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  font-family: var(--meco-font);
+  transition: var(--meco-transition);
+  white-space: nowrap;
+}
+.copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(114,92,255,.4);
+}
+.copy-btn.copied {
+  background: var(--meco-success);
+}
+
+/* ---------- 19. Tokenomics Bars ---------- */
+.tokenomics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.tokenomics-item {
+  background: var(--meco-surface);
+  border: 1px solid var(--meco-line);
+  border-radius: var(--meco-radius);
+  padding: 20px 22px;
+  transition: var(--meco-transition);
+}
+.tokenomics-item:hover {
+  border-color: var(--meco-primary);
+  transform: translateX(-4px);
+}
+
+.tokenomics-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.tokenomics-head h3 {
+  font-size: 1.02rem;
+  font-weight: 800;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tokenomics-percent {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--meco-primary);
+  font-family: 'Monaco', 'Consolas', monospace;
+}
+
+.tokenomics-bar {
+  height: 8px;
+  background: var(--meco-surface-2);
+  border-radius: var(--meco-radius-full);
+  overflow: hidden;
+}
+.tokenomics-bar-fill {
+  height: 100%;
+  border-radius: var(--meco-radius-full);
+  background: var(--meco-grad-primary);
+  transition: width 1.2s cubic-bezier(.2,.8,.2,1);
+  box-shadow: 0 0 12px rgba(114,92,255,.5);
+}
+.tokenomics-bar-fill.liquidity { background: linear-gradient(90deg, #725CFF, #4A38D8); }
+.tokenomics-bar-fill.dev       { background: linear-gradient(90deg, #27D7D0, #1BAFA9); }
+.tokenomics-bar-fill.treasury  { background: linear-gradient(90deg, #F7C873, #D9A94A); }
+.tokenomics-bar-fill.team      { background: linear-gradient(90deg, #45D39C, #2EAE7A); }
+.tokenomics-bar-fill.community { background: linear-gradient(90deg, #EF6B7A, #C94B5A); }
+
+.tokenomics-desc {
+  font-size: .88rem;
+  color: var(--meco-text-2);
+  margin-top: 10px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* ---------- 20. Responsive ---------- */
 @media (max-width: 960px) {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .stats-mini { grid-template-columns: repeat(2, 1fr); }
@@ -946,6 +1065,9 @@ footer p {
   .blog-footer { flex-direction: column; align-items: stretch; }
   .share-btn { justify-content: center; }
   .contact-grid { grid-template-columns: 1fr 1fr; }
+  .contract-box { flex-direction: column; align-items: stretch; }
+  .contract-address { text-align: center; }
+  .copy-btn { justify-content: center; }
 }
 
 @media (max-width: 520px) {
@@ -961,7 +1083,7 @@ footer p {
   .contact-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- 19. Reduced motion ---------- */
+/* ---------- 21. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;
