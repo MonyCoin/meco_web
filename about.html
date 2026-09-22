@@ -1,324 +1,327 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="مؤسسة MonyCoin للتطوير الرقمي ومنظومة MECO المالية: أول محفظة عربية لا مركزية على Solana.">
-    <meta name="keywords" content="MECO, محفظة رقمية, Solana, عملات رقمية, Web3">
-    <meta name="author" content="MonyCoin Digital Development Foundation">
-    <meta name="theme-color" content="#E74C3C">
-    <meta property="og:title" content="عن المشروع — MECO Wallet">
-    <meta property="og:description" content="تعرف على مؤسسة MonyCoin وعرض فيديو متكلم عن منظومة MECO المالية">
-    <meta property="og:image" content="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
-    <title>عن المشروع — MECO Wallet | عرض فيديو متكلم</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="video-styles.css">
-    <style>
-        :root {
-            --primary: #E74C3C;
-            --primary-dark: #C0392B;
-            --primary-light: rgba(231, 76, 60, 0.12);
-            --bg: #0A0A0F;
-            --surface: #1A1A2E;
-            --surface-light: #252540;
-            --text: #FFFFFF;
-            --text-secondary: #A0A0B0;
-            --border: #2A2A3E;
-            --radius: 16px;
-            --max-width: 900px;
-            --font: 'Tajawal', sans-serif;
-        }
-
-        [data-theme="light"] {
-            --bg: #F8FAFD;
-            --surface: #FFFFFF;
-            --surface-light: #F0F2F5;
-            --text: #1A1A2E;
-            --text-secondary: #6B7280;
-            --border: #E5E7EB;
-            --primary-light: rgba(231, 76, 60, 0.06);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: var(--font);
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.8;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
-
-        header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 14px 0;
-        }
-        [data-theme="light"] header { background: rgba(255, 255, 255, 0.9); }
-        header .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
-        .logo img { width: 44px; height: 44px; border-radius: 14px; }
-        .logo span { font-size: 1.4rem; font-weight: 900; color: var(--text); }
-        .logo span b { color: var(--primary); }
-
-        nav { display: flex; align-items: center; gap: 28px; }
-        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.2s; white-space: nowrap; }
-        nav a:hover, nav a.active { color: var(--primary); }
-
-        .header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .btn { padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: var(--font); cursor: pointer; border: none; }
-        .btn-primary { background: var(--primary); color: #FFF; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(231, 76, 60, 0.25); }
-        .theme-toggle { background: none; border: none; color: var(--text-secondary); font-size: 1.4rem; cursor: pointer; padding: 8px; transition: all 0.2s; }
-        .theme-toggle:hover { color: var(--primary); transform: rotate(20deg); }
-
-        .page-hero { padding: 80px 0 40px; text-align: center; }
-        .page-hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
-        .page-hero h1 span { color: var(--primary); }
-        .page-hero p { color: var(--text-secondary); font-size: 1.1rem; }
-
-        .content-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; transition: all 0.3s; }
-        .content-card:hover { border-color: var(--primary); box-shadow: 0 12px 40px rgba(231, 76, 60, 0.15); }
-        .content-card h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 16px; }
-        .content-card h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 12px; margin-top: 20px; }
-        .content-card p, .content-card ul { color: var(--text-secondary); font-size: 1rem; margin-bottom: 12px; }
-        .content-card ul { padding-right: 20px; }
-        .content-card ul li { margin-bottom: 8px; }
-
-        .stats-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-top: 16px; }
-        .stat-mini { background: var(--surface-light); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid var(--border); transition: all 0.3s; }
-        .stat-mini:hover { border-color: var(--primary); transform: translateY(-4px); }
-        .stat-mini .num { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
-        .stat-mini .lbl { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
-
-        footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; margin-top: 60px; }
-        footer .legal-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap; }
-        footer .legal-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-        footer .legal-links a:hover { color: var(--primary); }
-        footer p { color: var(--text-secondary); font-size: 0.85rem; }
-
-        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.8rem; cursor: pointer; padding: 8px; }
-
-        @media (max-width: 768px) {
-            .page-hero h1 { font-size: 2rem; }
-            nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
-            nav.open { display: flex; }
-            .mobile-menu-btn { display: block; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="مؤسسة MonyCoin للتطوير الرقمي ومنظومة MECO المالية: أول محفظة عربية لا مركزية على Solana.">
+<meta name="keywords" content="MECO, محفظة رقمية, Solana, عملات رقمية, Web3, MonyCoin">
+<meta name="author" content="MonyCoin Digital Development Foundation">
+<meta name="theme-color" content="#080B16">
+<meta property="og:title" content="عن المشروع — MECO Network">
+<meta property="og:description" content="تعرف على مؤسسة MonyCoin ومنظومة MECO المالية المتكاملة.">
+<meta property="og:image" content="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="video-styles.css">
+<title>عن المشروع — MECO Network</title>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <a href="index.html" class="logo" aria-label="الصفحة الرئيسية">
-                <img src="https://raw.githubusercontent.com/MonyCoin/meco_wallet/refs/heads/main/assets/icon.png" alt="شعار MECO" width="44" height="44">
-                <span>MECO<b>Wallet</b></span>
-            </a>
-            <button class="mobile-menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-            <nav aria-label="القائمة الرئيسية">
-                <a href="index.html">الرئيسية</a>
-                <a href="about.html" class="active">عن المشروع</a>
-                <a href="token.html">العملة</a>
-                <a href="wallet.html">المحفظة</a>
-                <a href="roadmap.html">خارطة الطريق</a>
-                <a href="blog.html">المدونة</a>
-                <a href="contact.html">اتصل بنا</a>
-            </nav>
-            <div class="header-actions">
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل المظهر">🌙</button>
-                <a href="https://github.com/MonyCoin/meco_wallet/releases" class="btn btn-primary" target="_blank" rel="noopener noreferrer">⬇️ تحميل</a>
-            </div>
+<!-- ============ Header ============ -->
+<header>
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="MECO Network">
+      <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
+      <span>MECO<b>Network</b></span>
+    </a>
+
+    <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+
+    <nav aria-label="القائمة الرئيسية">
+      <a href="index.html">الرئيسية</a>
+      <a href="token.html">MECO Token</a>
+      <a href="wallet.html">MECO Wallet</a>
+      <a href="about.html" class="active">عن المشروع</a>
+      <a href="roadmap.html">خارطة الطريق</a>
+      <a href="blog.html">المدونة</a>
+      <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" aria-label="تبديل المظهر">☀️</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ Page Hero ============ -->
+<section class="page-hero">
+  <div class="container">
+    <span style="display:inline-block;font-size:.82rem;font-weight:800;letter-spacing:.12em;color:var(--meco-primary);text-transform:uppercase;margin-bottom:12px;">عن المشروع</span>
+    <h1>من نحن</h1>
+    <p>مؤسسة MonyCoin للتطوير الرقمي — نبني منظومة مالية عربية متكاملة على Solana.</p>
+  </div>
+</section>
+
+<!-- ============ Video Section ============ -->
+<section class="section" style="padding-top:20px;">
+  <div class="container">
+    <div class="video-section">
+      <div class="video-header">
+        <h2>🎬 عرض MECO التعريفي</h2>
+        <p>شاهد قصة منظومة MECO المالية مع صوت احترافي ونصوص متزامنة</p>
+      </div>
+
+      <div class="video-player-container">
+        <div class="video-wrapper">
+          <video id="meco-video" title="عرض MECO التعريفي" style="background:#000;">
+            <source src="https://www.youtube.com/embed/dQw4w9WgXcQ" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو
+          </video>
+          <div id="captions" role="region" aria-label="ترجمة الفيديو" aria-live="polite"></div>
+          <div id="speaking-indicator" aria-label="مؤشر التحدث">
+            <span></span>
+            <span>جاري التحدث</span>
+          </div>
         </div>
-    </header>
 
-    <section class="page-hero">
-        <div class="container">
-            <h1>🏛️ <span>عن المشروع</span></h1>
-            <p>تعرف على مؤسسة MonyCoin للتطوير الرقمي ومنظومة MECO المالية المتكاملة</p>
+        <div class="video-controls">
+          <div class="progress-container">
+            <input type="range" id="progress-bar" min="0" max="100" value="0" aria-label="شريط التقدم">
+            <span id="time-display">0:00 / 0:00</span>
+          </div>
+
+          <div class="controls-row">
+            <div class="control-group">
+              <button id="play-btn" class="control-btn" title="تشغيل" aria-label="تشغيل الفيديو">▶️</button>
+              <button id="pause-btn" class="control-btn" title="إيقاف" aria-label="إيقاف الفيديو" style="display:none;">⏸️</button>
+            </div>
+
+            <div class="control-group">
+              <label for="volume-slider" style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <span>🔊</span>
+              </label>
+              <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="مستوى الصوت">
+            </div>
+
+            <div class="control-group">
+              <label for="speed-select" style="font-size:0.9rem; font-weight:600;">السرعة:</label>
+              <select id="speed-select" class="control-select" aria-label="سرعة التشغيل">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>العادية</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <button id="captions-btn" class="control-btn" title="ترجمة" aria-label="تشغيل/إيقاف الترجمة">📝</button>
+            </div>
+
+            <div class="control-group">
+              <button id="tts-btn" class="control-btn" title="صوت" aria-label="تشغيل النص بصوت عالٍ">🔊</button>
+            </div>
+
+            <div class="control-group">
+              <label for="language-select" style="font-size:0.9rem; font-weight:600;">اللغة:</label>
+              <select id="language-select" class="control-select" aria-label="اختيار اللغة">
+                <option value="ar" selected>العربية</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section>
-        <div class="container">
+<!-- ============ Who We Are ============ -->
+<section class="section" style="padding-top:20px;">
+  <div class="container">
+    <div class="content-card">
+      <h2>من نحن</h2>
+      <p>
+        <strong>مؤسسة MonyCoin للتطوير الرقمي</strong> هي مؤسسة تقنية متخصصة في تخطيط وتنفيذ
+        المشروعات الرقمية الحديثة على شبكات البلوكتشين، مع التركيز على حلول Web3 والتطبيقات اللامركزية.
+      </p>
+      <p>
+        من أبرز إنجازات المؤسسة: <strong>منظومة MECO المالية</strong> — نظام متكامل يجمع بين
+        رمز رقمي وتطبيق محفظة ذكية.
+      </p>
+    </div>
+  </div>
+</section>
 
-            <!-- 🎬 عرض الفيديو المتكلم الاحترافي -->
-            <div class="video-section">
-                <div class="video-header">
-                    <h2>🎬 عرض MECO التعريفي المتكلم</h2>
-                    <p>شاهد قصة منظومة MECO المالية مع صوت احترافي ونصوص متزامنة</p>
-                </div>
+<!-- ============ Ecosystem ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">المنظومة</span>
+      <h2>منظومة MECO المالية</h2>
+      <p>جزآن رئيسيان يعملان معاً لتقديم تجربة Web3 متكاملة.</p>
+    </div>
 
-                <div class="video-player-container">
-                    <div class="video-wrapper">
-                        <video id="meco-video" title="عرض MECO التعريفي" style="background:#000;">
-                            <source src="https://www.youtube.com/embed/dQw4w9WgXcQ" type="video/mp4">
-                            متصفحك لا يدعم تشغيل الفيديو
-                        </video>
-                        <div id="captions" role="region" aria-label="ترجمة الفيديو" aria-live="polite"></div>
-                        <div id="speaking-indicator" aria-label="مؤشر التحدث">
-                            <span></span>
-                            <span>جاري التحدث</span>
-                        </div>
-                    </div>
+    <div class="grid grid-2">
+      <article class="card">
+        <div class="icon">🪙</div>
+        <h3>1. رمز MECO</h3>
+        <p>رمز رقمي على شبكة Solana بمعروض ثابت وبدون ضرائب.</p>
+        <p style="margin-bottom:6px;"><strong>إجمالي المعروض:</strong> 1,000,000,000 MECO</p>
+        <p style="margin-bottom:6px;"><strong>الضرائب:</strong> 0%</p>
+        <p style="margin-bottom:0;"><strong>الشفافية:</strong> موثّق على GitHub</p>
+      </article>
 
-                    <div class="video-controls">
-                        <div class="progress-container">
-                            <input type="range" id="progress-bar" min="0" max="100" value="0" aria-label="شريط التقدم">
-                            <span id="time-display">0:00 / 0:00</span>
-                        </div>
+      <article class="card">
+        <div class="icon">🔐</div>
+        <h3>2. محفظة MECO</h3>
+        <p>أول محفظة عربية لا مركزية على Solana — تحكم كامل بأصولك بدون وصاية.</p>
+        <a href="wallet.html" class="link">استكشف المحفظة ←</a>
+      </article>
+    </div>
+  </div>
+</section>
 
-                        <div class="controls-row">
-                            <div class="control-group">
-                                <button id="play-btn" class="control-btn" title="تشغيل" aria-label="تشغيل الفيديو">▶️</button>
-                                <button id="pause-btn" class="control-btn" title="إيقاف" aria-label="إيقاف الفيديو" style="display:none;">⏸️</button>
-                            </div>
+<!-- ============ Wallet Features ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">المميزات</span>
+      <h2>مميزات MECO Wallet</h2>
+      <p>أدوات كاملة لإدارة أصولك الرقمية باحترافية.</p>
+    </div>
 
-                            <div class="control-group">
-                                <label for="volume-slider" style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                                    <span>🔊</span>
-                                </label>
-                                <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="مستوى الصوت">
-                            </div>
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="icon">🛡️</div>
+        <h3>أمان كامل</h3>
+        <p>أنت المالك الوحيد لمفاتيحك — لا وصاية، لا تجميد، لا وصول طرف ثالث.</p>
+      </article>
 
-                            <div class="control-group">
-                                <label for="speed-select" style="font-size:0.9rem; font-weight:600;">السرعة:</label>
-                                <select id="speed-select" class="control-select" aria-label="سرعة التشغيل">
-                                    <option value="0.5">0.5x</option>
-                                    <option value="0.75">0.75x</option>
-                                    <option value="1" selected>العادية</option>
-                                    <option value="1.25">1.25x</option>
-                                    <option value="1.5">1.5x</option>
-                                    <option value="2">2x</option>
-                                </select>
-                            </div>
+      <article class="card">
+        <div class="icon">👥</div>
+        <h3>10 حسابات منفصلة</h3>
+        <p>أنشئ وأدِر حتى 10 محافظ مستقلة من تطبيق واحد.</p>
+      </article>
 
-                            <div class="control-group">
-                                <button id="captions-btn" class="control-btn" title="ترجمة" aria-label="تشغيل/إيقاف الترجمة">📝</button>
-                            </div>
+      <article class="card">
+        <div class="icon">📈</div>
+        <h3>استثمار على Orca و Raydium</h3>
+        <p>ادخل مجمعات السيولة مباشرة من المحفظة.</p>
+      </article>
 
-                            <div class="control-group">
-                                <button id="tts-btn" class="control-btn" title="صوت" aria-label="تشغيل النص بصوت عالٍ">🔊</button>
-                            </div>
+      <article class="card">
+        <div class="icon">🔄</div>
+        <h3>مبادلة فورية</h3>
+        <p>بدّل بين الرموز عبر Jupiter بأفضل الأسعار على Solana.</p>
+      </article>
 
-                            <div class="control-group">
-                                <label for="language-select" style="font-size:0.9rem; font-weight:600;">اللغة:</label>
-                                <select id="language-select" class="control-select" aria-label="اختيار اللغة">
-                                    <option value="ar" selected>العربية</option>
-                                    <option value="en">English</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <article class="card">
+        <div class="icon">💎</div>
+        <h3>Staking بعوائد مجزية</h3>
+        <p>شارك في تأمين الشبكة بعوائد تصل إلى 40%.</p>
+      </article>
 
-            <!-- من نحن -->
-            <div class="content-card">
-                <h2>من نحن</h2>
-                <p><b>مؤسسة MonyCoin للتطوير الرقمي</b> هي مؤسسة تقنية رائدة متخصصة في تخطيط وتنفيذ المشروعات الرقمية الحديثة على شبكات البلوكتشين، مع التركيز على حلول Web3 والتطبيقات اللامركزية.</p>
-                <p>من أبرز إنجازات المؤسسة: <b>منظومة MECO المالية</b> — نظام متكامل يجمع بين رمز رقمي وتطبيق محفظة ذكية.</p>
-            </div>
+      <article class="card">
+        <div class="icon">🌐</div>
+        <h3>متصفح Web3 مدمج</h3>
+        <p>اتصل بتطبيقات Solana اللامركزية بأمان مباشرة من المحفظة.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
-            <!-- منظومة MECO -->
-            <div class="content-card">
-                <h2>💡 منظومة MECO المالية</h2>
-                <p>منظومة MECO تتكون من جزأين رئيسيين:</p>
-                <h3>1️⃣ رمز MECO (MECO Token)</h3>
-                <p>رمز رقمي على شبكة Solana:</p>
-                <ul>
-                    <li><b>إجمالي المعروض:</b> 1,000,000,000 MECO</li>
-                    <li><b>الضرائب:</b> 0%</li>
-                    <li><b>الشفافية:</b> موثق على GitHub</li>
-                </ul>
-                <h3>2️⃣ محفظة MECO Wallet</h3>
-                <p>أول محفظة عربية لا مركزية على Solana.</p>
-            </div>
+<!-- ============ Stats ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">بالأرقام</span>
+      <h2>منظومة MECO بالأرقام</h2>
+    </div>
 
-            <!-- المميزات -->
-            <div class="content-card">
-                <h2>🔐 مميزات MECO Wallet</h2>
-                <ul>
-                    <li>✔️ أمان كامل — أنت المالك الوحيد</li>
-                    <li>✔️ 10 حسابات منفصلة</li>
-                    <li>✔️ استثمار على Orca وRaydium</li>
-                    <li>✔️ مبادلة فورية عبر Jupiter</li>
-                    <li>✔️ Staking بعوائد حتى 40%</li>
-                    <li>✔️ متصفح Web3 مدمج</li>
-                </ul>
-            </div>
+    <div class="stats-mini" style="padding:0;">
+      <div class="stat-mini">
+        <div class="num">1B</div>
+        <div class="lbl">إجمالي المعروض</div>
+      </div>
+      <div class="stat-mini">
+        <div class="num">0%</div>
+        <div class="lbl">ضرائب</div>
+      </div>
+      <div class="stat-mini">
+        <div class="num">10</div>
+        <div class="lbl">حسابات فرعية</div>
+      </div>
+      <div class="stat-mini">
+        <div class="num">40%</div>
+        <div class="lbl">أعلى عائد Staking</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <!-- الإحصائيا�� -->
-            <div class="content-card">
-                <h2>📊 منظومة MECO بالأرقام</h2>
-                <div class="stats-mini">
-                    <div class="stat-mini">
-                        <div class="num">1B</div>
-                        <div class="lbl">إجمالي المعروض</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div class="num">0%</div>
-                        <div class="lbl">ضرائب</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div class="num">10</div>
-                        <div class="lbl">حسابات فرعية</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div class="num">40%</div>
-                        <div class="lbl">أعلى عائد Staking</div>
-                    </div>
-                </div>
-            </div>
+<!-- ============ Vision ============ -->
+<section class="section">
+  <div class="container">
+    <div class="content-card">
+      <h2>🌍 رؤيتنا</h2>
+      <p>نحن نبني <strong>منظومة مالية متكاملة</strong> قادرة على النمو الذاتي.</p>
+      <p>نطمح لأن تكون MECO هي <strong>البوابة الرقمية الأولى</strong> لكل مستخدم عربي في Web3.</p>
+    </div>
+  </div>
+</section>
 
-            <!-- الرؤية -->
-            <div class="content-card">
-                <h2>🌍 رؤيتنا</h2>
-                <p>نحن نبني <b>منظومة مالية متكاملة</b> قادرة على النمو الذاتي.</p>
-                <p>نطمح لأن تكون MECO هي <b>البوابة الرقمية الأولى</b> لكل مستخدم عربي في Web3.</p>
-            </div>
+<!-- ============ Self-Growing Model ============ -->
+<section class="section">
+  <div class="container">
+    <div class="content-card">
+      <h2>🔄 منظومة ذاتية النمو</h2>
+      <p>نموذج اقتصادي مصمّم لاستدامة السيولة ودعم قيمة الرمز على المدى الطويل:</p>
+      <p>• جميع رسوم الاستخدام تُجمع في محفظة معلنة.</p>
+      <p>• توجيه الرسوم إلى مجمع سيولة MECO.</p>
+      <p>• دعم مستمر للسيولة ونمو الرمز.</p>
+    </div>
+  </div>
+</section>
 
-            <!-- المؤسس -->
-            <div class="content-card">
-                <h2>المؤسس</h2>
-                <p><b>محمد سعادة</b> — مؤسس المشروع والمهندس الرئيسي وراء بناء منظومة MECO.</p>
-            </div>
+<!-- ============ Founder ============ -->
+<section class="section">
+  <div class="container">
+    <div class="content-card">
+      <h2>المؤسس</h2>
+      <p>
+        <strong>محمد سعادة</strong> — مؤسس المشروع والمهندس الرئيسي وراء بناء منظومة MECO
+        بمختلف مكوناتها التقنية.
+      </p>
+    </div>
+  </div>
+</section>
 
-            <!-- النموذج الاقتصادي -->
-            <div class="content-card">
-                <h2>🔄 منظومة ذاتية النمو</h2>
-                <ul>
-                    <li>جميع رسوم الاستخدام تُجمع في محفظة معلنة</li>
-                    <li>توجيه الرسوم إلى مجمع سيولة MECO</li>
-                    <li>دعم مستمر للسيولة ونمو الرمز</li>
-                </ul>
-            </div>
+</main>
 
-        </div>
-    </section>
+<!-- ============ Footer ============ -->
+<footer>
+  <div class="container">
+    <a href="index.html" class="logo" aria-label="MECO Network">
+      <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
+      <span>MECO<b>Network</b></span>
+    </a>
 
-    <footer>
-        <div class="container">
-            <div class="social-links" style="display:flex; gap:16px; justify-content:center; margin-bottom:20px;">
-                <a href="https://x.com/MoniCoinMECO" target="_blank" rel="noopener noreferrer">𝕏</a>
-                <a href="https://t.me/monycoin1" target="_blank" rel="noopener noreferrer">✈️</a>
-                <a href="https://github.com/MonyCoin" target="_blank" rel="noopener noreferrer">🐙</a>
-            </div>
-            <div class="legal-links">
-                <a href="privacy.html">سياسة الخصوصية</a>
-                <a href="terms.html">شروط الاستخدام</a>
-                <a href="notice.html">حقوق الملكية</a>
-            </div>
-            <p>© 2026 MonyCoin. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
+    <div class="social-links">
+      <a href="https://x.com/MoniCoinMECO" target="_blank" rel="noopener noreferrer" aria-label="X">𝕏</a>
+      <a href="https://t.me/monycoin1" target="_blank" rel="noopener noreferrer" aria-label="Telegram">✈️</a>
+      <a href="https://github.com/MonyCoin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">🐙</a>
+      <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
+    </div>
 
-    <script src="app.js"></script>
-    <script src="video-player.js"></script>
+    <div class="legal-links">
+      <a href="privacy.html">سياسة الخصوصية</a>
+      <a href="terms.html">شروط الاستخدام</a>
+      <a href="notice.html">حقوق الملكية</a>
+    </div>
+
+    <p>© 2026 MonyCoin Digital Development Foundation — المؤسس: محمد سعادة</p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+<script src="video-player.js" defer></script>
 </body>
 </html>
