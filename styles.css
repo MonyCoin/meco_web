@@ -852,7 +852,48 @@ footer p {
   background: rgba(114,92,255,.06);
 }
 
-/* ---------- 17. Responsive ---------- */
+/* ---------- 17. Contact Grid ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.contact-item {
+  background: var(--meco-surface-2);
+  border: 1px solid var(--meco-line);
+  border-radius: var(--meco-radius);
+  padding: 26px 20px;
+  text-align: center;
+  display: block;
+  transition: var(--meco-transition);
+}
+.contact-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--meco-primary);
+  box-shadow: var(--meco-shadow-md);
+}
+.contact-item .contact-icon {
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+  display: block;
+}
+.contact-item h3 {
+  color: var(--meco-text);
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.contact-item p {
+  color: var(--meco-muted);
+  font-size: .88rem;
+  margin: 0;
+  direction: ltr;
+  word-break: break-all;
+}
+
+/* ---------- 18. Responsive ---------- */
 @media (max-width: 960px) {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .stats-mini { grid-template-columns: repeat(2, 1fr); }
@@ -904,6 +945,7 @@ footer p {
   .phase-header h2 { font-size: 1.05rem; }
   .blog-footer { flex-direction: column; align-items: stretch; }
   .share-btn { justify-content: center; }
+  .contact-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 520px) {
@@ -916,9 +958,10 @@ footer p {
   .legal-links { gap: 14px; }
   .blog-card { padding: 22px 18px; }
   .blog-tags { justify-content: center; }
+  .contact-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- 18. Reduced motion ---------- */
+/* ---------- 19. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;
