@@ -26,9 +26,7 @@
       <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
       <span>MECO<b>Network</b></span>
     </a>
-
     <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
-
     <nav aria-label="القائمة الرئيسية">
       <a href="index.html">الرئيسية</a>
       <a href="token.html" class="active">MECO Token</a>
@@ -38,7 +36,6 @@
       <a href="blog.html">المدونة</a>
       <a href="contact.html">تواصل معنا</a>
     </nav>
-
     <div class="header-actions">
       <button class="theme-toggle" type="button" aria-label="تبديل المظهر">☀️</button>
     </div>
@@ -113,6 +110,23 @@
   </div>
 </section>
 
+<!-- ============ Contract Address ============ -->
+<section class="section" style="padding-top:20px;">
+  <div class="container">
+    <div class="content-card">
+      <h2>🔗 عنوان العقد الرسمي</h2>
+      <p>عنوان عقد MECO Token على شبكة Solana Mainnet-Beta. استخدم هذا العنوان للتحقق أو لإضافة الرمز في محفظتك.</p>
+      <div class="contract-box">
+        <span class="contract-address" id="contract-address">A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W</span>
+        <button class="copy-btn" id="copy-contract" type="button">📋 نسخ</button>
+      </div>
+      <p style="margin-top:16px;margin-bottom:0;">
+        <a href="https://solscan.io/token/A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W" target="_blank" rel="noopener noreferrer">التحقق على Solscan ↗</a>
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ Tokenomics ============ -->
 <section class="section">
   <div class="container">
@@ -122,42 +136,63 @@
       <p>شفافية كاملة في توزيع الرمز — كل حصة معلنة ومعروفة.</p>
     </div>
 
-    <div class="grid grid-3">
-      <article class="card">
-        <div class="icon">💧</div>
-        <h3>50% — السيولة</h3>
-        <p>مخصّصة لتوفير السيولة على منصات التداول اللامركزية وضمان استقرار السعر.</p>
-      </article>
+    <div class="tokenomics-list">
 
-      <article class="card">
-        <div class="icon">🚀</div>
-        <h3>20% — التطوير</h3>
-        <p>مخصّصة لتطوير المحفظة، المنظومة، والبنية التحتية التقنية للمشروع.</p>
-      </article>
+      <div class="tokenomics-item">
+        <div class="tokenomics-head">
+          <h3>💧 السيولة</h3>
+          <span class="tokenomics-percent">50%</span>
+        </div>
+        <div class="tokenomics-bar">
+          <div class="tokenomics-bar-fill liquidity" style="width: 50%;"></div>
+        </div>
+        <p class="tokenomics-desc">مخصّصة لتوفير السيولة على منصات التداول اللامركزية وضمان استقرار السعر.</p>
+      </div>
 
-      <article class="card">
-        <div class="icon">🌍</div>
-        <h3>15% — المجتمع</h3>
-        <p>للحملات التسويقية، المكافآت، والنمو المجتمعي في العالم العربي.</p>
-      </article>
+      <div class="tokenomics-item">
+        <div class="tokenomics-head">
+          <h3>🚀 التطوير</h3>
+          <span class="tokenomics-percent">20%</span>
+        </div>
+        <div class="tokenomics-bar">
+          <div class="tokenomics-bar-fill dev" style="width: 20%;"></div>
+        </div>
+        <p class="tokenomics-desc">مخصّصة لتطوير المحفظة، المنظومة، والبنية التحتية التقنية للمشروع.</p>
+      </div>
 
-      <article class="card">
-        <div class="icon">👥</div>
-        <h3>10% — الفريق</h3>
-        <p>مخصّصة للفريق المؤسس، مع جدول استحقاق طويل الأمد (Vesting) لضمان الالتزام.</p>
-      </article>
+      <div class="tokenomics-item">
+        <div class="tokenomics-head">
+          <h3>🏛️ الخزينة</h3>
+          <span class="tokenomics-percent">10%</span>
+        </div>
+        <div class="tokenomics-bar">
+          <div class="tokenomics-bar-fill treasury" style="width: 10%;"></div>
+        </div>
+        <p class="tokenomics-desc">احتياطي استراتيجي لإدارة موارد المشروع والفرص المستقبلية في المنظومة.</p>
+      </div>
 
-      <article class="card">
-        <div class="icon">🎁</div>
-        <h3>5% — الاحتياطي</h3>
-        <p>احتياطي استراتيجي للطوارئ والفرص المستقبلية في المنظومة.</p>
-      </article>
+      <div class="tokenomics-item">
+        <div class="tokenomics-head">
+          <h3>👥 الفريق</h3>
+          <span class="tokenomics-percent">10%</span>
+        </div>
+        <div class="tokenomics-bar">
+          <div class="tokenomics-bar-fill team" style="width: 10%;"></div>
+        </div>
+        <p class="tokenomics-desc">مخصّصة للفريق المؤسس، مع جدول استحقاق طويل الأمد (Vesting) لضمان الالتزام.</p>
+      </div>
 
-      <article class="card">
-        <div class="icon">📊</div>
-        <h3>مُوثَّق بالكامل</h3>
-        <p>جميع العناوين والحصص موثّقة على الشبكة ويمكن مراجعتها من Solscan.</p>
-      </article>
+      <div class="tokenomics-item">
+        <div class="tokenomics-head">
+          <h3>🌍 المجتمع</h3>
+          <span class="tokenomics-percent">10%</span>
+        </div>
+        <div class="tokenomics-bar">
+          <div class="tokenomics-bar-fill community" style="width: 10%;"></div>
+        </div>
+        <p class="tokenomics-desc">للحملات التسويقية، المكافآت، والنمو المجتمعي في العالم العربي.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -193,11 +228,11 @@
   </div>
 </section>
 
-<!-- ============ Contract Transparency ============ -->
+<!-- ============ Transparency ============ -->
 <section class="section">
   <div class="container">
     <div class="content-card">
-      <h2>🔍 التحقق من العقد</h2>
+      <h2>🔍 التحقق والشفافية</h2>
       <p>
         عقد MECO Token منشور علناً على Solana. يمكن لأي شخص التحقق من المعروض الحالي،
         عدد الحاملين، والمعاملات مباشرة من متصفح الشبكة.
@@ -205,12 +240,12 @@
       <h3>روابط رسمية</h3>
       <p>• <a href="https://github.com/MonyCoin/meco-token" target="_blank" rel="noopener noreferrer">مستودع التوكن على GitHub ↗</a></p>
       <p>• <a href="https://github.com/MonyCoin/meco-token" target="_blank" rel="noopener noreferrer">الوثيقة التقنية (Whitepaper) ↗</a></p>
-      <p>• <a href="https://solscan.io" target="_blank" rel="noopener noreferrer">التحقق على Solscan ↗</a></p>
+      <p>• <a href="https://solscan.io/token/A5Ln25cfww33kfUSzBb89bMha7j1PnFQTy7H3FsQHN7W" target="_blank" rel="noopener noreferrer">التحقق على Solscan ↗</a></p>
     </div>
   </div>
 </section>
 
-<!-- ============ Roadmap Hint ============ -->
+<!-- ============ CTA ============ -->
 <section class="section">
   <div class="container">
     <div class="cta-block">
@@ -230,24 +265,59 @@
       <img src="https://raw.githubusercontent.com/MonyCoin/meco-token/main/meco.logo.png" alt="شعار MECO" width="40" height="40">
       <span>MECO<b>Network</b></span>
     </a>
-
     <div class="social-links">
       <a href="https://x.com/MoniCoinMECO" target="_blank" rel="noopener noreferrer" aria-label="X">𝕏</a>
       <a href="https://t.me/monycoin1" target="_blank" rel="noopener noreferrer" aria-label="Telegram">✈️</a>
       <a href="https://github.com/MonyCoin" target="_blank" rel="noopener noreferrer" aria-label="GitHub">🐙</a>
       <a href="https://www.facebook.com/share/1ZUbCbssCU/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
     </div>
-
     <div class="legal-links">
       <a href="privacy.html">سياسة الخصوصية</a>
       <a href="terms.html">شروط الاستخدام</a>
       <a href="notice.html">حقوق الملكية</a>
     </div>
-
     <p>© 2026 MonyCoin Digital Development Foundation — المؤسس: محمد سعادة</p>
   </div>
 </footer>
 
 <script src="app.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('copy-contract');
+    const addr = document.getElementById('contract-address');
+    if (!btn || !addr) return;
+
+    btn.addEventListener('click', function() {
+      const text = addr.textContent.trim();
+      const done = function() {
+        btn.classList.add('copied');
+        btn.textContent = '✓ تم النسخ';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.textContent = '📋 نسخ';
+        }, 2000);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(function() {
+          fallbackCopy(text, done);
+        });
+      } else {
+        fallbackCopy(text, done);
+      }
+    });
+
+    function fallbackCopy(text, cb) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); cb(); } catch (e) { prompt('انسخ العنوان:', text); }
+      document.body.removeChild(ta);
+    }
+  });
+</script>
 </body>
 </html>
