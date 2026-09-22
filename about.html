@@ -16,7 +16,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="video-styles.css">
 <title>عن المشروع — MECO Network</title>
 </head>
 <body>
@@ -55,81 +54,6 @@
     <span style="display:inline-block;font-size:.82rem;font-weight:800;letter-spacing:.12em;color:var(--meco-primary);text-transform:uppercase;margin-bottom:12px;">عن المشروع</span>
     <h1>من نحن</h1>
     <p>مؤسسة MonyCoin للتطوير الرقمي — نبني منظومة مالية عربية متكاملة على Solana.</p>
-  </div>
-</section>
-
-<!-- ============ Video Section ============ -->
-<section class="section" style="padding-top:20px;">
-  <div class="container">
-    <div class="video-section">
-      <div class="video-header">
-        <h2>🎬 عرض MECO التعريفي</h2>
-        <p>شاهد قصة منظومة MECO المالية مع صوت احترافي ونصوص متزامنة</p>
-      </div>
-
-      <div class="video-player-container">
-        <div class="video-wrapper">
-          <video id="meco-video" title="عرض MECO التعريفي" style="background:#000;">
-            <source src="https://www.youtube.com/embed/dQw4w9WgXcQ" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو
-          </video>
-          <div id="captions" role="region" aria-label="ترجمة الفيديو" aria-live="polite"></div>
-          <div id="speaking-indicator" aria-label="مؤشر التحدث">
-            <span></span>
-            <span>جاري التحدث</span>
-          </div>
-        </div>
-
-        <div class="video-controls">
-          <div class="progress-container">
-            <input type="range" id="progress-bar" min="0" max="100" value="0" aria-label="شريط التقدم">
-            <span id="time-display">0:00 / 0:00</span>
-          </div>
-
-          <div class="controls-row">
-            <div class="control-group">
-              <button id="play-btn" class="control-btn" title="تشغيل" aria-label="تشغيل الفيديو">▶️</button>
-              <button id="pause-btn" class="control-btn" title="إيقاف" aria-label="إيقاف الفيديو" style="display:none;">⏸️</button>
-            </div>
-
-            <div class="control-group">
-              <label for="volume-slider" style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                <span>🔊</span>
-              </label>
-              <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="مستوى الصوت">
-            </div>
-
-            <div class="control-group">
-              <label for="speed-select" style="font-size:0.9rem; font-weight:600;">السرعة:</label>
-              <select id="speed-select" class="control-select" aria-label="سرعة التشغيل">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>العادية</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-              </select>
-            </div>
-
-            <div class="control-group">
-              <button id="captions-btn" class="control-btn" title="ترجمة" aria-label="تشغيل/إيقاف الترجمة">📝</button>
-            </div>
-
-            <div class="control-group">
-              <button id="tts-btn" class="control-btn" title="صوت" aria-label="تشغيل النص بصوت عالٍ">🔊</button>
-            </div>
-
-            <div class="control-group">
-              <label for="language-select" style="font-size:0.9rem; font-weight:600;">اللغة:</label>
-              <select id="language-select" class="control-select" aria-label="اختيار اللغة">
-                <option value="ar" selected>العربية</option>
-                <option value="en">English</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -322,6 +246,5 @@
 </footer>
 
 <script src="app.js" defer></script>
-<script src="video-player.js" defer></script>
 </body>
 </html>
