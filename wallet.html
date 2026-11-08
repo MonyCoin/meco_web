@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MECO Wallet — محفظة عربية لا مركزية على Solana: إرسال، استقبال، Swap، Staking وWeb3 بدون وصاية.">
+<meta name="description" content="MECO Wallet — محفظة عربية لا مركزية على Solana: إرسال، استقبال، Swap، سيولة، تخزين سائل وWeb3 بدون وصاية.">
 <meta name="keywords" content="MECO Wallet, محفظة Solana, محفظة عربية, Web3, SPL Token, محفظة لا مركزية">
 <meta name="theme-color" content="#080B16">
 <meta property="og:title" content="MECO Wallet — محفظة عربية لا مركزية على Solana">
@@ -59,16 +59,16 @@
 <!-- ============ Quick Stats ============ -->
 <section class="stats-mini" aria-label="أرقام MECO Wallet">
   <div class="stat-mini">
-    <div class="num">v1.20</div>
+    <div class="num" data-release-version>الأحدث</div>
     <div class="lbl">الإصدار الحالي</div>
   </div>
   <div class="stat-mini">
     <div class="num">10</div>
-    <div class="lbl">محافظ مدعومة</div>
+    <div class="lbl">حسابات في محفظة واحدة</div>
   </div>
   <div class="stat-mini">
-    <div class="num">0%</div>
-    <div class="lbl">عمولة على التحويل</div>
+    <div class="num">0.0005 SOL</div>
+    <div class="lbl">رسوم خدمة ثابتة لكل عملية</div>
   </div>
   <div class="stat-mini">
     <div class="num">Solana</div>
@@ -89,37 +89,55 @@
       <article class="card">
         <div class="icon">📤</div>
         <h3>إرسال واستقبال</h3>
-        <p>أرسل واستقبل SOL و SPL Tokens بسرعة Solana ورسوم منخفضة جداً.</p>
+        <p>أرسل واستقبل SOL ورموز SPL، مع ماسح QR ودفتر عناوين منظّم.</p>
       </article>
 
       <article class="card">
         <div class="icon">🔄</div>
-        <h3>Swap فوري</h3>
-        <p>بدّل بين الرموز مباشرة داخل المحفظة عبر أفضل مسارات السيولة على Solana.</p>
+        <h3>Swap وتداول سريع</h3>
+        <p>بدّل بين الرموز عبر Jupiter، أو نفّذ التداول السريع مباشرة من شاشة المحفظة.</p>
       </article>
 
       <article class="card">
-        <div class="icon">💎</div>
-        <h3>Staking</h3>
-        <p>شارك في تأمين الشبكة واكسب مكافآت على رموزك المدعومة بضغطة واحدة.</p>
+        <div class="icon">💧</div>
+        <h3>سيولة MECO على Orca</h3>
+        <p>أودع عبر Orca، واسحب وحصّل رسوم التداول من التطبيق. العائد من رسوم التداول الفعلية وغير مضمون.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🌱</div>
+        <h3>تخزين سائل (Marinade)</h3>
+        <p>خزّن SOL واحصل على mSOL، وتابع كميته وقيمته في المحفظة. خدمة طرف خارجي وعائدها متغير وغير مضمون.</p>
       </article>
 
       <article class="card">
         <div class="icon">🌐</div>
-        <h3>Web3 و DApps</h3>
-        <p>اتصل بتطبيقات Solana اللامركزية مباشرة من المحفظة بأمان.</p>
+        <h3>Web3 و WalletConnect</h3>
+        <p>متصفح مدمج وربط بمسح QR مع تطبيقات Solana اللامركزية، وتحذير من المواقع غير الموثّقة.</p>
       </article>
 
       <article class="card">
         <div class="icon">👥</div>
-        <h3>حتى 10 محافظ</h3>
-        <p>أنشئ وأدِر حتى 10 محافظ مستقلة من تطبيق واحد بسهولة تامة.</p>
+        <h3>حتى 10 حسابات</h3>
+        <p>أنشئ وأدِر حتى 10 حسابات مستقلة من تطبيق واحد.</p>
       </article>
 
       <article class="card">
-        <div class="icon">🖼️</div>
-        <h3>NFTs</h3>
-        <p>اعرض NFTs الخاصة بك على Solana وتابع مجموعاتك المفضلة.</p>
+        <div class="icon">📊</div>
+        <h3>سوق وتنبيهات أسعار</h3>
+        <p>أسعار حية ومخططات حقيقية للعملات، وتنبيهات عند وصول السعر الذي تحدده.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🔔</div>
+        <h3>إشعارات واستقبال تلقائي</h3>
+        <p>إشعارات محلية على جهازك عند وصول الأموال أو تحقق تنبيهاتك السعرية.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🌍</div>
+        <h3>عربية وإنجليزية</h3>
+        <p>واجهة عربية كاملة بتصميم RTL، ودعم للإنجليزية، ونمط داكن موحّد.</p>
       </article>
     </div>
   </div>
@@ -142,15 +160,27 @@
       </article>
 
       <article class="card">
+        <div class="icon">🔒</div>
+        <h3>قفل ومصادقة قبل كل عملية</h3>
+        <p>قفل للتطبيق عند العودة إليه، وتأكيد هويتك ببصمة الجهاز أو رمز القفل قبل أي إرسال أو تبادل أو سحب سيولة أو توقيع.</p>
+      </article>
+
+      <article class="card">
         <div class="icon">📝</div>
-        <h3>عبارة استرداد آمنة</h3>
-        <p>عبارة استرداد من 12 كلمة قياسية مع تحذيرات واضحة لحمايتك من التصيّد.</p>
+        <h3>حماية عبارة الاسترداد</h3>
+        <p>عبارة استرداد من 12 كلمة، تُمسح من الحافظة تلقائياً بعد نسخها، وتُمنع لقطات الشاشة في شاشتها.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🛡️</div>
+        <h3>تحقق من هوية المواقع</h3>
+        <p>تُرفض طلبات المواقع المصنّفة احتيالية، ويظهر تحذير عند موقع غير موثّق أو لا يطابق مصدره الفعلي.</p>
       </article>
 
       <article class="card">
         <div class="icon">🚫</div>
-        <h3>بدون تتبّع</h3>
-        <p>لا نجمع بياناتك الشخصية، ولا نتتبّع معاملاتك، ولا نطلب KYC للاستخدام الأساسي.</p>
+        <h3>بدون تحليلات أو تتبّع</h3>
+        <p>لا يرسل التطبيق أي تحليلات أو تقارير أعطال إلى المؤسسة، ولا نطلب KYC للاستخدام الأساسي.</p>
       </article>
 
       <article class="card">
@@ -158,6 +188,19 @@
         <h3>مفتوحة المصدر</h3>
         <p>الكود متاح بالكامل على GitHub — يمكن لأي شخص مراجعته والتحقق منه.</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Fees ============ -->
+<section class="section">
+  <div class="container">
+    <div class="content-card">
+      <h2>💳 الرسوم بوضوح</h2>
+      <p>• <strong>رسوم الشبكة:</strong> تدفعها لشبكة Solana مقابل تنفيذ كل معاملة، ولا تحصل عليها المؤسسة.</p>
+      <p>• <strong>رسوم خدمة MECO Wallet:</strong> <strong>0.0005 SOL</strong> ثابتة تُضاف إلى كل عملية إرسال أو تبادل أو تداول، وإلى سحب السيولة فقط. لا رسوم خدمة على الإيداع عبر Orca ولا على التخزين عبر Marinade.</p>
+      <p>• <strong>أين تذهب؟</strong> تُجمع رسوم الخدمة في محفظة معلنة ضمن وثائق المشروع، وتُوجَّه لدعم سيولة MECO.</p>
+      <p>• <strong>رسوم الخدمات الخارجية:</strong> Jupiter وOrca وMarinade قد تفرض رسومها الخاصة، وتظهر لك قبل التأكيد.</p>
     </div>
   </div>
 </section>
@@ -175,7 +218,7 @@
       <article class="card">
         <div class="icon">1</div>
         <h3>حمّل التطبيق</h3>
-        <p>من الصفحة الرئيسية — اختر منصّتك وابدأ.</p>
+        <p>من <a href="https://monycoin.github.io/meco_wallet-app/">صفحة التحميل الرسمية</a> — التطبيق متاح حالياً لأندرويد.</p>
       </article>
 
       <article class="card">
@@ -187,7 +230,7 @@
       <article class="card">
         <div class="icon">3</div>
         <h3>ابدأ الاستخدام</h3>
-        <p>استقبل SOL و MECO، ابدأ Swap و Staking، وانضم إلى تطبيقات Web3.</p>
+        <p>استقبل SOL و MECO، وابدأ التبادل أو التخزين السائل، واربط تطبيقات Web3.</p>
       </article>
     </div>
   </div>
