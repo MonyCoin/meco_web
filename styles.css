@@ -1003,6 +1003,7 @@ footer p {
 .tokenomics-bar-fill.treasury  { background: linear-gradient(90deg, #F7C873, #D9A94A); }
 .tokenomics-bar-fill.team      { background: linear-gradient(90deg, #45D39C, #2EAE7A); }
 .tokenomics-bar-fill.community { background: linear-gradient(90deg, #EF6B7A, #C94B5A); }
+.tokenomics-bar-fill.fees      { background: linear-gradient(90deg, #5EA8FF, #3B82F6); }
 
 .tokenomics-desc {
   font-size: .88rem;
