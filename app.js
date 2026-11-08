@@ -113,6 +113,27 @@
     }
   };
 
+
+  /* ---------- Live release version (GitHub Releases) ---------- */
+  function initReleaseVersion() {
+    const targets = document.querySelectorAll('[data-release-version]');
+    if (!targets.length) return;
+    const KEY = 'meco_web_release', TTL = 10 * 60 * 1000;
+    const show = tag => targets.forEach(el => { el.textContent = 'v' + String(tag).replace(/^v/, ''); });
+    try {
+      const c = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (c && c.tag && Date.now() - c.t < TTL) { show(c.tag); return; }
+    } catch (_) {}
+    fetch('https://api.github.com/repos/MonyCoin/meco_wallet/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+      .then(r => (r.ok ? r.json() : Promise.reject()))
+      .then(d => {
+        if (!d || !d.tag_name) return;
+        show(d.tag_name);
+        try { localStorage.setItem(KEY, JSON.stringify({ tag: d.tag_name, t: Date.now() })); } catch (_) {}
+      })
+      .catch(() => {});
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initMobileMenu();
@@ -120,5 +141,6 @@
     initScrollTop();
     initExternalLinks();
     initLazyImages();
+    initReleaseVersion();
   });
 }());
