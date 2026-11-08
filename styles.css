@@ -1092,3 +1092,16 @@ footer p {
     scroll-behavior: auto !important;
   }
 }
+
+/* Archive notice (blog) */
+.archive-note {
+  background: rgba(245, 158, 11, .10);
+  border: 1px solid rgba(245, 158, 11, .30);
+  color: var(--meco-text);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: .9rem;
+  line-height: 1.7;
+  margin: 8px 0 14px;
+}
+.archive-note a { color: var(--meco-gold); text-decoration: underline; }
